@@ -1,0 +1,16 @@
+{
+  "apps": [
+    {
+      "name": "mondi",
+      "script": "server/index.ts",
+      "watch": false,
+      "exec_mode": "cluster",
+      "env": {
+        "NODE_ENV": "production"
+      },
+      "time": true,
+      "wait_ready": true,
+      "listen_timeout": 60000
+    }
+  ]
+}
