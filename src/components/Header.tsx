@@ -2,11 +2,12 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import useProductStore, { defaultRegions } from "@stores/product";
 import styled from "styled-components";
-import { ArrowDown, ArrowLeft, Share } from "./Icon";
+import { ArrowDown, ArrowLeft, Check, Share } from "./Icon";
 import Modal from "./Modal";
 import { useRouter } from "next/router";
 import useAppStore from "@stores/app";
 import { regionToregionName } from "@utils/string";
+import Color from "@utils/color";
 
 const Container = styled.div<{ containerStyle?: string }>`
   position: fixed;
@@ -68,10 +69,31 @@ const SelectRegionText = styled.span`
   font-size: 15px;
 `;
 
-const RegionContainer = styled.div<{ isLast: boolean }>`
-  font-size: 15px;
-  padding: 20px;
-  border-bottom: ${({ isLast }) => isLast ? "none" : "1px solid #D1D1D1"};
+const RegionModalTitle = styled.span`
+  font-size: 14px;
+  margin: 20px 0;
+`;
+
+const RegionModalSelectContainer = styled.div<{ selected: boolean, isLast: boolean }>`
+  display: flex;
+  align-items: center;
+  width: fit-content;  
+  padding: 13px 24px;
+  ${({ selected }) => selected ? `
+    background-color: ${Color.THEME};
+    color: #fff;
+    font-weight: 500;
+  ` : `
+    color: #222;
+  `}
+  font-size: 14px;
+  border-radius: 50px;
+  margin-bottom: 10px;
+  cursor: pointer;
+`;
+
+const RegionModalSelectText = styled.span`
+  margin-left: 4px;
 `;
 
 export const HomeHeader = () => {
@@ -105,21 +127,26 @@ export const HomeHeader = () => {
       </Container>
       {regionModalShow &&
         <Modal
+          containerStyle="width:300px;align-items:center;"
           onClose={() => setRegionModalShow(false)}
           element={
             <>
+              <RegionModalTitle>오픈예정이니 조금만 기다려주세요!</RegionModalTitle>
               {regions.map((region, index) => {
+                const selected = region.id === selectedRegion.id;
                 return (
-                  <RegionContainer
+                  <RegionModalSelectContainer
                     key={`region_${index}`}
+                    selected={selected}
                     isLast={index === regions.length - 1}
                     onClick={() => {
                       useProductStore.setState({ selectedRegion: region })
                       setRegionModalShow(false);
                     }}
                   >
-                    {regionToregionName(region)}
-                  </RegionContainer>
+                    {selected && <Check />}
+                    <RegionModalSelectText>{regionToregionName(region)}</RegionModalSelectText>
+                  </RegionModalSelectContainer>
                 )
               })}
             </>

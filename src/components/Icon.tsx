@@ -1,3 +1,5 @@
+import Color from "@utils/color";
+
 export const ArrowDown = () => (
   <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
     <rect width="16" height="16" fill="white"/>
@@ -11,9 +13,20 @@ export const ArrowUp = () => (
   </svg>
 );
 
+export const CheckBox = ({
+  checked
+}: {
+  checked: boolean;
+}) => (
+  <svg width="12" height="12" style={{ marginRight: 6 }} viewBox="0 0 12 12" fill={checked ? Color.THEME : "none"} xmlns="http://www.w3.org/2000/svg">
+    <rect x="0.5" y="0.5" width="11" height="11" rx="1.5" stroke={checked ? Color.THEME : "#999999"}/>
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M5.47965 8.3114C5.28907 8.41882 5.04302 8.3914 4.88076 8.22913L3.10836 6.45674C2.9131 6.26148 2.9131 5.94489 3.10836 5.74963C3.30362 5.55437 3.62021 5.55437 3.81547 5.74963L5.23784 7.17201L8.32154 4.08831C8.5168 3.89305 8.83338 3.89305 9.02865 4.08831C9.22391 4.28357 9.22391 4.60016 9.02865 4.79542L5.60325 8.22081C5.56592 8.25815 5.52415 8.28834 5.47965 8.3114Z" fill="white"/>
+  </svg>
+);
+
 export const Check = () => (
-  <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path fillRule="evenodd" clipRule="evenodd" d="M3.47965 5.3114C3.28907 5.41882 3.04302 5.3914 2.88076 5.22913L1.10836 3.45674C0.913099 3.26148 0.913099 2.94489 1.10836 2.74963C1.30362 2.55437 1.62021 2.55437 1.81547 2.74963L3.23784 4.17201L6.32154 1.08831C6.5168 0.893048 6.83338 0.893049 7.02865 1.08831C7.22391 1.28357 7.22391 1.60016 7.02865 1.79542L3.60325 5.22081C3.56592 5.25815 3.52415 5.28834 3.47965 5.3114Z" fill="white"/>
+  <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M1 3.45386L4.40162 6.85547M10.2897 1L4.4802 6.80953" stroke="white" stroke-width="2" stroke-linecap="round"/>
   </svg>
 );
 

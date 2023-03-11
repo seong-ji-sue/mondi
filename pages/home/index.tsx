@@ -8,7 +8,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Autoplay } from 'swiper';
 import 'swiper/swiper-bundle.min.css';
 import 'swiper/swiper.min.css';
-import { ArrowUp, Check } from "@components/Icon";
+import { ArrowUp, CheckBox } from "@components/Icon";
 import InfiniteScroll from "react-infinite-scroll-component";
 import useProductStore, { defaultCategories } from "@stores/product";
 import Color from "@utils/color";
@@ -123,18 +123,6 @@ const FilterRecruitContainer = styled.div`
   padding: 0 20px;
   cursor: pointer;
   margin-top: 18px;
-`;
-
-const FilterRecruitIconContainer = styled.div<{ checked: boolean }>`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 12px;
-  height: 12px;
-  background-color: ${({ checked }) => checked ? "#1A5AFF" : "#fff"};
-  border: 1px solid ${({ checked }) => checked ? "#1A5AFF" : "#999"};
-  border-radius: 2px;
-  margin-right: 6px;
 `;
 
 const EmptyContainer = styled.div`
@@ -281,9 +269,7 @@ const Home = () => {
             }));
           }}
         >
-          <FilterRecruitIconContainer checked={recruitChecked}>
-            <Check />
-          </FilterRecruitIconContainer>
+          <CheckBox checked={recruitChecked} />
           모집중인 글만 볼래요
         </FilterRecruitContainer>
         {products.length > 0 ?
