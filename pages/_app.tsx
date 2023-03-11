@@ -18,7 +18,7 @@ const App = ({ Component, pageProps }: AppProps) => {
   }, [router.pathname])
 
   return (
-    <Container style={router.pathname === "/" ? {} : { maxWidth: 640, margin: "0 auto" }}>
+    <Container style={router.pathname === "/" ? {} : { maxWidth: 640, height: "100%", margin: "0 auto" }}>
       <Head>
         <title>먼디-생활 필수 서비스 플랫폼</title>
       </Head>
