@@ -41,6 +41,7 @@ const CloseContainer = styled.div`
   font-weight: 500;
   font-size: 14px;
   color: #999;
+  cursor: pointer;
 `;
 
 const Modal = ({
@@ -53,8 +54,8 @@ const Modal = ({
   onClose: () => void;
 }) => {
   return (
-    <OverlayContainer>
-      <Container>
+    <OverlayContainer onClick={onClose}>
+      <Container onClick={e => e.stopPropagation()}>
         <ContentContainer containerStyle={containerStyle}>
           {element}
         </ContentContainer>
