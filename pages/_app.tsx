@@ -4,7 +4,10 @@ import type { AppProps } from 'next/app'
 import Head from 'next/head'
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
+import styled from "styled-components";
 import "../styles/globals.css";
+
+const Container = styled.div``;
 
 const App = ({ Component, pageProps }: AppProps) => {
   const alertMessage = useAppStore(state => state.alertMessage);
@@ -15,7 +18,7 @@ const App = ({ Component, pageProps }: AppProps) => {
   }, [router.pathname])
 
   return (
-    <>
+    <Container style={router.pathname === "/" ? {} : { maxWidth: 640, margin: "0 auto" }}>
       <Head>
         <title>먼디-생활 필수 서비스 플랫폼</title>
       </Head>
@@ -26,7 +29,7 @@ const App = ({ Component, pageProps }: AppProps) => {
         />
       }
       <Component {...pageProps} />
-    </>
+    </Container>
   )
 }
 

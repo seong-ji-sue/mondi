@@ -88,7 +88,6 @@ const DivisionContainer = styled.div`
 
 const ContentSelectContainer = styled.div`
   display: flex;
-  max-width: 640px;
   width: 100%;
   background-color: #fff;
 `;
