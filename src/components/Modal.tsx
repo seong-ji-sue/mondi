@@ -73,8 +73,8 @@ const AlertMessage = styled.span`
   font-size: 14px;
   text-align: center;
   color: #222;
-  white-space: pre-wrap;
-  word-break: break-word;
+  white-space: pre-line;
+  word-break: keep-all;
 `;
 
 export const AlertModal = ({

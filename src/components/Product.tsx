@@ -65,7 +65,7 @@ const ImageOverlayContainer = styled.div`
   color: #fff;
   font-size: 18px;
   font-weight: 700;
-  white-space: pre-wrap;
+  white-space: pre-line;
 `;
 
 const Product = ({
@@ -78,7 +78,7 @@ const Product = ({
   return (
     <Container onClick={onClick}>
       <RowContainer containerStyle="margin-bottom:5px;justify-content: space-between;">
-        <ColumnContainer>
+        <ColumnContainer containerStyle="flex: 1;margin-right: 20px;">
           <RowContainer containerStyle="margin-bottom:14px;">
             <Text textStyle={`color:${product.state === 1 ? Color.THEME : "#BFBFBF"};font-size:12px;font-weight:700`}>
               {productStateToMessage(product.state)}

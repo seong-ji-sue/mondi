@@ -6,6 +6,7 @@ const Container = styled.div<{ containerStyle?: string }>`
   max-width: 640px;
   width: 100%;
   position: fixed;
+  z-index: 100;
   bottom: 0;
   ${({ containerStyle }) => containerStyle};
 `;

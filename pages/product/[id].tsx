@@ -77,7 +77,7 @@ const ImageOverlayContainer = styled.div`
   color: #fff;
   font-size: 18px;
   font-weight: 700;
-  white-space: pre-wrap;
+  white-space: pre-line;
 `;
 
 const DivisionContainer = styled.div`
@@ -113,7 +113,7 @@ const ContentSelector = styled.div<{ selected: boolean }>`
 const DetailContentContainer = styled.div`
   padding: 40px 20px;
   white-space: pre-wrap;
-  word-break: break-word;
+  word-break: keep-all;
   font-size: 14px;
 `;
 
@@ -239,7 +239,7 @@ const Product = () => {
       <Container ref={containerElement}>
         <ProductContainer>
           <RowContainer containerStyle="justify-content:space-between;">
-            <ColumnContainer>
+            <ColumnContainer containerStyle="flex:1;margin-right:20px;">
               <RowContainer containerStyle="margin-bottom:14px;">
                 <Text textStyle={`color:${product.state === 1 ? Color.THEME : "#BFBFBF"};font-size:12px;font-weight:700`}>
                   {productStateToMessage(product.state)}

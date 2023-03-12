@@ -12,7 +12,6 @@ import Color from "@utils/color";
 const BackgroundContainer = styled.div`
   display: flex;
   justify-content: center;
-  background-color: #EBF2F7;
 `;
 
 const Container = styled.div<{ containerStyle?: string }>`
@@ -32,7 +31,7 @@ const Container = styled.div<{ containerStyle?: string }>`
 export const MainHeader = () => {
   return (
     <BackgroundContainer>
-      <Container containerStyle="position:relative;background-color:#EBF2F7;">
+      <Container containerStyle="position:relative;">
         <BI />
       </Container>
     </BackgroundContainer>
