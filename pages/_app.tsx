@@ -20,7 +20,10 @@ const App = ({ Component, pageProps }: AppProps) => {
   return (
     <Container style={router.pathname === "/" ? {} : { maxWidth: 640, height: "100%", margin: "0 auto" }}>
       <Head>
-        <title>먼디-생활 필수 서비스 플랫폼</title>
+        <title>먼디 - 생활 필수 서비스 플랫폼</title>
+        <link href="/imgs/favicon.png" rel="icon" type="image/png"/>
+        <link href="/imgs/favicon.png" rel="shortcut icon"/>
+        <link href="/imgs/favicon.png" rel="apple-touch-icon"/>
       </Head>
       {alertMessage &&
         <AlertModal
