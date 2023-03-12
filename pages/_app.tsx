@@ -1,4 +1,5 @@
 import { AlertModal } from '@components/Modal';
+import { IconDefs } from '@components/Icon';
 import useAppStore from '@stores/app';
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
@@ -32,6 +33,7 @@ const App = ({ Component, pageProps }: AppProps) => {
         />
       }
       <Component {...pageProps} />
+      <IconDefs />
     </Container>
   )
 }
