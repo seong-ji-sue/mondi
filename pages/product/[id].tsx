@@ -289,7 +289,7 @@ const Product = () => {
           </RowContainer>
           <RowContainer>
             <Money />
-            <Text textStyle="color:#222;font-size:12px;margin-left:4px;">매칭 후 현장에서 직접 결제해요.</Text>
+            <Text textStyle="color:#222;font-size:12px;margin-left:4px;">안전 결제해요.</Text>
           </RowContainer>
         </ProductContainer>
         <DivisionContainer />
