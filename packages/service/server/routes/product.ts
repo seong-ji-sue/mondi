@@ -1,7 +1,7 @@
 import express from "express";
-import RegionDepth3 from "../entities/regionDepth3";
+import RegionDepth3 from "@mondi/common/entities/regionDepth3";
+import Product from "@mondi/common/entities/product";
 import { dataSource } from "..";
-import Product from "../entities/product";
 
 const productRouter = express.Router();
 

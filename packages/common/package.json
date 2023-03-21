@@ -1,0 +1,9 @@
+{
+  "name": "@mondi/common",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/mondi-kr/mondi.git",
+  "author": "doyoungjeong <arktics@naver.com>",
+  "license": "MIT",
+  "private": true
+}
