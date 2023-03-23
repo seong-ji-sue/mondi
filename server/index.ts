@@ -8,7 +8,6 @@ import productRouter from "./routes/product";
 import categoryRouter from "./routes/category";
 import regionRouter from "./routes/region";
 import bannerRouter from "./routes/banner";
-import { PUBLIC_PATH, ENTITIY_PATH } from "@mondi/common/const";
 
 const app = next({ dev: IS_DEV })
 const handle = app.getRequestHandler()
@@ -30,7 +29,7 @@ export const dataSource = new DataSource({
   logging: false,
   cache: true,
   dropSchema: false,
-  entities: [ENTITIY_PATH]
+  entities: ["server/entities/*.ts"]
 });
 
 app.prepare().then(async () => {
@@ -51,7 +50,6 @@ app.prepare().then(async () => {
   server.use("/api/category", categoryRouter);
   server.use("/api/region", regionRouter);
   server.use("/api/banner", bannerRouter);
-  server.use(express.static(PUBLIC_PATH));
 
   server.all('*', (req, res) => {
     return handle(req, res)

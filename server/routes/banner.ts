@@ -1,5 +1,5 @@
 import express from "express";
-import Banner from "@mondi/common/entities/banner";
+import Banner from "../entities/banner";
 import { dataSource } from "..";
 
 const bannerRouter = express.Router();

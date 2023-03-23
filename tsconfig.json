@@ -18,6 +18,11 @@
     "strictPropertyInitialization": false,
     "emitDecoratorMetadata": true,
     "baseUrl": ".",
+    "paths": {
+      "@components/*": ["src/components/*"],
+      "@stores/*": ["src/stores/*"],
+      "@utils/*": ["src/utils/*"],
+    }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]
