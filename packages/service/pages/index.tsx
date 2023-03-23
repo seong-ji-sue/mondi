@@ -355,14 +355,14 @@ const ManualStartContainer = styled.div`
 `;
 
 const manuals = [{
-  title: "검색하기",
-  desc: "이용하고자 하는\n상품을 검색하고"
+  title: "서비스 조회",
+  desc: "이용하고자 하는\n서비스를 검색하고"
 }, {
   title: "자세히보기",
   desc: "가격 정보부터\n업체정보까지 확인 후"
 }, {
-  title: "참여하기",
-  desc: "비밀 공구\n채팅방 참여하기"
+  title: "매칭하기",
+  desc: "같이 구매할 사람\n매칭 후 이용하기"
 }];
 
 const ManualDescContainer = styled.div`
