@@ -1,5 +1,5 @@
 import express from "express";
-import RegionDepth3 from "../entities/regionDepth3";
+import RegionDepth3 from "@entities/regionDepth3";
 import { dataSource } from "..";
 
 const regionRouter = express.Router();

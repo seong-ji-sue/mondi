@@ -8,6 +8,7 @@ import productRouter from "./routes/product";
 import categoryRouter from "./routes/category";
 import regionRouter from "./routes/region";
 import bannerRouter from "./routes/banner";
+import Entities from "@entities";
 
 const app = next({ dev: IS_DEV })
 const handle = app.getRequestHandler()
@@ -29,7 +30,7 @@ export const dataSource = new DataSource({
   logging: false,
   cache: true,
   dropSchema: false,
-  entities: ["server/entities/*.ts"]
+  entities: Entities //["server/entities/*.ts"]
 });
 
 app.prepare().then(async () => {

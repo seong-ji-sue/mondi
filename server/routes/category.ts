@@ -1,5 +1,5 @@
 import express from "express";
-import Category from "../entities/category";
+import Category from "@entities/category";
 import { dataSource } from "..";
 
 const categoryRouter = express.Router();
