@@ -21,9 +21,6 @@
     "paths": {
       "@components/*": ["src/components/*"],
       "@stores/*": ["src/stores/*"],
-      "@utils/*": ["src/utils/*"],
-      "@entities": ["lib/mondi-entity/src/entities"],
-      "@entities/*": ["lib/mondi-entity/src/entities/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "./lib/*.ts", "./lib/**/*.ts"],

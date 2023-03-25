@@ -4,11 +4,8 @@ import morgan from "morgan";
 import moment from "moment";
 import { IS_DEV, EXPRESS_PORT, MYSQL_HOST, MYSQL_PORT, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DB } from "./env";
 import { DataSource } from "typeorm";
-import productRouter from "./routes/product";
-import categoryRouter from "./routes/category";
-import regionRouter from "./routes/region";
-import bannerRouter from "./routes/banner";
-import Entities from "@entities";
+import adminRouter from "./routes/admin";
+import serviceRouter from "./routes/service";
 
 const app = next({ dev: IS_DEV })
 const handle = app.getRequestHandler()
@@ -30,7 +27,7 @@ export const dataSource = new DataSource({
   logging: false,
   cache: true,
   dropSchema: false,
-  entities: Entities //["server/entities/*.ts"]
+  entities: ["server/entities/*.ts"]
 });
 
 app.prepare().then(async () => {
@@ -47,10 +44,8 @@ app.prepare().then(async () => {
   });
   server.use(morgan("combined"));
 
-  server.use("/api/product", productRouter);
-  server.use("/api/category", categoryRouter);
-  server.use("/api/region", regionRouter);
-  server.use("/api/banner", bannerRouter);
+  server.use("/api", serviceRouter);
+  server.use("/api/admin", adminRouter);
 
   server.all('*', (req, res) => {
     return handle(req, res)

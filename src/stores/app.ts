@@ -1,11 +1,11 @@
 import create from "zustand";
 
 interface IAppState {
-  alertMessage: string;
+  count: number;
 }
 
 const appState: IAppState = {
-  alertMessage: ""
+  count: 0
 }
 
 const useAppStore = create(() => appState);
