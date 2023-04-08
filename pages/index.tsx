@@ -894,6 +894,7 @@ const StickyFooterContainer = styled.div`
   z-index: 10;
   bottom: 0px;
   width: 100%;
+  max-width: 500px;
   height: 80px;
   display: flex;
   align-items: center;
