@@ -1,11 +1,11 @@
 import create from "zustand";
 
 interface IAppState {
-  count: number;
+  isMainStickyFooterShow: boolean;
 }
 
 const appState: IAppState = {
-  count: 0
+  isMainStickyFooterShow: false
 }
 
 const useAppStore = create(() => appState);
