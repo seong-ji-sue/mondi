@@ -18,6 +18,7 @@ const ContainerWrapper = styled.div`
 const Container = styled.div`
   width: 100%;
   border: 1px solid #e7e7e7;
+  padding-bottom: 80px;
 `;
 
 const Main = () => {
@@ -889,7 +890,7 @@ const SessionFooter = () => {
 }
 
 const StickyFooterContainer = styled.div`
-  position: sticky;
+  position: fixed;
   z-index: 10;
   bottom: 0px;
   width: 100%;
