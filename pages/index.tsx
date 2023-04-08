@@ -757,6 +757,7 @@ const faqs = [{
 }];
 
 const FaqContainer = styled.div<{ isLast?: boolean }>`
+  display: flex;
   max-width: calc(500px - 74px);
   width: calc(100% - 74px);
   padding: 20px 16px;
@@ -767,10 +768,11 @@ const FaqContainer = styled.div<{ isLast?: boolean }>`
   cursor: pointer;
 `;
 
-const FaqQuestionContainer = styled.div<{ isActive?: boolean }>`
+const FaqQnAContainer = styled.div<{ isActive?: boolean }>`
   display: flex;
-  align-items: center;
-  margin-bottom: ${({ isActive }) => isActive ? 8 : 0}px;
+  flex-direction: column;
+  flex: 1;
+  margin-right: 10px;
 `;
 
 const FaqText = styled.span<{ textStyle?: string }>`
@@ -802,32 +804,37 @@ const SessionFaq = () => {
             isLast={index === faqs.length - 1}
             onClick={() => setActiveIndex(prev => prev === index ? -1 : index)}
           >
-            <FaqQuestionContainer isActive={index === activeIndex}>
-              <FaqText
+            <FaqText
                 textStyle={`
                   font-weight: 600;
                   font-size: 18px;
+                  line-height: 18px;
                   color: ${Color.THEME};
                   margin-right: 8px;
                 `}
               >Q</FaqText>
-              <FaqText
-                textStyle="
-                  flex: 1;
-                  font-weight: 600;
-                  font-size: 14px;
-                  color: #333;
-                  margin-right: 10px;
-                "
-              >{faq.question}</FaqText>
-              {activeIndex === index ? <ArrowTop/> : <ArrowBottom />}
-            </FaqQuestionContainer>
-            
-            {activeIndex === index &&
-              <FaqText>
-                {faq.answer}
-              </FaqText>
-            }
+              <FaqQnAContainer>
+                <FaqText
+                  textStyle="
+                    font-weight: 600;
+                    font-size: 14px;
+                    color: #333;
+                  "
+                >{faq.question}</FaqText>
+                {activeIndex === index &&
+                  <FaqText
+                    textStyle="
+                      font-weight: 500;
+                      font-size: 14px;
+                      color: #5D6477;
+                      margin-top: 12px;
+                    "
+                  >
+                    {faq.answer}
+                  </FaqText>
+                } 
+              </FaqQnAContainer>
+              {activeIndex === index ? <ArrowTop /> : <ArrowBottom />}
           </FaqContainer>
         )
       })}
