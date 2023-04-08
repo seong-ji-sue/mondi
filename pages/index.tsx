@@ -846,7 +846,7 @@ const SessionFooter = () => {
   return (
     <SessionContainer
       containerStyle={`
-        padding: 24px 24px 37px 24px;
+        padding: 24px;
         background: ${Color.THEME};
         align-items: flex-start;
       `}
@@ -872,6 +872,10 @@ const SessionFooter = () => {
       </SessionRowContainer>
       <SessionText
         textStyle="
+          width: 100%;
+          margin-bottom: 18px;
+          padding-bottom: 18px;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.3);
           text-align: left;
           font-family: Pretendard;
           font-weight: 400;
@@ -892,6 +896,14 @@ const SessionFooter = () => {
           
           Copyright. 2023 먼디, Mondi All Rights Reserved.`}
       </SessionText>
+      <SessionText
+        textStyle="
+          font-family: Pretendard;
+          font-weight: 400;
+          font-size: 12px;
+          color: rgba(255, 255, 255, 0.64);
+        "
+      >Design by Genie, Developed By Oscar, Lucus and Cobb</SessionText>
     </SessionContainer>
   )
 }
