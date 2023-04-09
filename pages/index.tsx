@@ -743,17 +743,23 @@ const SessionMondi = () => {
 }
 
 const faqs = [{
-  question: "비교견적 신청시 별도의 비용이 들어가나요?",
-  answer: "먼디의 비교 견적 서비스는 무료로 이용할 수 있습니다. 별도의 수수료는 발생하지 않으니 부담 없이 이용하세요."
+  question: "무료 서비스인가요?",
+  answer: "네. 무료로 이용할 수 있습니다. 부담 없이 이용하세요."
+}, {
+  question: "혼수가 아닌 경우 이용이 불가능한가요?",
+  answer: "현재는 혼수 비교 견적 서비스만 제공하고 있습니다."
 }, {
   question: "견적은 어떻게 받나요?",
-  answer: "먼디의 비교 견적 서비스는 무료로 이용할 수 있습니다. 별도의 수수료는 발생하지 않으니 부담 없이 이용하세요."
+  answer: "카카오톡으로 가격 정보와 판매 사원의 정보를 제공하고 있습니다."
 }, {
-  question: "혼수가 아닌 경우 이용이 불가한가요?",
-  answer: "먼디의 비교 견적 서비스는 무료로 이용할 수 있습니다. 별도의 수수료는 발생하지 않으니 부담 없이 이용하세요."
+  question: "유료 서비스와의 차이는 무엇인가요?",
+  answer: "무료는 배송지 주변 매장에 견적서를 받지만 유료는 데이터를 활용해 전국에서 가장 할인 프로모션이 높은 지점을 탐색해 견적서를 제공합니다."
 }, {
-  question: "결제 후 취소 및 환불은 어떻게 해야하나요?",
-  answer: "먼디의 비교 견적 서비스는 무료로 이용할 수 있습니다. 별도의 수수료는 발생하지 않으니 부담 없이 이용하세요."
+  question: "결제 후 취소 및 환불은 어떻게 받나요?",
+  answer: "서비스 이용 후 불만족시 100% 환불 해드립니다."
+}, {
+  question: "이밖에 주의 사항이 있나요?",
+  answer: "결제 시 카드 사용을 권장합니다.\n만약 판매 사원이 개인 계좌를 안내해줬다면 즉시 먼디에 신고해주세요."
 }];
 
 const FaqContainer = styled.div<{ isLast?: boolean }>`
@@ -818,6 +824,7 @@ const SessionFaq = () => {
                   textStyle="
                     font-weight: 600;
                     font-size: 14px;
+                    line-height: 20px;
                     color: #333;
                   "
                 >{faq.question}</FaqText>
@@ -827,6 +834,7 @@ const SessionFaq = () => {
                       font-weight: 500;
                       font-size: 14px;
                       color: #5D6477;
+                      line-height: 20px;
                       margin-top: 12px;
                     "
                   >
