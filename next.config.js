@@ -4,6 +4,9 @@ const nextConfig = {
   experimental: {
     scrollRestoration: true,
   },
+  compiler: {
+    styledComponents: true
+  }
 }
 
 module.exports = nextConfig
