@@ -6,6 +6,8 @@ const Container = styled.div`
 `;
 
 const Text = styled.span<{ textStyle?: string }>`
+  position: relative;
+  z-index: 1;
   text-align: center;
   white-space: pre-line;
   word-break: keep-all;
@@ -29,9 +31,8 @@ const TextUnderline = ({
 }) => {
   return (
     <Container>
-      <Text textStyle={textStyle + "position:absolute;z-index:1;"}>{text}</Text>
+      <Text textStyle={textStyle}>{text}</Text>
       <UnderlineContainer containerStyle={underlineStyle} />
-      <Text textStyle={textStyle + "opacity:0;"}>{text}</Text>
     </Container>
   )
 }

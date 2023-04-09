@@ -706,7 +706,7 @@ const SessionMondi = () => {
           margin-bottom: 12px;
         "
       >{`내일이 더 여유로운 생활,\n지금 먼디를 시작하세요.`}</SessionText>
-      <SessionRowContainer containerStyle="align-items: flex-start;">
+      <SessionRowContainer>
         <SessionText
           textStyle="
             font-family: Pretendard;
@@ -714,21 +714,15 @@ const SessionMondi = () => {
             font-size: 12px;
             color: #fff;
           "
-        >비교 견적 시</SessionText>
-        <TextUnderline
-          text="&nbsp;최대 20%의&nbsp;"
+        >비교 견적 시&nbsp;</SessionText>
+        <SessionText
           textStyle="
             font-family: Pretendard;
             font-weight: 800;
             font-size: 12px;
             color: #fff;
           "
-          underlineStyle="
-            height: 8px;
-            background: rgba(223, 232, 255, 0.68);
-            bottom: 0;
-          "
-        />
+        >최대 20%의&nbsp;</SessionText>
         <SessionText
           textStyle="
             font-family: Pretendard;
