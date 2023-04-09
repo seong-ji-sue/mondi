@@ -2,8 +2,8 @@ import type { AppProps } from 'next/app'
 import Head from 'next/head'
 import "../styles/globals.css";
 
-const TITLE = "먼디";
-const DESC = "혼수 비교 견적은 발품 말고 먼디 최저가 구매, 이제 빠르고 간편하게 비교하세요!";
+const TITLE = "먼디 - 혼수 비교 견적 서비스";
+const DESC = "혼수 최저가 구매, 발품 말고 먼디";
 const URL = "https://mondi.kr";
 const IMAGE = "https://mondi.kr/imgs/og.png";
 
