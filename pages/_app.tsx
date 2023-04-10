@@ -1,6 +1,10 @@
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
+import Script from 'next/script';
 import "../styles/globals.css";
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
+import { GA_ID, pageview } from 'src/utils/gtag';
 
 const TITLE = "먼디 - 혼수 비교 견적 서비스";
 const DESC = "혼수 최저가 구매, 발품 말고 먼디";
@@ -8,6 +12,20 @@ const URL = "https://mondi.kr";
 const IMAGE = "https://mondi.kr/imgs/og.png";
 
 const App = ({ Component, pageProps }: AppProps) => {
+  const router = useRouter();
+  
+   useEffect(() => {
+    const handleRouteChange = (url: URL) => {
+      pageview(url);
+    };
+    router.events.on('routeChangeComplete', handleRouteChange);
+    router.events.on('hashChangeComplete', handleRouteChange);
+    return () => {
+      router.events.off('routeChangeComplete', handleRouteChange);
+      router.events.off('hashChangeComplete', handleRouteChange);
+    };
+  }, [router.events]);
+
   return (
     <>
       <Head>
@@ -31,6 +49,24 @@ const App = ({ Component, pageProps }: AppProps) => {
         <meta name="twitter:image" content={IMAGE} />
         <meta name="keywords" content="먼디,mondi,혼수,비교,견젹,발품,최저가" />
       </Head>
+      <Script
+        strategy="afterInteractive"
+        src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
+      />
+      <Script
+        id="gtag-init"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${GA_ID}', {
+              page_path: window.location.pathname,
+            });
+          `
+        }}
+      />
       <Component {...pageProps} />
     </>
   )
