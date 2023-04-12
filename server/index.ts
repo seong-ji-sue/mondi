@@ -33,7 +33,7 @@ export const dataSource = new DataSource({
 app.prepare().then(async () => {
   const server = express()
 
-  await dataSource.initialize();
+  // await dataSource.initialize();
 
   morgan.token("remote-addr", (req: express.Request) => {
     const clientIp = req.headers["x-real-ip"]?.toString() || req.ip;

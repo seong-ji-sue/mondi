@@ -1,7 +1,7 @@
 # Environment
 
   <pre>
-  - node v18.14.0
+  - node v16.14.0
   - mysql v5.7.41
   </pre>
 
