@@ -13,9 +13,9 @@ export const ArrowTop = () => (
   </svg>
 );
 
-export const ArrowBottom = () => (
-  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M4 6L8 10L12 6" stroke="#5D6477" strokeOpacity="0.36" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+export const ArrowBottom = ({ size, color }: { size: number, color: string; }) => (
+  <svg width={size} height={size} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M4 6L8 10L12 6" stroke={color} strokeOpacity="0.36" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
   </svg>
 );
 
