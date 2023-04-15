@@ -1,5 +1,5 @@
 const Color = {
-  THEME:  "#1A5AFF",
+  THEME:  "#00A12C",
 }
 
 export default Color;
