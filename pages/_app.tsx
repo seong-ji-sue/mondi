@@ -6,10 +6,10 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { GA_ID, pageview } from 'src/utils/gtag';
 
-const TITLE = "먼디 - 혼수 비교 견적 서비스";
-const DESC = "혼수 최저가 구매, 발품 말고 먼디";
-const URL = "https://mondi.kr";
-const IMAGE = "https://mondi.kr/imgs/og.png";
+const TITLE = "서베이딜";
+const DESC = "투표로 탄생하는 공동구매";
+const URL = "";
+const IMAGE = "";
 
 const App = ({ Component, pageProps }: AppProps) => {
   const router = useRouter();
@@ -47,7 +47,7 @@ const App = ({ Component, pageProps }: AppProps) => {
         <meta name="twitter:description" content={DESC} />
         <meta name="twitter:url" content={URL} />
         <meta name="twitter:image" content={IMAGE} />
-        <meta name="keywords" content="먼디,mondi,혼수,비교,견젹,발품,최저가" />
+        <meta name="keywords" content="서베이딜,투표,공동구매" />
       </Head>
       <Script
         strategy="afterInteractive"
