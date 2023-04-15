@@ -499,7 +499,7 @@ const SessionCustom = () => {
           {`관심사 등록 시 내게 필요한\n공동구매가 만들어져요.`}
         </SessionText>
       </SessionContainer>
-      <SessionImage src="/imgs/main_custom.png" />
+      <SessionImage src="/imgs/main_custom.png" imageStyle="width: 100%;" />
     </SessionContainer>
   )
 }
@@ -713,7 +713,7 @@ const SessionSafe = () => {
       >
         {`불편한 경험을 갖지 않도록\n고객 보호 정책을 우선합니다.`}
       </SessionText>
-      <SessionImage src="/imgs/main_safe.png" />
+      <SessionImage src="/imgs/main_safe.png" imageStyle="width: 100%;" />
     </SessionContainer>
   )
 }
