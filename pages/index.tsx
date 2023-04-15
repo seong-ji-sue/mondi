@@ -213,10 +213,10 @@ const SessionSurvey = () => {
           font-weight: 800;
           font-size: 26px;
           color: #b1b1b1;
-          margin-bottom: 8px;
+          margin-bottom: 4px;
         "
       >서베이딜은</SessionText>
-      <SessionRowContainer containerStyle="margin-bottom: 8px;">
+      <SessionRowContainer containerStyle="margin-bottom: 4px;">
         <SessionText
           textStyle={`
             font-family: Pretendard;
@@ -240,7 +240,7 @@ const SessionSurvey = () => {
           font-weight: 800;
           font-size: 26px;
           color: #b1b1b1;
-          margin-bottom: 8px;
+          margin-bottom: 4px;
         "
       >공동구매를 열어가는</SessionText>
       <SessionText
@@ -249,7 +249,7 @@ const SessionSurvey = () => {
           font-weight: 800;
           font-size: 26px;
           color: #232323;
-          margin-bottom: 8px;
+          margin-bottom: 4px;
         "
       >국내 최초의 공동구매</SessionText>
       <SessionRowContainer containerStyle="margin-bottom: 34px;">
@@ -294,14 +294,14 @@ const GuideWrapperContainer = styled.div`
   width: 100%;
 `;
 
-const GuideContainer = styled.div`
+const GuideContainer = styled.div<{ isLast: boolean }>`
   display: flex;
   flex-direction: column;
   width: calc(229px - 46px);
   padding: 60px 23px 27px 23px;
   background: linear-gradient(0deg, #FFFFFF, #FFFFFF), #F5F8FF;
   border-radius: 18px;
-  margin-right: 14px;
+  margin-right: ${({ isLast }) => isLast ? 0 : 14}px;
 `;
 
 const GuideTitleText = styled.span`
@@ -357,7 +357,7 @@ const SessionGuide = () => {
       <GuideWrapperContainer>
         {guides.map((guide, index) => {
           return (
-            <GuideContainer key={`guide_${index}`}>
+            <GuideContainer key={`guide_${index}`} isLast={index === guides.length - 1}>
               <GuideTitleText>{guide.title}</GuideTitleText>
               <GuideDescText>{guide.desc}</GuideDescText>
             </GuideContainer>
@@ -459,7 +459,7 @@ const SessionCustom = () => {
         "
       >
         <TitleContainer>고객 맞춤</TitleContainer>
-        <SessionRowContainer containerStyle="margin-bottom: 8px;">
+        <SessionRowContainer containerStyle="margin-bottom: 4px;">
           <SessionText
             textStyle="
               font-family: Pretendard;
@@ -483,7 +483,7 @@ const SessionCustom = () => {
             font-weight: 800;
             font-size: 26px;
             color: #232323;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
           "
         >발견부터 경험까지</SessionText>
         <SessionText
@@ -520,7 +520,7 @@ const SessionVote = () => {
           font-weight: 800;
           font-size: 26px;
           color: #232323;
-          margin-bottom: 8px;
+          margin-bottom: 4px;
         "
       >고민 부담 노노!</SessionText>
       <SessionRowContainer containerStyle="margin-bottom: 10px;">
@@ -581,7 +581,7 @@ const SessionBenefit = () => {
           font-weight: 800;
           font-size: 26px;
           color: ${Color.THEME};
-          margin-bottom: 8px;
+          margin-bottom: 4px;
         `}
       >투표만 해도</SessionText>
       <SessionText
@@ -590,7 +590,7 @@ const SessionBenefit = () => {
           font-weight: 800;
           font-size: 26px;
           color: #232323;
-          margin-bottom: 8px;
+          margin-bottom: 10px;
         "
       >혜택이 가득</SessionText>
       <SessionText
@@ -626,7 +626,7 @@ const SessionGroupBuy = () => {
           font-size: 26px;
           line-height: 36px;
           color: ${Color.THEME};
-          margin-bottom: 8px;
+          margin-bottom: 4px;
         `}
       >조금 기다렸다</SessionText>
       <SessionText
@@ -635,7 +635,7 @@ const SessionGroupBuy = () => {
           font-weight: 800;
           font-size: 26px;
           color: ${Color.THEME};
-          margin-bottom: 8px;
+          margin-bottom: 4px;
         `}
       >구매해도 된다면</SessionText>
       <SessionText
@@ -644,7 +644,7 @@ const SessionGroupBuy = () => {
           font-weight: 800;
           font-size: 26px;
           color: #232323;
-          margin-bottom: 8px;
+          margin-bottom: 10px;
         "
       >중독되실 거에요.</SessionText>
       <SessionText
@@ -679,7 +679,7 @@ const SessionSafe = () => {
           font-weight: 800;
           font-size: 26px;
           color: #232323;
-          margin-bottom: 8px;
+          margin-bottom: 4px;
         "
       >편리함을 넘어</SessionText>
       <SessionRowContainer containerStyle="margin-bottom: 10px;">
@@ -819,7 +819,7 @@ const FaqContainer = styled.div<{ isLast?: boolean }>`
   max-width: calc(500px - 74px);
   width: calc(100% - 74px);
   padding: 20px 16px;
-  border: 1px solid rgba(26, 90, 255, 0.2);
+  border: 1px solid #DADFDB;
   background: #fff;
   margin-bottom: ${({ isLast }) => isLast ? 0 : 10}px;
   border-radius: 12px;
@@ -848,8 +848,8 @@ const SessionFaq = () => {
       <TitleContainer>Q&A</TitleContainer>
       <SessionText
          textStyle="
-          font-family: LocusSangsang;
-          font-weight: 400;
+          font-family: Pretendard;
+          font-weight: 800;
           font-size: 26px;
           color: #121212;
           margin-bottom: 28px;
