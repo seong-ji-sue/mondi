@@ -213,10 +213,10 @@ const SessionSurvey = () => {
           font-weight: 800;
           font-size: 26px;
           color: #b1b1b1;
-          margin-bottom: 8px;
+          margin-bottom: 4px;
         "
       >서베이딜은</SessionText>
-      <SessionRowContainer containerStyle="margin-bottom: 8px;">
+      <SessionRowContainer containerStyle="margin-bottom: 4px;">
         <SessionText
           textStyle={`
             font-family: Pretendard;
@@ -240,7 +240,7 @@ const SessionSurvey = () => {
           font-weight: 800;
           font-size: 26px;
           color: #b1b1b1;
-          margin-bottom: 8px;
+          margin-bottom: 4px;
         "
       >공동구매를 열어가는</SessionText>
       <SessionText
@@ -249,7 +249,7 @@ const SessionSurvey = () => {
           font-weight: 800;
           font-size: 26px;
           color: #232323;
-          margin-bottom: 8px;
+          margin-bottom: 4px;
         "
       >국내 최초의 공동구매</SessionText>
       <SessionRowContainer containerStyle="margin-bottom: 34px;">
@@ -294,14 +294,14 @@ const GuideWrapperContainer = styled.div`
   width: 100%;
 `;
 
-const GuideContainer = styled.div`
+const GuideContainer = styled.div<{ isLast: boolean }>`
   display: flex;
   flex-direction: column;
   width: calc(229px - 46px);
   padding: 60px 23px 27px 23px;
   background: linear-gradient(0deg, #FFFFFF, #FFFFFF), #F5F8FF;
   border-radius: 18px;
-  margin-right: 14px;
+  margin-right: ${({ isLast }) => isLast ? 0 : 14}px;
 `;
 
 const GuideTitleText = styled.span`
@@ -357,7 +357,7 @@ const SessionGuide = () => {
       <GuideWrapperContainer>
         {guides.map((guide, index) => {
           return (
-            <GuideContainer key={`guide_${index}`}>
+            <GuideContainer key={`guide_${index}`} isLast={index === guides.length - 1}>
               <GuideTitleText>{guide.title}</GuideTitleText>
               <GuideDescText>{guide.desc}</GuideDescText>
             </GuideContainer>
@@ -459,7 +459,7 @@ const SessionCustom = () => {
         "
       >
         <TitleContainer>고객 맞춤</TitleContainer>
-        <SessionRowContainer containerStyle="margin-bottom: 8px;">
+        <SessionRowContainer containerStyle="margin-bottom: 4px;">
           <SessionText
             textStyle="
               font-family: Pretendard;
@@ -483,7 +483,7 @@ const SessionCustom = () => {
             font-weight: 800;
             font-size: 26px;
             color: #232323;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
           "
         >발견부터 경험까지</SessionText>
         <SessionText
@@ -520,7 +520,7 @@ const SessionVote = () => {
           font-weight: 800;
           font-size: 26px;
           color: #232323;
-          margin-bottom: 8px;
+          margin-bottom: 4px;
         "
       >고민 부담 노노!</SessionText>
       <SessionRowContainer containerStyle="margin-bottom: 10px;">
@@ -565,49 +565,192 @@ const SessionVote = () => {
   )
 }
 
+const BenefitDescContainer = styled.div<{ containerStyle?: string; }>`
+  border: 1px solid rgba(0, 161, 44, 0.51);
+  box-shadow: 1px 2px 18px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  z-index: 1;
+  ${({ containerStyle }) => containerStyle};
+`;
+
+const BenefitDescText = styled.span<{ textStyle?: string }>`
+  font-family: Pretendard;
+  font-weight: 500;
+  font-size: 12px;
+  color: #5D6477;
+  white-space: pre-line;
+  word-break: keep-all;
+  ${({ textStyle }) => textStyle};
+`;
+
+const BenefitBottomContainer = styled.div`
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 207px;
+  background: linear-gradient(0deg, #00A12C, #00A12C), #F5F5F5;
+`;
+
 const SessionBenefit = () => {
   return (
-    <SessionContainer
-      containerStyle="
-        padding: 42px 32px 50px 32px;
-        align-items: flex-start;
-        background: linear-gradient(0deg, #F5F5F5, #F5F5F5), #FFFFFF;
-      "
-    >
-      <TitleContainer>할인&혜택</TitleContainer>
-      <SessionText
-        textStyle={`
-          font-family: Pretendard;
-          font-weight: 800;
-          font-size: 26px;
-          color: ${Color.THEME};
-          margin-bottom: 8px;
-        `}
-      >투표만 해도</SessionText>
-      <SessionText
-        textStyle="
-          font-family: Pretendard;
-          font-weight: 800;
-          font-size: 26px;
-          color: #232323;
-          margin-bottom: 8px;
-        "
-      >혜택이 가득</SessionText>
-      <SessionText
-        textStyle="
-          text-align: left;
-          font-family: Pretendard;
-          font-weight: 600;
-          font-size: 14px;
-          line-height: 19px;
-          color: #747474;
+    <SessionContainer containerStyle="position: relative;">
+      <SessionContainer
+        containerStyle="
+          width: calc(100% - 64px);
+          padding: 42px 32px 50px 32px;
+          align-items: flex-start;
+          background: linear-gradient(0deg, #F5F5F5, #F5F5F5), #FFFFFF;
         "
       >
-        {`투표에 참여 시 알림을 통해\n공구가와 혜택을 안내드려요.`}
-      </SessionText>
+        <TitleContainer>할인&혜택</TitleContainer>
+        <SessionText
+          textStyle={`
+            font-family: Pretendard;
+            font-weight: 800;
+            font-size: 26px;
+            color: ${Color.THEME};
+            margin-bottom: 4px;
+          `}
+        >투표만 해도</SessionText>
+        <SessionText
+          textStyle="
+            font-family: Pretendard;
+            font-weight: 800;
+            font-size: 26px;
+            color: #232323;
+            margin-bottom: 10px;
+          "
+        >혜택이 가득</SessionText>
+        <SessionText
+          textStyle="
+            text-align: left;
+            font-family: Pretendard;
+            font-weight: 600;
+            font-size: 14px;
+            line-height: 19px;
+            color: #747474;
+            margin-bottom: 26px;
+          "
+        >
+          {`투표에 참여 시 알림을 통해\n공구가와 혜택을 안내드려요.`}
+        </SessionText>
+        <BenefitDescContainer
+          containerStyle="
+            width: calc(100% - 21px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 6px 6px 6px 15px;
+            background: linear-gradient(0deg, #F7FFF9, #F7FFF9), #FFFFFF;
+            margin-bottom: 12px;
+          "
+        >
+          <BenefitDescText textStyle="margin-right: 6px;">
+            투표한 상품이 곧 오픈할 예정이에요. 확인해보세요!
+          </BenefitDescText>
+          <ArrowBottom size={24} color={Color.THEME} />
+        </BenefitDescContainer>
+        <SessionImage
+          src="/imgs/main_benefit_product.png"
+          imageStyle="width: 100%; z-index: 1; border-radius: 24px; margin-bottom: 12px;" />
+        <BenefitDescContainer
+          containerStyle="
+            width: calc(100% - 40px);
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            background: linear-gradient(0deg, #F6FFF9, #F6FFF9), #FFFFFF;
+            margin-bottom: 6px;
+          "
+        >
+          <BenefitDescText textStyle="margin-right: 8px;">
+            온라인 최저가 대비 10만원이 더 저렴해요.
+          </BenefitDescText>
+          <SessionImage src="/imgs/main_benefit_desc.png" imageStyle="width: 39px;" />
+        </BenefitDescContainer>
+        <BenefitDescContainer
+          containerStyle="
+            width: calc(100% - 40px);
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            background: #F6FFF9;
+          "
+        >
+          <BenefitDescText textStyle="margin-right: 8px;">
+            판매자분이 마이크로 고급 필터를 1+1으로 제공해요!
+          </BenefitDescText>
+        </BenefitDescContainer>
+      </SessionContainer>
+      <BenefitBottomContainer />
     </SessionContainer>
   )
 }
+
+const categories = [{
+  selected: true,
+  name: "투표하기"
+}, {
+  name: "오픈예정"
+}, {
+  name: "오픈"
+}]
+
+const GroupBuyCategoryWrapperContainer = styled.div`
+  display: flex;
+  white-space: nowrap;
+  overflow: scroll;
+  max-width: 500px;
+  width: 100%;
+  margin-bottom: 20px;
+`;
+
+const GroupBuyCategoryContainer = styled.div<{ selected?: boolean, isLast: boolean }>`
+  ${({ selected }) => selected ? `
+    background: ${Color.THEME};
+    box-shadow: 1px 2px 12px rgba(0, 0, 0, 0.12);
+    color: #fff;
+  ` : `
+    background: rgba(255, 255, 255, 0.17);
+    border: 1px solid #D1D1D1;
+    box-shadow: 1px 2px 12px rgba(0, 0, 0, 0.08);
+    color: #828282;
+  `};
+  padding: 10px 16px;
+  border-radius: 25px;
+  font-family: Pretendard;
+  font-weight: 500;
+  font-size: 14px;
+  margin-right: ${({ isLast }) => isLast ? 0 : 8}px;
+`;
+
+const GroupBuyProductContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background: #fff;
+  border: 1px solid #F2F2F7;
+  border-radius: 20px;
+  overflow: hidden;
+`;
+
+const GroupBuyProductText = styled.span<{ textStyle?: string }>`
+  font-family: Pretendard;
+  ${({ textStyle }) => textStyle};
+`;
+
+const GroupBuyProductButton = styled.div`
+  background: ${Color.THEME};
+  width: calc(100% - 36px);
+  padding: 18px;
+  display: flex;
+  justify-content: center;
+  font-family: Pretendard;
+  font-weight: 600;
+  font-size: 14px;
+  color: #fff;
+  cursor: pointer;
+`;
 
 const SessionGroupBuy = () => {
   return (
@@ -626,7 +769,7 @@ const SessionGroupBuy = () => {
           font-size: 26px;
           line-height: 36px;
           color: ${Color.THEME};
-          margin-bottom: 8px;
+          margin-bottom: 4px;
         `}
       >조금 기다렸다</SessionText>
       <SessionText
@@ -635,7 +778,7 @@ const SessionGroupBuy = () => {
           font-weight: 800;
           font-size: 26px;
           color: ${Color.THEME};
-          margin-bottom: 8px;
+          margin-bottom: 4px;
         `}
       >구매해도 된다면</SessionText>
       <SessionText
@@ -644,7 +787,7 @@ const SessionGroupBuy = () => {
           font-weight: 800;
           font-size: 26px;
           color: #232323;
-          margin-bottom: 8px;
+          margin-bottom: 10px;
         "
       >중독되실 거에요.</SessionText>
       <SessionText
@@ -655,10 +798,61 @@ const SessionGroupBuy = () => {
           font-size: 14px;
           line-height: 19px;
           color: #747474;
+          margin-bottom: 28px;
         "
       >
         {`설문 조사를 바탕으로 공동구매 진행 시\n온라인 최저가보다 할인과 혜택이 더 많아요.`}
       </SessionText>
+      <GroupBuyCategoryWrapperContainer>
+        {categories.map((category, index) => {
+          return (
+            <GroupBuyCategoryContainer
+              key={`caterogy_${index}`}
+              selected={category.selected}
+              isLast={index === categories.length - 1}
+            >
+              {category.name}
+            </GroupBuyCategoryContainer>
+          )
+        })}
+      </GroupBuyCategoryWrapperContainer>
+      <GroupBuyProductContainer>
+        <SessionImage src="/imgs/main_group_buy_product.png" imageStyle="width: 100%;" />
+        <GroupBuyProductText
+          textStyle="
+            font-weight: 500;
+            font-size: 12px;
+            padding: 18px;
+            border-bottom: 1px solid #E5E5EA;
+            margin-bottom: 20px;
+          "
+        >
+          <b>2,301</b>명이 투표에 참여한 상품이에요~!
+        </GroupBuyProductText>
+        <GroupBuyProductText
+          textStyle="
+            font-weight: 800;
+            font-size: 18px;
+            padding: 0 18px;
+            color: #121212;
+            margin-bottom: 12px;
+          "
+        >
+          멜릭서 비건 립 버터
+        </GroupBuyProductText>
+        <GroupBuyProductText
+          textStyle="
+            font-weight: 600;
+            font-size: 14px;
+            padding: 0 18px;
+            color: #747474;
+            margin-bottom: 26px;
+          "
+        >
+          동물성 성분은 뺴고 만들어 건강한 립케어
+        </GroupBuyProductText>
+        <GroupBuyProductButton>투표 참여하기</GroupBuyProductButton>
+      </GroupBuyProductContainer>
     </SessionContainer>
   )
 }
@@ -679,7 +873,7 @@ const SessionSafe = () => {
           font-weight: 800;
           font-size: 26px;
           color: #232323;
-          margin-bottom: 8px;
+          margin-bottom: 4px;
         "
       >편리함을 넘어</SessionText>
       <SessionRowContainer containerStyle="margin-bottom: 10px;">
@@ -819,7 +1013,7 @@ const FaqContainer = styled.div<{ isLast?: boolean }>`
   max-width: calc(500px - 74px);
   width: calc(100% - 74px);
   padding: 20px 16px;
-  border: 1px solid rgba(26, 90, 255, 0.2);
+  border: 1px solid #DADFDB;
   background: #fff;
   margin-bottom: ${({ isLast }) => isLast ? 0 : 10}px;
   border-radius: 12px;
@@ -848,8 +1042,8 @@ const SessionFaq = () => {
       <TitleContainer>Q&A</TitleContainer>
       <SessionText
          textStyle="
-          font-family: LocusSangsang;
-          font-weight: 400;
+          font-family: Pretendard;
+          font-weight: 800;
           font-size: 26px;
           color: #121212;
           margin-bottom: 28px;
@@ -894,7 +1088,7 @@ const SessionFaq = () => {
                   </FaqText>
                 } 
               </FaqQnAContainer>
-              {activeIndex === index ? <ArrowTop /> : <ArrowBottom />}
+              {activeIndex === index ? <ArrowTop /> : <ArrowBottom size={16} color="#5D6477" />}
           </FaqContainer>
         )
       })}
