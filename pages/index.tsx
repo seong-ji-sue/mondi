@@ -1,5 +1,4 @@
 import { ArrowBottom, ArrowTop, Fire, Logo } from "@components/Svg";
-import useAppStore from "@stores/app";
 import React, { useEffect, useRef, useState } from "react";
 import Color from "src/utils/color";
 import styled from "styled-components";
@@ -19,23 +18,79 @@ const Container = styled.div`
   padding-bottom: 80px;
 `;
 
+let navigationOffsetTop: number | undefined;
+let voteButtonOffsetTop: number | undefined;
+let guideOffsetTop: number | undefined;
+let cheerOffsetTop: number | undefined;
+let eventOffsetTop: number | undefined;
+let surveyDealOffsetTop: number | undefined;
+
 const Main = () => {
-  const isMainStickyFooterShow = useAppStore(state => state.isMainStickyFooterShow);
+  const [navigationIndex, setNavigationIndex] = useState<number>(0);
+  const [isNavigationShow, setIsNavigationShow] = useState<boolean>(true);
+  const [isNavigationSticky, setIsNavigationSticky] = useState<boolean>(false);
+  const [isMainStickyFooterShow, setIsMainStickyFooterShow] = useState<boolean>(false);
+  const containerElement = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const onScroll = () => {
+      if (navigationOffsetTop) {
+        setIsNavigationSticky(window.pageYOffset >= navigationOffsetTop);
+      }
+      if (voteButtonOffsetTop) {
+        setIsMainStickyFooterShow(window.pageYOffset >= voteButtonOffsetTop);
+      }
+      console.log(surveyDealOffsetTop, window.pageYOffset);
+      if (surveyDealOffsetTop && window.pageYOffset >= surveyDealOffsetTop) {
+        setIsNavigationShow(false);
+      } else if (eventOffsetTop && window.pageYOffset >= eventOffsetTop) {
+        setIsNavigationShow(true);
+        setNavigationIndex(3);
+      } else if (cheerOffsetTop && window.pageYOffset >= cheerOffsetTop) {
+        setIsNavigationShow(true);
+        setNavigationIndex(2);
+      } else if (guideOffsetTop && window.pageYOffset >= guideOffsetTop) {
+        setIsNavigationShow(true);
+        setNavigationIndex(1);
+      } else {
+        setIsNavigationShow(true);
+        setNavigationIndex(0)
+      }
+    }
+    window.addEventListener("scroll", onScroll);
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (isNavigationSticky) {
+      containerElement.current?.setAttribute('style', 'padding-top: 50px;');
+    } else {
+      containerElement.current?.removeAttribute('style');
+    }
+  }, [isNavigationSticky]);
 
   return (
-    <ContainerWrapper>
+    <ContainerWrapper ref={containerElement}>
       <Container>
         <Header />
-        <SessionTitle />
+        <Navigation
+          navigationIndex={navigationIndex}
+          isNavigationSticky={isNavigationSticky}
+          isNavigationShow={isNavigationShow}
+        />
+        <SessionTitle isNavigationSticky={isNavigationSticky} />
         <SessionSurvey />
-        <SessionGuide />
-        <SessionCheer />
+        <SessionGuide isNavigationSticky={isNavigationSticky} />
+        <SessionCheer isNavigationSticky={isNavigationSticky} />
         <SessionCustom />
         <SessionVote />
         <SessionBenefit />
         <SessionGroupBuy />
         <SessionSafe />
-        <SessionEvent />
+        <SessionEvent isNavigationSticky={isNavigationSticky} />
         <SessionSurveyDeal />
         <SessionFaq />
         <SessionFooter />
@@ -72,6 +127,77 @@ const Header = () => {
       <Logo />
       <HeaderButton href={TYPEFORM_URL}>투표하고 오픈알림받기</HeaderButton>
     </HeaderContainer>
+  )
+}
+
+const NavigationContainer = styled.div`
+  display: flex;
+  background: #111;
+  width: 100%;
+  max-width: 500px;
+`;
+
+const NavigationMenu = styled.div<{ selected?: boolean }>`
+  flex: 1;
+  padding: 16px 0;
+  font-family: Pretendard;
+  font-weight: 700;
+  font-size: 12px;
+  text-align: center;
+  cursor: pointer;
+  ${({ selected }) => selected ? `
+    color: #fff;
+    border-bottom: solid 3px ${Color.THEME};
+  ` : `
+    color: rgba(255, 255, 255, 0.42);
+    border-bottom: solid 3px #474747;
+  `}
+`;
+
+const navigationMenus = ["서비스 소개", "이용방법", "투표 현황 보기", "이벤트 참여"];
+
+const Navigation = ({
+  navigationIndex,
+  isNavigationSticky,
+  isNavigationShow
+}: {
+  navigationIndex: number;
+  isNavigationSticky: boolean;
+  isNavigationShow: boolean;
+}) => {
+  const navigationElement = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    navigationOffsetTop = navigationElement.current?.offsetTop;
+  }, []);
+
+  useEffect(() => {
+    const stickyStyle = 'position: fixed; top: 0; z-index: 10;';
+    const hideStyle = 'display: none';
+    if (isNavigationSticky && isNavigationShow) {
+      navigationElement.current?.setAttribute('style', stickyStyle);
+    } else if (isNavigationSticky) {
+      navigationElement.current?.setAttribute('style', stickyStyle + hideStyle);
+    } else if (isNavigationShow) {
+      navigationElement.current?.removeAttribute('style');
+    } else {
+      navigationElement.current?.setAttribute('style', hideStyle);
+    }
+  }, [isNavigationSticky, isNavigationShow]);
+
+  return (
+    <NavigationContainer ref={navigationElement}>
+      {navigationMenus.map((navigationMenu, index) => {
+        return (
+          <NavigationMenu
+            key={`navigation_menu_${index}`}
+            selected={navigationIndex === index}
+          >
+            {navigationMenu}
+          </NavigationMenu>
+        )
+      })}
+    </NavigationContainer>
   )
 }
 
@@ -126,20 +252,12 @@ const EstimateButton = styled.a`
   text-decoration: none;
 `;
 
-const SessionTitle = () => {
-  const estimateElement = useRef<HTMLAnchorElement>(null);
+const SessionTitle = ({ isNavigationSticky }: { isNavigationSticky: boolean; }) => {
+  const voteButtonElement = useRef<HTMLAnchorElement>(null);
 
   useEffect(() => {
-    const onScroll = () => {
-      const estimateElementOffsetTop = estimateElement.current?.offsetTop ?? 0;
-      useAppStore.setState({ isMainStickyFooterShow: window.pageYOffset >= estimateElementOffsetTop });
-    }
-    window.addEventListener("scroll", onScroll);
-
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-    }
-  }, []);
+    voteButtonOffsetTop = voteButtonElement.current?.offsetTop;
+  }, [isNavigationSticky]);
 
   return (
     <SessionContainer
@@ -190,7 +308,7 @@ const SessionTitle = () => {
         "
       >이런 서비스가 필요하다면?</SessionText>
       <EstimateButton
-        ref={estimateElement}
+        ref={voteButtonElement}
         href={TYPEFORM_URL}
       >투표하고 오픈알림 받기</EstimateButton>
     </SessionContainer>
@@ -319,9 +437,16 @@ const GuideDescText = styled.span`
   color: #4e5567;
 `;
 
-const SessionGuide = () => {
+const SessionGuide = ({ isNavigationSticky }: { isNavigationSticky: boolean; }) => {
+  const guideElement = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    guideOffsetTop = guideElement.current?.offsetTop;
+  }, [isNavigationSticky]);
+
   return (
     <SessionContainer
+      ref={guideElement}
       containerStyle="
         padding: 27px 32px 38px 32px;
         align-items: flex-start;
@@ -387,9 +512,16 @@ const CheerButton = styled.div`
 `;
 
 const CHEER_COUNT = 20;
-const SessionCheer = () => {
+const SessionCheer = ({ isNavigationSticky }: { isNavigationSticky: boolean; }) => {
+  const cheerElement = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    cheerOffsetTop = cheerElement.current?.offsetTop;
+  }, [isNavigationSticky]);
+
   return (
     <SessionContainer
+      ref={cheerElement}
       containerStyle="
         padding: 36px 32px 39px 32px;
         align-items: flex-start;
@@ -912,9 +1044,16 @@ const SessionSafe = () => {
   )
 }
 
-const SessionEvent = () => {
+const SessionEvent = ({ isNavigationSticky }: { isNavigationSticky: boolean; }) => {
+  const eventElement = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    eventOffsetTop = eventElement.current?.offsetTop;
+  }, [isNavigationSticky]);
+
   return (
     <SessionContainer
+      ref={eventElement}
       containerStyle="
         padding: 42px 0 46px 0;
         background: #fff;
@@ -943,11 +1082,20 @@ const SessionEvent = () => {
 }
 
 const SessionSurveyDeal = () => {
+  const surveyDealElement = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    surveyDealOffsetTop = surveyDealElement.current?.offsetTop;
+  }, []);
+
   return (
-    <SessionContainer containerStyle={`
-      padding: 112px 0 122px; 0;
-      background: ${Color.THEME};
-    `}>
+    <SessionContainer
+      ref={surveyDealElement}
+      containerStyle={`
+        padding: 112px 0 122px; 0;
+        background: ${Color.THEME};
+      `}
+    >
       <SessionText
         textStyle="
           font-family: LocusSangsang;
