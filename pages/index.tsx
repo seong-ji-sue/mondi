@@ -40,7 +40,6 @@ const Main = () => {
       if (voteButtonOffsetTop) {
         setIsMainStickyFooterShow(window.pageYOffset >= voteButtonOffsetTop);
       }
-      console.log(surveyDealOffsetTop, window.pageYOffset);
       if (surveyDealOffsetTop && window.pageYOffset >= surveyDealOffsetTop) {
         setIsNavigationShow(false);
       } else if (eventOffsetTop && window.pageYOffset >= eventOffsetTop) {
@@ -91,7 +90,7 @@ const Main = () => {
         <SessionGroupBuy />
         <SessionSafe />
         <SessionEvent isNavigationSticky={isNavigationSticky} />
-        <SessionSurveyDeal />
+        <SessionSurveyDeal isNavigationSticky={isNavigationSticky} />
         <SessionFaq />
         <SessionFooter />
         {isMainStickyFooterShow && <StickyFooter />}
@@ -1081,12 +1080,12 @@ const SessionEvent = ({ isNavigationSticky }: { isNavigationSticky: boolean; }) 
   )
 }
 
-const SessionSurveyDeal = () => {
+const SessionSurveyDeal = ({ isNavigationSticky }: { isNavigationSticky: boolean; }) => {
   const surveyDealElement = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     surveyDealOffsetTop = surveyDealElement.current?.offsetTop;
-  }, []);
+  }, [isNavigationSticky]);
 
   return (
     <SessionContainer
