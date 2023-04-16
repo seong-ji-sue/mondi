@@ -263,6 +263,7 @@ const TitleContainer = styled.div`
 
 const EstimateButton = styled.a`
   padding: 17px 31px;
+  align-self: center;
   background: ${Color.THEME};
   font-family: Pretendard;
   font-weight: 500;
@@ -283,7 +284,8 @@ const SessionTitle = ({ isNavigationSticky }: { isNavigationSticky: boolean; }) 
   return (
     <SessionContainer
       containerStyle="
-        padding: 44px 0;
+        padding: 44px 32px;
+        align-items: flex-start;
         background: linear-gradient(0deg, #111111, #111111), #FFFFFF;
       "
     >
@@ -315,10 +317,12 @@ const SessionTitle = ({ isNavigationSticky }: { isNavigationSticky: boolean; }) 
           font-weight: 700;
           font-size: 30px;
           color: #fff;
+          margin-bottom: 2px;
         "
       >
         공동구매
       </SessionText>
+      <SessionImage src="/imgs/main_title.png" imageStyle="width: 266px; align-self: center; margin-bottom: 47px;" />
       <SessionText
         textStyle="
           font-family: Pretendard;
@@ -326,6 +330,7 @@ const SessionTitle = ({ isNavigationSticky }: { isNavigationSticky: boolean; }) 
           font-size: 15px;
           color: #4CC96E;
           margin-bottom: 14px;
+          align-self: center;
         "
       >이런 서비스가 필요하다면?</SessionText>
       <EstimateButton
@@ -657,6 +662,22 @@ const SessionCustom = () => {
   )
 }
 
+const VoteButton = styled.div`
+  position: absolute;
+  bottom: -43px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px 65px;
+  background: ${Color.THEME};
+  border-radius: 12px;
+  font-family: Pretendard;
+  font-weight: 600;
+  font-size: 14px;
+  color: #fff;
+  cursor: pointer;
+`;
+
 const SessionVote = () => {
   return (
     <SessionContainer
@@ -710,10 +731,18 @@ const SessionVote = () => {
           font-size: 14px;
           line-height: 19px;
           color: #747474;
+          margin-bottom: 14px;
         "
       >
         {`부담 없이 투표하고 공구가 확인 후\n구매 결정을 해도 아무런 상관이 없어요.`}
       </SessionText>
+      <SessionContainer
+        containerStyle="width: 100%; position: relative; margin: 25px 0 53px 0;"
+      >
+        <SessionImage src="/imgs/main_vote_product_effect.png" imageStyle="width: 345px; position: absolute; top: -25px;" />
+        <SessionImage src="/imgs/main_vote_product.png" imageStyle="width: 166px;" />
+        <VoteButton>투표 참여하기</VoteButton>
+      </SessionContainer>
     </SessionContainer>
   )
 }
@@ -1160,21 +1189,6 @@ const SessionSurveyDeal = ({ isNavigationSticky }: { isNavigationSticky: boolean
 const faqs = [{
   question: "무료 서비스인가요?",
   answer: "네. 무료로 이용할 수 있습니다. 부담 없이 이용하세요."
-}, {
-  question: "혼수가 아닌 경우 이용이 불가능한가요?",
-  answer: "현재는 혼수 비교 견적 서비스만 제공하고 있습니다."
-}, {
-  question: "견적은 어떻게 받나요?",
-  answer: "카카오톡으로 가격 정보와 판매 사원의 정보를 제공하고 있습니다."
-}, {
-  question: "유료 서비스와의 차이는 무엇인가요?",
-  answer: "무료는 배송지 주변 매장에 견적서를 받지만 유료는 데이터를 활용해 전국에서 가장 할인 프로모션이 높은 지점을 탐색해 견적서를 제공합니다."
-}, {
-  question: "결제 후 취소 및 환불은 어떻게 받나요?",
-  answer: "서비스 이용 후 불만족시 100% 환불 해드립니다."
-}, {
-  question: "이밖에 주의 사항이 있나요?",
-  answer: "결제 시 카드 사용을 권장합니다.\n만약 판매 사원이 개인 계좌를 안내해줬다면 즉시 먼디에 신고해주세요."
 }];
 
 const FaqContainer = styled.div<{ isLast?: boolean }>`
@@ -1305,7 +1319,7 @@ const SessionFooter = () => {
           사업자 등록번호 : 322-81-01873
           대표 번호 : 1588-1588
           제휴 문의 : growth@mondi.kr
-          먼디는 통신판매중개자이며, 통신판매의 당사자가 아닙니다.
+          서베이딜은 통신판매중개자이며, 통신판매의 당사자가 아닙니다.
           상품, 상품정보, 거래에 관한 의무와 책임은 판매자에게 있습니다.
           
           Copyright. 2023 서베이딜, Mondi All Rights Reserved.`}
