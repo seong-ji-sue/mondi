@@ -134,15 +134,17 @@ const NavigationContainer = styled.div`
   background: #111;
   width: 100%;
   max-width: 500px;
+  height: 50px;
 `;
 
 const NavigationMenu = styled.div<{ selected?: boolean }>`
   flex: 1;
-  padding: 16px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-family: Pretendard;
   font-weight: 700;
   font-size: 12px;
-  text-align: center;
   cursor: pointer;
   ${({ selected }) => selected ? `
     color: #fff;
@@ -191,6 +193,26 @@ const Navigation = ({
           <NavigationMenu
             key={`navigation_menu_${index}`}
             selected={navigationIndex === index}
+            onClick={() => {
+              if (index === 0) {
+                window.scrollTo({ top: 56, behavior: "smooth" });
+              } else if (index === 1) {
+                window.scrollTo({
+                  top: isNavigationSticky ? guideOffsetTop : guideOffsetTop && guideOffsetTop - 100,
+                  behavior: "smooth"
+                });
+              } else if (index === 2) {
+                window.scrollTo({
+                  top: isNavigationSticky ? cheerOffsetTop : cheerOffsetTop && cheerOffsetTop - 100,
+                  behavior: "smooth"
+                });
+              } else if (index === 3) {
+                window.scrollTo({
+                  top: isNavigationSticky ? eventOffsetTop : eventOffsetTop && eventOffsetTop - 100,
+                  behavior: "smooth"
+                });
+              }
+            }}
           >
             {navigationMenu}
           </NavigationMenu>
@@ -440,7 +462,7 @@ const SessionGuide = ({ isNavigationSticky }: { isNavigationSticky: boolean; }) 
   const guideElement = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    guideOffsetTop = guideElement.current?.offsetTop;
+    guideOffsetTop = guideOffsetTop ? guideElement.current?.offsetTop : (guideElement.current?.offsetTop ?? 0) + 50;
   }, [isNavigationSticky]);
 
   return (
@@ -515,7 +537,7 @@ const SessionCheer = ({ isNavigationSticky }: { isNavigationSticky: boolean; }) 
   const cheerElement = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    cheerOffsetTop = cheerElement.current?.offsetTop;
+    cheerOffsetTop = cheerOffsetTop ? cheerElement.current?.offsetTop : (cheerElement.current?.offsetTop ?? 0) + 50;
   }, [isNavigationSticky]);
 
   return (
@@ -1047,7 +1069,7 @@ const SessionEvent = ({ isNavigationSticky }: { isNavigationSticky: boolean; }) 
   const eventElement = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    eventOffsetTop = eventElement.current?.offsetTop;
+    eventOffsetTop = eventOffsetTop ? eventElement.current?.offsetTop : (eventElement.current?.offsetTop ?? 0) + 50;
   }, [isNavigationSticky]);
 
   return (
