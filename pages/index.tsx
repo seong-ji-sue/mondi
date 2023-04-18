@@ -86,7 +86,7 @@ const Main = () => {
         <SessionCheer isNavigationSticky={isNavigationSticky} />
         <SessionCustom />
         <SessionVote />
-        <SessionBenefit />
+        {/* <SessionBenefit /> */}
         <SessionGroupBuy />
         <SessionAutoNoti />
         <SessionUseProcedure />
@@ -660,24 +660,95 @@ const SessionCustom = () => {
   )
 }
 
-const VoteButton = styled.div`
-  position: absolute;
-  bottom: -43px;
+const votes = [{
+  img: "/imgs/main_ipadpro11.png",
+  voteCnt: 2301,
+  benefitCnt: 1,
+  productName: "아이패드 프로 11세대 128GB",
+  productSpec: "막강한 성능의 M2 칩 탑재 - 스페이스컬러",
+  originPrice: 1249000,
+  targetPrice: 899190,
+  voted: false,
+},{
+  img: "/imgs/main_ipad10.png",
+  voteCnt: 1071,
+  benefitCnt: 1,
+  productName: "아이패드 10세대 256GB",
+  productSpec: "컬러 한가득 새로운 디자인으로 새롭게 태어난 iPad",
+  originPrice: 859000,
+  targetPrice: 699000,
+  voted: true,
+}];
+
+const VoteWrapperContainer = styled.div`
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  white-space: nowrap;
+  overflow: scroll;
+  width: calc(100% - 64px);
+  padding: 27px 32px;
+`;
+
+const VoteItemContainer = styled.div`
+  width: 336px;
+  background-color: white;
+  filter: drop-shadow(2px 8px 18px rgba(0, 0, 0, 0.14));
+  border-radius: 12px;
+  margin-right: 20px;
+  flex: 0 0 auto;
+`;
+
+const VoteCountContainer = styled.div`
+  padding: 12px 15px;
+  border-bottom: solid 1px #E5E5EA;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const ItemBenefitIcon =  styled.span`
+  background: #FFFFFF;
+  border: 0.5px solid rgba(0, 161, 44, 0.43);
+  border-radius: 6px;
+  font-family: Pretendard;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 9px;
+  line-height: 100%;
+  text-align: center;
+  color: #00A12C;
+  padding: 4px 6px;
+`;
+
+const VoteItemInfoContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  padding: 20px 16px 24px;
+`;
+
+const VoteButton = styled.button<{ isVoted: boolean; }>`
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 18px 65px;
-  background: ${Color.THEME};
-  border-radius: 12px;
+  background: ${({ isVoted }) => isVoted ? "#414141" : Color.THEME};
   font-family: Pretendard;
-  font-weight: 600;
-  font-size: 14px;
+  font-weight: 500;
+  font-size: 13.4px;
+  line-height: 100%;
+  letter-spacing: -0.01em;
   color: #fff;
-  cursor: pointer;
-`;
+  border: none;
+  outline: none;
+  border-radius: 0 0 12px 12px;
+  cursor: ${({ isVoted }) => isVoted ? "default" : "pointer"};;
+  `;
 
 const SessionVote = () => {
-  return (
+  return (<>
     <SessionContainer
       containerStyle="
         padding: 42px 32px 52px 32px;
@@ -732,19 +803,103 @@ const SessionVote = () => {
           margin-bottom: 14px;
         "
       >
-        {`부담 없이 투표하고 공구가 확인 후\n구매 결정을 해도 아무런 상관이 없어요.`}
+        {`관심 있는 상품에 투표하고\n공구가 확인 후 구매하세요.`}
       </SessionText>
-      <SessionContainer
-        containerStyle="width: 100%; position: relative; margin: 25px 0 53px 0;"
-      >
-        <SessionImage src="/imgs/main_vote_product_effect.png" imageStyle="width: 345px; position: absolute; top: -25px;" />
-        <SessionImage src="/imgs/main_vote_product.png" imageStyle="width: 166px;" />
-        <VoteButton>투표 참여하기</VoteButton>
-      </SessionContainer>
+    <VoteWrapperContainer >
+      {votes.map((vote, key) => (
+        <VoteItemContainer key={key}>
+          <SessionImage src={vote.img} imageStyle="width: 100%; background-color:#F5F5F7;" />
+          <VoteCountContainer >
+            <SessionText textStyle="
+              font-family: Pretendard;
+              font-style: normal;
+              font-weight: 400;
+              font-size: 11.5px;
+              line-height: 13px;
+            "><b>{vote.voteCnt.toLocaleString()}</b>명이 투표에 참여한 상품이에요.</SessionText>
+            {vote.benefitCnt > 0 && <ItemBenefitIcon>추가혜택+{vote.benefitCnt}</ItemBenefitIcon>}
+          </VoteCountContainer>
+          <VoteItemInfoContainer>
+            <SessionText textStyle="
+              font-family: Pretendard;
+              font-style: normal;
+              font-weight: 700;
+              font-size: 16px;
+              line-height: 100%;
+              color: #000000;
+              margin-bottom: 10px;
+            ">{vote.productName}</SessionText>
+            <SessionText textStyle="
+              font-family: Pretendard;
+              font-style: normal;
+              font-weight: 400;
+              font-size: 12px;
+              line-height: 100%;
+              color: #808182;
+              margin-bottom: 18px;
+            ">{vote.productSpec}</SessionText>
+            <SessionRowContainer style={{marginBottom: "8px"}}>
+              <SessionText textStyle="
+                font-family: 'Pretendard';
+                font-style: normal;
+                font-weight: 400;
+                font-size: 12px;
+                line-height: 100%;
+                letter-spacing: -0.408px;
+                color: #808182;
+                margin-right: 15px;
+              ">정상가</SessionText>
+              <SessionText textStyle="
+                font-family: 'Pretendard';
+                font-style: normal;
+                font-weight: 400;
+                font-size: 12px;
+                line-height: 100%;
+                letter-spacing: -0.408px;
+                color: #808182;
+              ">{Number(vote.originPrice).toLocaleString()}원</SessionText>
+            </SessionRowContainer>
+            <SessionRowContainer>
+              <SessionText textStyle="
+                font-family: 'Pretendard';
+                font-style: normal;
+                font-weight: 400;
+                font-size: 12px;
+                line-height: 100%;
+                letter-spacing: -0.408px;
+                color: #00A12C;
+                margin-right: 15px;
+              ">목표가</SessionText>
+              <SessionText textStyle="
+                font-family: 'Pretendard';
+                font-style: normal;
+                font-weight: 700;
+                font-size: 16px;
+                line-height: 100%;
+                letter-spacing: -0.408px;
+                color: #3E3E46;
+              ">{Number(vote.targetPrice).toLocaleString()}원</SessionText>
+              <SessionText textStyle="
+                font-family: 'Pretendard';
+                font-style: normal;
+                font-weight: 700;
+                font-size: 16px;
+                line-height: 100%;
+                letter-spacing: -0.408px;
+                color: #00A12C;
+                margin-left: 8px;
+              ">{((1 - Number(vote.targetPrice) / Number(vote.originPrice))*100).toFixed()}%</SessionText>
+            </SessionRowContainer>
+          </VoteItemInfoContainer>
+          <VoteButton isVoted={vote.voted}>{vote.voted ? "이미 참여했어요" : "투표하기"}</VoteButton>
+        </VoteItemContainer>
+      ))}
+    </VoteWrapperContainer>
     </SessionContainer>
-  )
+  </>)
 }
 
+/*
 const BenefitDescContainer = styled.div<{ containerStyle?: string; }>`
   border: 1px solid rgba(0, 161, 44, 0.51);
   box-shadow: 1px 2px 18px rgba(0, 0, 0, 0.1);
@@ -866,6 +1021,7 @@ const SessionBenefit = () => {
     </SessionContainer>
   )
 }
+*/
 
 const SessionAutoNoti = () => {
   return (
