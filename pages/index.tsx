@@ -88,6 +88,8 @@ const Main = () => {
         <SessionVote />
         <SessionBenefit />
         <SessionGroupBuy />
+        <SessionAutoNoti />
+        <SessionUseProcedure />
         <SessionSafe />
         <SessionEvent isNavigationSticky={isNavigationSticky} />
         <SessionSurveyDeal isNavigationSticky={isNavigationSticky} />
@@ -350,7 +352,7 @@ const SessionSurvey = () => {
         background: linear-gradient(0deg, #F5F5F5, #F5F5F5), #FFFFFF;
       "
     >
-      <TitleContainer>설문조사</TitleContainer>
+      <TitleContainer>수요조사</TitleContainer>
       <SessionText
         textStyle="
           font-family: Pretendard;
@@ -368,7 +370,7 @@ const SessionSurvey = () => {
             font-size: 26px;
             color: ${Color.THEME};
           `}
-        >설문조사</SessionText>
+        >수요조사</SessionText>
         <SessionText
           textStyle="
             font-family: Pretendard;
@@ -420,14 +422,17 @@ const SessionSurvey = () => {
 }
 
 const guides = [{
-  title: "설문조사",
-  desc: "구매 고객을 예측합니다."
+  title: "Survey",
+  subtitle: "투표하기",
+  desc: "합리적인 가격과 혜택으로\n관심 상품을 구매하세요."
 }, {
-  title: "설문조사",
-  desc: "구매 고객을 예측합니다."
+  title: "Deal",
+  subtitle: "협상하기",
+  desc: "판매자가 제안한\n가격과 혜택을 확인하세요!"
 }, {
-  title: "설문조사",
-  desc: "구매 고객을 예측합니다."
+  title: "Group buying",
+  subtitle: "이용하기",
+  desc: "합리적인 가격과 혜택으로\n관심 상품을 구매하세요."
 }];
 
 const GuideWrapperContainer = styled.div`
@@ -442,10 +447,14 @@ const GuideContainer = styled.div<{ isLast: boolean }>`
   display: flex;
   flex-direction: column;
   width: calc(229px - 46px);
-  padding: 60px 23px 27px 23px;
+  height: 136px;
+  padding: 0 23px 27px 23px;
   background: linear-gradient(0deg, #FFFFFF, #FFFFFF), #F5F8FF;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
   border-radius: 18px;
   margin-right: ${({ isLast }) => isLast ? 0 : 14}px;
+  margin: 10px;
+  justify-content: flex-end;
 `;
 
 const GuideTitleText = styled.span`
@@ -461,6 +470,9 @@ const GuideDescText = styled.span`
   font-weight: 500;
   font-size: 14px;
   color: #4e5567;
+  width: inherit;
+  white-space: break-spaces;
+  word-break: keep-all;
 `;
 
 const SessionGuide = ({ isNavigationSticky }: { isNavigationSticky: boolean; }) => {
@@ -481,35 +493,21 @@ const SessionGuide = ({ isNavigationSticky }: { isNavigationSticky: boolean; }) 
     >
       <SessionRowContainer containerStyle="margin-bottom: 20px;">
         <SessionText
-          textStyle="
-            font-family: Pretendard;
-            font-weight: 800;
-            font-size: 18px;
-            color: #232323;
-          "
-        >서베이딜의&nbsp;</SessionText>
-        <SessionText
           textStyle={`
             font-family: Pretendard;
             font-weight: 800;
             font-size: 18px;
-            color: ${Color.THEME};
-          `}
-        >이용방법</SessionText>
-        <SessionText
-          textStyle="
-            font-family: Pretendard;
-            font-weight: 800;
-            font-size: 18px;
+            line-height: 140%;
             color: #232323;
-          "
-        >이에요.</SessionText>
+          `}
+        >진행절차</SessionText>
       </SessionRowContainer>
       <GuideWrapperContainer>
         {guides.map((guide, index) => {
           return (
             <GuideContainer key={`guide_${index}`} isLast={index === guides.length - 1}>
               <GuideTitleText>{guide.title}</GuideTitleText>
+              <GuideTitleText>{guide.subtitle}</GuideTitleText>
               <GuideDescText>{guide.desc}</GuideDescText>
             </GuideContainer>
           )
@@ -869,6 +867,53 @@ const SessionBenefit = () => {
   )
 }
 
+const SessionAutoNoti = () => {
+  return (
+    <SessionContainer
+      containerStyle="
+        padding: 42px 32px;
+        align-items: flex-start;
+        background: linear-gradient(0deg, rgba(245, 245, 245, 0.6), rgba(245, 245, 245, 0.6)), #FFFFFF;
+      "
+    >
+      <TitleContainer>자동 알림</TitleContainer>
+      <SessionText
+        textStyle={`
+          font-family: Pretendard;
+          font-weight: 800;
+          font-size: 26px;
+          color: ${Color.THEME};          
+          margin-bottom: 4px;
+        `}
+      >투표만 해도</SessionText>
+      <SessionRowContainer containerStyle="margin-bottom: 10px;">
+        <SessionText
+          textStyle={`
+            font-family: Pretendard;
+            font-weight: 800;
+            font-size: 26px;
+            color: #232323;
+          `}
+        >알아서 척척</SessionText>
+      </SessionRowContainer>
+      <SessionText
+        textStyle="
+          text-align: left;
+          font-family: Pretendard;
+          font-weight: 500;
+          font-size: 14px;
+          line-height: 19px;
+          color: #747474;
+          margin-bottom: 3px;
+        "
+      >
+        {`투표에 참여 시 알림을 통해\n공구가와 혜택을 안내드려요.`}
+      </SessionText>
+      <SessionImage src="/imgs/main_use_procedure.png" imageStyle="width: 100%;" />
+    </SessionContainer>
+  )
+}
+
 const categories = [{
   selected: true,
   name: "투표하기"
@@ -1039,6 +1084,50 @@ const SessionGroupBuy = () => {
   )
 }
 
+const useProcedure = [{
+  title: "투표하기",
+  desc: "투표에 참여하여 관심 상품을\n공동구매로 만들어보세요!"
+}, {
+  title: "오픈예정",
+  desc: "판매자가 제안한\n가격과 혜택을 확인하세요!"
+}, {
+  title: "이용하기",
+  desc: "합리적인 가격과 혜택으로\n관심 상품을 구매하세요."
+}];
+
+const SessionUseProcedure = () => {
+  return (
+    <SessionContainer
+      containerStyle="
+        padding: 27px 32px 38px 32px;
+        align-items: flex-start;
+        background: #FFFFFF;
+      "
+    >
+      <SessionRowContainer containerStyle="margin-bottom: 20px;">
+        <SessionText
+          textStyle={`
+            font-family: Pretendard;
+            font-weight: 800;
+            font-size: 18px;
+            color: #232323;
+          `}
+        >이용절차</SessionText>
+      </SessionRowContainer>
+      <GuideWrapperContainer>
+        {useProcedure.map((guide, index) => {
+          return (
+            <GuideContainer key={`guide_${index}`} isLast={index === guides.length - 1}>
+              <GuideTitleText>{guide.title}</GuideTitleText>
+              <GuideDescText>{guide.desc}</GuideDescText>
+            </GuideContainer>
+          )
+        })}
+      </GuideWrapperContainer>
+    </SessionContainer>
+  )
+}
+
 const SessionSafe = () => {
   return (
     <SessionContainer
@@ -1094,6 +1183,30 @@ const SessionSafe = () => {
   )
 }
 
+const EventInfoContainer = styled.div`
+  background: #FFFFFF;
+  box-shadow: 1px 2px 18px rgba(0, 0, 0, 0.1);
+  border-radius: 16px;
+  padding: 14px 27px 11px;
+  top: -30px;
+  transform: translate(0, -30px);
+`;
+const EventButton = styled.button`
+  width: 240px;
+  height: 48px;
+  background-color: #252525;
+  border-radius: 30px;
+  outline: none;
+  border: none;
+  font-family: Pretendard;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 100%;
+  text-align: center;
+  color: #FFFFFF;
+`;
+
 const SessionEvent = ({ isNavigationSticky }: { isNavigationSticky: boolean; }) => {
   const eventElement = useRef<HTMLDivElement>(null);
 
@@ -1118,7 +1231,7 @@ const SessionEvent = ({ isNavigationSticky }: { isNavigationSticky: boolean; }) 
           color: #121212;
           margin-bottom: 7px;
         "
-      >서베이딜 탄생 기원 이벤트</SessionText>
+      >서베이딜의 탄생을 도와주세요.</SessionText>
       <SessionText
         textStyle="
           font-family: Pretendard;
@@ -1127,6 +1240,35 @@ const SessionEvent = ({ isNavigationSticky }: { isNavigationSticky: boolean; }) 
           color: #121212;
         "
       >선착순 111명에 한해 오픈 기원 이벤트를 진행하고 있어요.</SessionText>
+      <SessionImage src="/imgs/main_event.png" imageStyle="width: 150px;" />
+      <EventInfoContainer >
+        <SessionText
+          textStyle="
+            display: block;
+            font-family: Pretendard;
+            font-style: normal;
+            font-weight: 500;
+            font-size: 8px;
+            line-height: 132%;
+            font-weight: 400;
+            color: #5D6477;
+            margin-bottom: 4px;
+          "
+        >정상가 <b style={{fontSize: '12px'}}>4,500</b> 원</SessionText>
+        <SessionText
+          textStyle="
+            display: block;
+            font-family: Pretendard;
+            font-style: normal;
+            font-weight: 500;
+            font-size: 8px;
+            line-height: 132%;
+            font-weight: 400;
+            color: #00A12C;
+          "
+        >공구가 <b style={{fontSize: '12px'}}>990</b> 원</SessionText>
+      </EventInfoContainer>
+      <EventButton >990원에 공구하러 가기</EventButton>
     </SessionContainer>
   )
 }
@@ -1148,10 +1290,10 @@ const SessionSurveyDeal = ({ isNavigationSticky }: { isNavigationSticky: boolean
     >
       <SessionText
         textStyle="
-          font-family: LocusSangsang;
-          font-weight: 400;
+          font-family: Pretendard;
+          font-weight: 800;
           font-size: 26px;
-          line-height: 32px;
+          line-height: 35px;
           color: #fff;
           margin-bottom: 12px;
         "
