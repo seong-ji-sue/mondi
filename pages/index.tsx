@@ -1,9 +1,9 @@
 import { ArrowBottom, ArrowTop, Fire, Logo } from "@components/Svg";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import Color from "src/utils/color";
 import styled from "styled-components";
 
-const TYPEFORM_URL = "";
+const GOOGLE_DOCS_URL = "https://forms.gle/CJm5N3gASYiPJTB58";
 
 const ContainerWrapper = styled.div`
   max-width: 500px;
@@ -34,21 +34,22 @@ const Main = () => {
 
   useEffect(() => {
     const onScroll = () => {
+      const pageYOffset = window.pageYOffset;
       if (navigationOffsetTop) {
-        setIsNavigationSticky(window.pageYOffset >= navigationOffsetTop);
+        setIsNavigationSticky(pageYOffset >= navigationOffsetTop);
       }
       if (voteButtonOffsetTop) {
-        setIsMainStickyFooterShow(window.pageYOffset >= voteButtonOffsetTop);
+        setIsMainStickyFooterShow(pageYOffset >= voteButtonOffsetTop);
       }
-      if (surveyDealOffsetTop && window.pageYOffset >= surveyDealOffsetTop) {
-        setIsNavigationShow(false);
-      } else if (eventOffsetTop && window.pageYOffset >= eventOffsetTop) {
+      if (surveyDealOffsetTop && pageYOffset >= surveyDealOffsetTop) {
+        // setIsNavigationShow(false);
+      } else if (guideOffsetTop && pageYOffset >= guideOffsetTop) {
         setIsNavigationShow(true);
         setNavigationIndex(3);
-      } else if (cheerOffsetTop && window.pageYOffset >= cheerOffsetTop) {
+      } else if (eventOffsetTop && pageYOffset >= eventOffsetTop) {
         setIsNavigationShow(true);
         setNavigationIndex(2);
-      } else if (guideOffsetTop && window.pageYOffset >= guideOffsetTop) {
+      } else if (cheerOffsetTop && pageYOffset >= cheerOffsetTop) {
         setIsNavigationShow(true);
         setNavigationIndex(1);
       } else {
@@ -82,18 +83,18 @@ const Main = () => {
         />
         <SessionTitle isNavigationSticky={isNavigationSticky} />
         <SessionSurvey />
-        <SessionGuide isNavigationSticky={isNavigationSticky} />
+        <SessionGuide />
         <SessionCheer isNavigationSticky={isNavigationSticky} />
         <SessionCustom />
         <SessionVote />
         {/* <SessionBenefit /> */}
-        <SessionGroupBuy />
         <SessionAutoNoti />
+        <SessionGroupBuy />
         <SessionUseProcedure />
         <SessionSafe />
         <SessionEvent isNavigationSticky={isNavigationSticky} />
-        <SessionSurveyDeal isNavigationSticky={isNavigationSticky} />
-        <SessionFaq />
+        <SessionSurveyDeal />
+        <SessionFaq isNavigationSticky={isNavigationSticky} />
         <SessionFooter />
         {isMainStickyFooterShow && <StickyFooter />}
       </Container>
@@ -126,7 +127,7 @@ const Header = () => {
   return (
     <HeaderContainer>
       <Logo />
-      <HeaderButton href={TYPEFORM_URL}>투표하고 오픈알림받기</HeaderButton>
+      <HeaderButton href={GOOGLE_DOCS_URL}>관심고객 등록 후 이용하기</HeaderButton>
     </HeaderContainer>
   )
 }
@@ -157,7 +158,7 @@ const NavigationMenu = styled.div<{ selected?: boolean }>`
   `}
 `;
 
-const navigationMenus = ["서비스 소개", "이용방법", "투표 현황 보기", "이벤트 참여"];
+const navigationMenus = ["서비스 소개", "투표 현황 보기", "이벤트 참여", "이용방법"];
 
 const Navigation = ({
   navigationIndex,
@@ -200,17 +201,17 @@ const Navigation = ({
                 window.scrollTo({ top: 56, behavior: "smooth" });
               } else if (index === 1) {
                 window.scrollTo({
-                  top: isNavigationSticky ? guideOffsetTop : guideOffsetTop && guideOffsetTop - 100,
+                  top: isNavigationSticky ? cheerOffsetTop : cheerOffsetTop && cheerOffsetTop - 100,
                   behavior: "smooth"
                 });
               } else if (index === 2) {
                 window.scrollTo({
-                  top: isNavigationSticky ? cheerOffsetTop : cheerOffsetTop && cheerOffsetTop - 100,
+                  top: isNavigationSticky ? eventOffsetTop : eventOffsetTop && eventOffsetTop - 100,
                   behavior: "smooth"
                 });
               } else if (index === 3) {
                 window.scrollTo({
-                  top: isNavigationSticky ? eventOffsetTop : eventOffsetTop && eventOffsetTop - 100,
+                  top: isNavigationSticky ? guideOffsetTop : guideOffsetTop && guideOffsetTop - 100,
                   behavior: "smooth"
                 });
               }
@@ -337,8 +338,8 @@ const SessionTitle = ({ isNavigationSticky }: { isNavigationSticky: boolean; }) 
       >이런 서비스가 필요하다면?</SessionText>
       <EstimateButton
         ref={voteButtonElement}
-        href={TYPEFORM_URL}
-      >투표하고 오픈알림 받기</EstimateButton>
+        href={GOOGLE_DOCS_URL}
+      >관심고객 등록 후 이용하기</EstimateButton>
     </SessionContainer>
   )
 }
@@ -441,6 +442,15 @@ const GuideWrapperContainer = styled.div`
   overflow: scroll;
   max-width: 500px;
   width: 100%;
+  > * {
+    margin: 20px 7px;
+  }
+  > :last-child {
+    margin-right: 20px;
+  }
+  > :first-child {
+    margin-left: 20px;
+  }
 `;
 
 const GuideContainer = styled.div<{ isLast: boolean }>`
@@ -450,11 +460,12 @@ const GuideContainer = styled.div<{ isLast: boolean }>`
   height: 136px;
   padding: 0 23px 27px 23px;
   background: linear-gradient(0deg, #FFFFFF, #FFFFFF), #F5F8FF;
-  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
   border-radius: 18px;
   margin-right: ${({ isLast }) => isLast ? 0 : 14}px;
   margin: 10px;
   justify-content: flex-end;
+  margin: 20px 7px;
+  filter: drop-shadow(0px 4px 16px rgba(0, 0, 0, 0.08));
 `;
 
 const GuideTitleText = styled.span`
@@ -475,16 +486,9 @@ const GuideDescText = styled.span`
   word-break: keep-all;
 `;
 
-const SessionGuide = ({ isNavigationSticky }: { isNavigationSticky: boolean; }) => {
-  const guideElement = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    guideOffsetTop = guideOffsetTop ? guideElement.current?.offsetTop : (guideElement.current?.offsetTop ?? 0) + 50;
-  }, [isNavigationSticky]);
-
+const SessionGuide = () => {
   return (
     <SessionContainer
-      ref={guideElement}
       containerStyle="
         padding: 27px 32px 38px 32px;
         align-items: flex-start;
@@ -660,6 +664,109 @@ const SessionCustom = () => {
   )
 }
 
+const Product = (props: {
+  img: string; voteCnt: number; benefitCnt: number; state: string;
+  productName: string; productSpec: string;
+  originPrice: number; price: number; btnEnabled: boolean;
+}) => {
+  const btnText = useMemo(() => {
+    if (props.state === "vote")
+      return props.btnEnabled ? "이미 참여했어요" : "투표하기"
+    if (props.state === "willOpen")
+      return "오픈 알람받기"
+    if (props.state === "open")
+      return "구매하기"
+  }, [props.btnEnabled, props.state]);
+  return (
+    <VoteItemContainer >
+      <SessionImage src={props.img} imageStyle="width: 100%; background-color:#F5F5F7;" />
+      <VoteCountContainer >
+        <SessionText textStyle="
+          font-family: Pretendard;
+          font-style: normal;
+          font-weight: 400;
+          font-size: 11.5px;
+          line-height: 13px;
+        "><b>{Number(props.voteCnt).toLocaleString()}</b>명이 투표에 참여한 상품이에요.👏👏</SessionText>
+        {props.benefitCnt > 0 && <ItemBenefitIcon>추가혜택+{props.benefitCnt}</ItemBenefitIcon>}
+      </VoteCountContainer>
+      <VoteItemInfoContainer>
+        <SessionText textStyle="
+          font-family: Pretendard;
+          font-style: normal;
+          font-weight: 700;
+          font-size: 16px;
+          line-height: 100%;
+          color: #000000;
+          margin-bottom: 10px;
+        ">{props.productName}</SessionText>
+        <SessionText textStyle="
+          font-family: Pretendard;
+          font-style: normal;
+          font-weight: 400;
+          font-size: 12px;
+          line-height: 100%;
+          color: #808182;
+          margin-bottom: 18px;
+        ">{props.productSpec}</SessionText>
+        <SessionRowContainer style={{marginBottom: "8px"}}>
+          <SessionText textStyle="
+            font-family: 'Pretendard';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 12px;
+            line-height: 100%;
+            letter-spacing: -0.408px;
+            color: #808182;
+            margin-right: 15px;
+          ">정상가</SessionText>
+          <SessionText textStyle="
+            font-family: 'Pretendard';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 12px;
+            line-height: 100%;
+            letter-spacing: -0.408px;
+            color: #808182;
+          ">{Number(props.originPrice).toLocaleString()}원</SessionText>
+        </SessionRowContainer>
+        <SessionRowContainer>
+          <SessionText textStyle="
+            font-family: 'Pretendard';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 12px;
+            line-height: 100%;
+            letter-spacing: -0.408px;
+            color: #00A12C;
+            margin-right: 15px;
+          ">목표가</SessionText>
+          <SessionText textStyle="
+            font-family: 'Pretendard';
+            font-style: normal;
+            font-weight: 700;
+            font-size: 16px;
+            line-height: 100%;
+            letter-spacing: -0.408px;
+            color: #3E3E46;
+          ">{Number(props.price).toLocaleString()}원</SessionText>
+          <SessionText textStyle="
+            font-family: 'Pretendard';
+            font-style: normal;
+            font-weight: 700;
+            font-size: 16px;
+            line-height: 100%;
+            letter-spacing: -0.408px;
+            color: #00A12C;
+            margin-left: 8px;
+          ">{((1 - Number(props.price) / Number(props.originPrice))*100).toFixed()}%</SessionText>
+        </SessionRowContainer>
+      </VoteItemInfoContainer>
+      <VoteButton enabled={props.btnEnabled}>{btnText}</VoteButton>
+    </VoteItemContainer>
+  );
+};
+
 const votes = [{
   img: "/imgs/main_ipadpro11.png",
   voteCnt: 2301,
@@ -667,8 +774,9 @@ const votes = [{
   productName: "아이패드 프로 11세대 128GB",
   productSpec: "막강한 성능의 M2 칩 탑재 - 스페이스컬러",
   originPrice: 1249000,
-  targetPrice: 899190,
-  voted: false,
+  price: 899190,
+  btnEnabled: false,
+  state: "vote",
 },{
   img: "/imgs/main_ipad10.png",
   voteCnt: 1071,
@@ -676,8 +784,9 @@ const votes = [{
   productName: "아이패드 10세대 256GB",
   productSpec: "컬러 한가득 새로운 디자인으로 새롭게 태어난 iPad",
   originPrice: 859000,
-  targetPrice: 699000,
-  voted: true,
+  price: 699000,
+  btnEnabled: true,
+  state: "vote",
 }];
 
 const VoteWrapperContainer = styled.div`
@@ -688,14 +797,20 @@ const VoteWrapperContainer = styled.div`
   overflow: scroll;
   width: calc(100% - 64px);
   padding: 27px 32px;
+  > * {
+    margin-right: 20px;
+  }
+  > :last-child {
+    margin-right: 0;
+  }
 `;
 
 const VoteItemContainer = styled.div`
-  width: 336px;
+  width: 100%;
+  /* width: 336px; */
   background-color: white;
   filter: drop-shadow(2px 8px 18px rgba(0, 0, 0, 0.14));
   border-radius: 12px;
-  margin-right: 20px;
   flex: 0 0 auto;
 `;
 
@@ -728,13 +843,13 @@ const VoteItemInfoContainer = styled.div`
   padding: 20px 16px 24px;
 `;
 
-const VoteButton = styled.button<{ isVoted: boolean; }>`
+const VoteButton = styled.button<{ enabled: boolean; }>`
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 18px 65px;
-  background: ${({ isVoted }) => isVoted ? "#414141" : Color.THEME};
+  background: ${({ enabled }) => enabled ? "#414141" : Color.THEME};
   font-family: Pretendard;
   font-weight: 500;
   font-size: 13.4px;
@@ -744,14 +859,14 @@ const VoteButton = styled.button<{ isVoted: boolean; }>`
   border: none;
   outline: none;
   border-radius: 0 0 12px 12px;
-  cursor: ${({ isVoted }) => isVoted ? "default" : "pointer"};;
+  cursor: ${({ enabled }) => enabled ? "default" : "pointer"};;
   `;
 
 const SessionVote = () => {
   return (<>
     <SessionContainer
       containerStyle="
-        padding: 42px 32px 52px 32px;
+        padding: 42px 32px 0 32px;
         align-items: flex-start;
         background: linear-gradient(0deg, #FFFFFF, #FFFFFF), #FFFFFF;
       "
@@ -805,97 +920,10 @@ const SessionVote = () => {
       >
         {`관심 있는 상품에 투표하고\n공구가 확인 후 구매하세요.`}
       </SessionText>
-    <VoteWrapperContainer >
-      {votes.map((vote, key) => (
-        <VoteItemContainer key={key}>
-          <SessionImage src={vote.img} imageStyle="width: 100%; background-color:#F5F5F7;" />
-          <VoteCountContainer >
-            <SessionText textStyle="
-              font-family: Pretendard;
-              font-style: normal;
-              font-weight: 400;
-              font-size: 11.5px;
-              line-height: 13px;
-            "><b>{vote.voteCnt.toLocaleString()}</b>명이 투표에 참여한 상품이에요.</SessionText>
-            {vote.benefitCnt > 0 && <ItemBenefitIcon>추가혜택+{vote.benefitCnt}</ItemBenefitIcon>}
-          </VoteCountContainer>
-          <VoteItemInfoContainer>
-            <SessionText textStyle="
-              font-family: Pretendard;
-              font-style: normal;
-              font-weight: 700;
-              font-size: 16px;
-              line-height: 100%;
-              color: #000000;
-              margin-bottom: 10px;
-            ">{vote.productName}</SessionText>
-            <SessionText textStyle="
-              font-family: Pretendard;
-              font-style: normal;
-              font-weight: 400;
-              font-size: 12px;
-              line-height: 100%;
-              color: #808182;
-              margin-bottom: 18px;
-            ">{vote.productSpec}</SessionText>
-            <SessionRowContainer style={{marginBottom: "8px"}}>
-              <SessionText textStyle="
-                font-family: 'Pretendard';
-                font-style: normal;
-                font-weight: 400;
-                font-size: 12px;
-                line-height: 100%;
-                letter-spacing: -0.408px;
-                color: #808182;
-                margin-right: 15px;
-              ">정상가</SessionText>
-              <SessionText textStyle="
-                font-family: 'Pretendard';
-                font-style: normal;
-                font-weight: 400;
-                font-size: 12px;
-                line-height: 100%;
-                letter-spacing: -0.408px;
-                color: #808182;
-              ">{Number(vote.originPrice).toLocaleString()}원</SessionText>
-            </SessionRowContainer>
-            <SessionRowContainer>
-              <SessionText textStyle="
-                font-family: 'Pretendard';
-                font-style: normal;
-                font-weight: 400;
-                font-size: 12px;
-                line-height: 100%;
-                letter-spacing: -0.408px;
-                color: #00A12C;
-                margin-right: 15px;
-              ">목표가</SessionText>
-              <SessionText textStyle="
-                font-family: 'Pretendard';
-                font-style: normal;
-                font-weight: 700;
-                font-size: 16px;
-                line-height: 100%;
-                letter-spacing: -0.408px;
-                color: #3E3E46;
-              ">{Number(vote.targetPrice).toLocaleString()}원</SessionText>
-              <SessionText textStyle="
-                font-family: 'Pretendard';
-                font-style: normal;
-                font-weight: 700;
-                font-size: 16px;
-                line-height: 100%;
-                letter-spacing: -0.408px;
-                color: #00A12C;
-                margin-left: 8px;
-              ">{((1 - Number(vote.targetPrice) / Number(vote.originPrice))*100).toFixed()}%</SessionText>
-            </SessionRowContainer>
-          </VoteItemInfoContainer>
-          <VoteButton isVoted={vote.voted}>{vote.voted ? "이미 참여했어요" : "투표하기"}</VoteButton>
-        </VoteItemContainer>
-      ))}
-    </VoteWrapperContainer>
     </SessionContainer>
+    <VoteWrapperContainer >
+      {votes.map((vote, key) => <Product key={key} {...vote} />)}
+    </VoteWrapperContainer>
   </>)
 }
 
@@ -1071,12 +1099,44 @@ const SessionAutoNoti = () => {
 }
 
 const categories = [{
-  selected: true,
-  name: "투표하기"
+  name: "투표하기",
+  product: {
+    img: "/imgs/main_ipadpro11.png",
+    voteCnt: 2301,
+    benefitCnt: 1,
+    productName: "아이패드 프로 11세대 128GB",
+    productSpec: "막강한 성능의 M2 칩 탑재 - 스페이스컬러",
+    originPrice: 1249000,
+    price: 899190,
+    btnEnabled: false,
+    state: "vote",
+  }
 }, {
-  name: "오픈예정"
+  name: "오픈예정",
+  product: {
+    img: "/imgs/main_ipadpro11.png",
+    voteCnt: 2301,
+    benefitCnt: 1,
+    productName: "아이패드 프로 11세대 128GB",
+    productSpec: "막강한 성능의 M2 칩 탑재 - 스페이스컬러",
+    originPrice: 1249000,
+    price: 624500,
+    btnEnabled: false,
+    state: "willOpen",
+  }
 }, {
-  name: "오픈"
+  name: "오픈",
+  product: {
+    img: "/imgs/main_ipadpro11.png",
+    voteCnt: 2301,
+    benefitCnt: 1,
+    productName: "아이패드 프로 11세대 128GB",
+    productSpec: "막강한 성능의 M2 칩 탑재 - 스페이스컬러",
+    originPrice: 1249000,
+    price: 624500,
+    btnEnabled: false,
+    state: "open",
+  }
 }]
 
 const GroupBuyCategoryWrapperContainer = styled.div`
@@ -1085,7 +1145,6 @@ const GroupBuyCategoryWrapperContainer = styled.div`
   overflow: scroll;
   max-width: 500px;
   width: 100%;
-  margin-bottom: 20px;
 `;
 
 const GroupBuyCategoryContainer = styled.div<{ selected?: boolean, isLast: boolean }>`
@@ -1105,37 +1164,20 @@ const GroupBuyCategoryContainer = styled.div<{ selected?: boolean, isLast: boole
   font-weight: 500;
   font-size: 14px;
   margin-right: ${({ isLast }) => isLast ? 0 : 8}px;
+  cursor: pointer;
 `;
 
 const GroupBuyProductContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  background: #fff;
-  border: 1px solid #F2F2F7;
-  border-radius: 20px;
-  overflow: hidden;
-`;
-
-const GroupBuyProductText = styled.span<{ textStyle?: string }>`
-  font-family: Pretendard;
-  ${({ textStyle }) => textStyle};
-`;
-
-const GroupBuyProductButton = styled.div`
-  background: ${Color.THEME};
-  width: calc(100% - 36px);
-  padding: 18px;
-  display: flex;
+  padding: 27px 0 60px;
+  align-items: center;
   justify-content: center;
-  font-family: Pretendard;
-  font-weight: 600;
-  font-size: 14px;
-  color: #fff;
-  cursor: pointer;
 `;
 
 const SessionGroupBuy = () => {
+  const [selectedCategory, setSeletedCategory] = useState(0);
   return (
     <SessionContainer
       containerStyle="
@@ -1191,8 +1233,9 @@ const SessionGroupBuy = () => {
           return (
             <GroupBuyCategoryContainer
               key={`caterogy_${index}`}
-              selected={category.selected}
+              selected={selectedCategory === index}
               isLast={index === categories.length - 1}
+              onClick={() => setSeletedCategory(index)}
             >
               {category.name}
             </GroupBuyCategoryContainer>
@@ -1200,41 +1243,7 @@ const SessionGroupBuy = () => {
         })}
       </GroupBuyCategoryWrapperContainer>
       <GroupBuyProductContainer>
-        <SessionImage src="/imgs/main_group_buy_product.png" imageStyle="width: 100%;" />
-        <GroupBuyProductText
-          textStyle="
-            font-weight: 500;
-            font-size: 12px;
-            padding: 18px;
-            border-bottom: 1px solid #E5E5EA;
-            margin-bottom: 20px;
-          "
-        >
-          <b>2,301</b>명이 투표에 참여한 상품이에요~!
-        </GroupBuyProductText>
-        <GroupBuyProductText
-          textStyle="
-            font-weight: 800;
-            font-size: 18px;
-            padding: 0 18px;
-            color: #121212;
-            margin-bottom: 12px;
-          "
-        >
-          멜릭서 비건 립 버터
-        </GroupBuyProductText>
-        <GroupBuyProductText
-          textStyle="
-            font-weight: 600;
-            font-size: 14px;
-            padding: 0 18px;
-            color: #747474;
-            margin-bottom: 26px;
-          "
-        >
-          동물성 성분은 뺴고 만들어 건강한 립케어
-        </GroupBuyProductText>
-        <GroupBuyProductButton>투표 참여하기</GroupBuyProductButton>
+        <Product {...categories[selectedCategory].product} />
       </GroupBuyProductContainer>
     </SessionContainer>
   )
@@ -1429,16 +1438,9 @@ const SessionEvent = ({ isNavigationSticky }: { isNavigationSticky: boolean; }) 
   )
 }
 
-const SessionSurveyDeal = ({ isNavigationSticky }: { isNavigationSticky: boolean; }) => {
-  const surveyDealElement = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    surveyDealOffsetTop = surveyDealElement.current?.offsetTop;
-  }, [isNavigationSticky]);
-
+const SessionSurveyDeal = () => {
   return (
     <SessionContainer
-      ref={surveyDealElement}
       containerStyle={`
         padding: 112px 0 122px; 0;
         background: ${Color.THEME};
@@ -1530,11 +1532,18 @@ const FaqText = styled.span<{ textStyle?: string }>`
   ${({ textStyle }) => textStyle};
 `;
 
-const SessionFaq = () => {
+const SessionFaq = ({ isNavigationSticky }: { isNavigationSticky: boolean; }) => {
   const [activeIndex, setActiveIndex] = useState<number>(-1);
+  const guideElement = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    guideOffsetTop = guideOffsetTop ? guideElement.current?.offsetTop : (guideElement.current?.offsetTop ?? 0) + 51;
+  }, [isNavigationSticky]);
+  
   return (
-    <SessionContainer containerStyle="padding: 46px 0 52px 0; background: #F9F9F9;">
+    <SessionContainer
+      ref={guideElement}
+      containerStyle="padding: 46px 0 52px 0; background: #F9F9F9;">
       <TitleContainer>Q&A</TitleContainer>
       <SessionText
          textStyle="
@@ -1682,8 +1691,8 @@ const StickyFooter = () => {
   return (
     <StickyFooterContainer>
       <StickyFooterEstimateButton
-        href={TYPEFORM_URL}
-      >투표하고 오픈알림받기</StickyFooterEstimateButton>
+        href={GOOGLE_DOCS_URL}
+      >관심고객 등록 후 이용하기</StickyFooterEstimateButton>
     </StickyFooterContainer>
   )
 }
