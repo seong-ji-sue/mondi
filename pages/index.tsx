@@ -578,7 +578,7 @@ const SessionCheer = ({ isNavigationSticky }: { isNavigationSticky: boolean; }) 
             color: #fff;
             margin-left: 9px;
           "
-        >실제 개발까지 남은 응원</SessionText>
+        >앞으로 개발까지 남은 응원 {CHEER_COUNT}명</SessionText>
       </SessionRowContainer>
       <SessionText
         textStyle="
@@ -590,7 +590,7 @@ const SessionCheer = ({ isNavigationSticky }: { isNavigationSticky: boolean; }) 
         "
       >111명이 응원해줘야 탄생할 수 있어요</SessionText>
       <CheerProgressContainer containerStyle="width: 100%; background: #D9D9D9; margin-bottom: 6px;">
-        <CheerProgressContainer containerStyle={`width: ${CHEER_COUNT / 111 * 100}%; background: ${Color.THEME};`} />
+        <CheerProgressContainer containerStyle={`width: ${(111 - CHEER_COUNT) / 111 * 100}%; background: ${Color.THEME};`} />
       </CheerProgressContainer>
       <SessionRowContainer containerStyle="width: 100%; justify-content: space-between; margin-bottom: 6px;">
         <SessionText
@@ -1205,10 +1205,10 @@ const SessionGroupBuy = () => {
           font-weight: 800;
           font-size: 26px;
           line-height: 36px;
-          color: ${Color.THEME};
+          color: #121212;
           margin-bottom: 4px;
         `}
-      >조금 기다렸다</SessionText>
+      >기다린만큼</SessionText>
       <SessionText
         textStyle={`
           font-family: Pretendard;
@@ -1217,7 +1217,7 @@ const SessionGroupBuy = () => {
           color: ${Color.THEME};
           margin-bottom: 4px;
         `}
-      >구매해도 된다면</SessionText>
+      >커지는 할인과 혜택</SessionText>
       <SessionText
         textStyle="
           font-family: Pretendard;
@@ -1355,7 +1355,7 @@ const SessionSafe = () => {
       >
         {`불편한 경험을 갖지 않도록\n고객 보호 정책을 우선합니다.`}
       </SessionText>
-      <SessionImage src="/imgs/main_safe.png" imageStyle="width: 100%;" />
+      <SessionImage src="/imgs/main_safe.png" imageStyle="width: 100%; margin-top: 10px;" />
     </SessionContainer>
   )
 }
