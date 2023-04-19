@@ -1,4 +1,4 @@
-import { ArrowBottom, ArrowTop, DiscountArrow, Fire, Logo } from "@components/Svg";
+import { ArrowBottom, ArrowTop, Fire, Logo } from "@components/Svg";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import Color from "src/utils/color";
 import styled from "styled-components";
@@ -288,6 +288,7 @@ const SessionTitle = ({ isNavigationSticky }: { isNavigationSticky: boolean; }) 
     <SessionContainer
       containerStyle="
         padding: 44px 32px;
+        align-items: flex-start;
         background: linear-gradient(0deg, #111111, #111111), #FFFFFF;
       "
     >
@@ -324,17 +325,17 @@ const SessionTitle = ({ isNavigationSticky }: { isNavigationSticky: boolean; }) 
       >
         공동구매
       </SessionText>
-      <SessionText textStyle="
-        font-family: Pretendard;
-        font-weight: 500;
-        font-size: 14px;
-        line-height: 140%;
-        margin-top: 8px;
-        color: #FFFFFF;
-      ">
-        서베이딜과 함께 합리적 소비에 동참해보세요
-      </SessionText>
-      <MainAmimation />
+      <SessionImage src="/imgs/main_title.png" imageStyle="width: 266px; align-self: center; margin-bottom: 47px;" />
+      <SessionText
+        textStyle="
+          font-family: Pretendard;
+          font-weight: 500;
+          font-size: 15px;
+          color: #4CC96E;
+          margin-bottom: 14px;
+          align-self: center;
+        "
+      >이런 서비스가 필요하다면?</SessionText>
       <EstimateButton
         ref={voteButtonElement}
         href={GOOGLE_DOCS_URL}
@@ -342,173 +343,6 @@ const SessionTitle = ({ isNavigationSticky }: { isNavigationSticky: boolean; }) 
     </SessionContainer>
   )
 }
-
-const AnimationContainer = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  min-height: 390px;
-  padding: 33px 0 30px;
-`;
-const AnimationProductContainer = styled.div`
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: calc(100vw * 0.48);
-  max-width: 240px;
-  height: 324px;
-  padding: 33px 0 30px;
-  background: #FFFFFF;
-  border: 1px solid #00A12C;
-  box-shadow: 1px 4px 16px rgba(0, 0, 0, 0.25);
-  border-radius: 30px;
-  transition: height 1s, width 1s, transform 1s, z-index 1s ease-in;
-  &.center {
-    transform: translate(calc(50% - 32px), 0) scale(1);
-    z-index: 3;
-  }
-  &.right {
-    transform: translate(calc(100% - 64px), 0) scale(0.8);
-    border: none;
-    z-index: 2;
-  }
-  &.left {
-    transform: translate(0, 0) scale(0.8);
-    border: none;
-    z-index: 1;
-  }
-`;
-const Discounts = styled.div`
-  box-sizing: border-box;
-  width: 46px;
-  height: 24px;
-  padding: 0 5px;
-  background: #F2FAF5;
-  border: 1px solid #00A12C;
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  align-self: flex-start;
-  margin: 20px 0 12px 36px;
-  font-family: Pretendard;
-  font-weight: 700;
-  font-size: 12px;
-  line-height: 100%;
-  letter-spacing: -0.408px;
-  color: #00A12C;
-`;
-
-const items = [{
-  productName: "에어컨 분해 청소\n5만원 절약 가능!",
-  desc: "벽걸이 에어컨 청소",
-  img: "/imgs/main_anim_aircon.png",
-  subText: "2,301명이 투표에 참여했어요",
-  originPrice: 100000,
-  price: 50000,
-},{
-  productName: "제주 바나나",
-  desc: "농수산물",
-  img: "/imgs/main_anim_banana.png",
-  subText: "2,301명이 투표에 참여했어요",
-  originPrice: 5000,
-  price: 4000,
-},{
-  productName: "아이패드 프로 11세대",
-  desc: "인기 전자제품",
-  img: "/imgs/main_anim_ipad.png",
-  subText: "2,301명이 투표에 참여했어요",
-  originPrice: 1249000,
-  price: 899190,
-}]
-
-const getClassNameByPos = (idx: number, displayIdx: number) => {
-  if (idx === displayIdx) return "center";
-  if ((displayIdx + 2) % 3 === idx) return "left";
-  if ((displayIdx + 1) % 3 === idx) return "right";
-}
-
-const MainAmimation = () => {
-  const [displayIdx, setDisplayIdx] = useState(0);
-  useEffect(() => {
-    let idx = 0;
-    const interval = setInterval(() => {
-      setDisplayIdx((idx++) % 3)
-    }, 5000);
-    return () => clearInterval(interval);
-  }, []);
-  return (<AnimationContainer>
-    {items.map((item, idx) => {
-      return <AnimationProductContainer key={idx} className={getClassNameByPos(idx, displayIdx)}>
-      <SessionText textStyle="
-        font-family: Pretendard;
-        font-weight: 500;
-        font-size: 13px;
-        line-height: 100%;
-        text-align: center;
-        letter-spacing: -0.01em;
-        color: #000000;
-      ">{item.desc}</SessionText>
-      <SessionText textStyle="
-        font-family: Pretendard;
-        font-weight: 700;
-        font-size: 18px;
-        line-height: 130%;
-        text-align: center;
-        letter-spacing: -0.01em;
-        color: #000000;
-        margin: 14px 0;
-        min-height: 46px;
-      ">{item.productName}</SessionText>
-      <SessionImage src={item.img} imageStyle="width: 186px; align-self: center; height: 100px; max-width: 160px" />
-      <SessionText textStyle="
-        font-family: Pretendard;
-        font-weight: 600;
-        font-size: 11.5px;
-        line-height: 13px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        letter-spacing: 0.066px;
-        margin-top: 16px;
-      ">
-        <div style={{marginRight: 6}}><Fire width={8} height={16}/></div>
-        {item.subText}
-      </SessionText>
-      <Discounts >
-        {((1 - Number(item.price) / Number(item.originPrice))*100).toFixed()}%
-        <DiscountArrow />
-      </Discounts>
-      <SessionRowContainer containerStyle="
-        align-self: flex-start;
-        font-family: Pretendard;
-        font-weight: 500;
-        font-size: 11px;
-        line-height: 100%;
-        color: #888888;
-        margin-left: 36px;
-      ">
-        <SessionText textStyle="margin-right: 10px;">정상가</SessionText>
-        <SessionText textStyle="text-decoration-line: line-through;">{Number(item.originPrice).toLocaleString()}원</SessionText>
-      </SessionRowContainer>
-      <SessionRowContainer containerStyle="
-        align-self: flex-start;
-        font-family: Pretendard;
-        font-weight: 500;
-        font-size: 11px;
-        line-height: 100%;
-        color: #1A1A1A;
-        margin-top: 10px;
-        margin-left: 36px;
-      ">
-        <SessionText textStyle="margin-right: 10px;">공급가</SessionText>
-        <SessionText textStyle="font-weight: 700; font-size: 15px">{Number(item.price).toLocaleString()}원</SessionText>
-      </SessionRowContainer>
-    </AnimationProductContainer>})}
-  </AnimationContainer>);
-};
 
 const SessionSurvey = () => {
   return (
