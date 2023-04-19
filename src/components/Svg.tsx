@@ -19,11 +19,18 @@ export const ArrowBottom = ({ size, color }: { size: number, color: string; }) =
   </svg>
 );
 
-export const Fire = () => (
-  <svg width="14" height="28" viewBox="0 0 14 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+export const Fire = ({width, height}: {width?: number, height?: number}) => (
+  <svg width={width || "14"} height={height || "28"} viewBox="0 0 14 28" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M4.35606 6.8924C4.35606 6.8924 9.17961 10.8951 4.10176 14.29C-2.5366 18.7289 0.354885 27.125 6.41363 27.125C12.2098 27.125 15.2169 20.534 13.5358 15.206C12.2263 11.0534 9.59739 8.67401 4.35606 6.8924Z" fill="#EF470C"/>
     <path d="M9.25124 15.1825C9.25124 15.1825 8.11843 17.3059 9.26941 19.3839C10.4187 21.4602 9.28097 23.8817 7.14084 23.8817C3.14131 23.8817 3.8134 16.3141 9.25124 15.1825Z" fill="#EDCA58"/>
     <path d="M2.56293 7.84888C2.56293 7.84888 1.94203 9.01417 2.57284 10.1525C3.20365 11.2925 2.57944 12.6195 1.40534 12.6195C-0.789277 12.6195 -0.42103 8.46857 2.56293 7.84888Z" fill="#EF470C"/>
     <path d="M6.40541 5.34484C6.40541 5.34484 5.40636 1.90959 6.40541 0C6.40541 0 3.03669 2.67242 6.40541 5.34484Z" fill="#EF470C"/>
+  </svg>
+)
+
+export const DiscountArrow = () => (
+  <svg width="8" height="10" viewBox="0 0 8 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M7 6.20154L4 9.20154L1 6.20154" stroke="#00A12C" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M4 0.798584V9.11654" stroke="#00A12C" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
   </svg>
 )
