@@ -314,32 +314,44 @@ const SessionTitle = ({ isNavigationSticky }: { isNavigationSticky: boolean; }) 
           로 탄생하는
         </SessionText>
       </SessionRowContainer>
-      <SessionText
-        textStyle="
-          font-family: Pretendard;
-          font-weight: 700;
-          font-size: 30px;
-          color: #fff;
-          margin-bottom: 2px;
-        "
-      >
-        공동구매
-      </SessionText>
+      <SessionRowContainer containerStyle="margin-bottom: 30px;">
+        <SessionText
+          textStyle="
+            font-family: Pretendard;
+            font-weight: 700;
+            font-size: 30px;
+            color: #fff;
+          "
+        >
+          공동구매
+        </SessionText>
+        <SessionText
+          textStyle="
+            font-family: Pretendard;
+            font-weight: 700;
+            font-size: 30px;
+            color: #19D94E;
+          "
+        >
+         &nbsp;서베이딜
+        </SessionText>
+      </SessionRowContainer>
       <SessionImage src="/imgs/main_title.png" imageStyle="width: 266px; align-self: center; margin-bottom: 47px;" />
-      <SessionText
-        textStyle="
-          font-family: Pretendard;
-          font-weight: 500;
-          font-size: 15px;
-          color: #4CC96E;
-          margin-bottom: 14px;
-          align-self: center;
-        "
-      >이런 서비스가 필요하다면?</SessionText>
       <EstimateButton
         ref={voteButtonElement}
         href={GOOGLE_DOCS_URL}
       >관심고객 등록 후 이용하기</EstimateButton>
+      <SessionText
+        textStyle="
+          font-family: Pretendard;
+          font-weight: 500;
+          font-size: 11px;
+          line-height: 100%;
+          align-self: center;
+          color: #9D9D9D;
+          margin-top: 24px;
+        "
+      >현재는 앱을 개발하고 있으며 일부 서비스만 이용할 수 있어요.</SessionText>
     </SessionContainer>
   )
 }
