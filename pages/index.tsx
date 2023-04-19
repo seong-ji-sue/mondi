@@ -1220,21 +1220,13 @@ const SessionGroupBuy = () => {
       >커지는 할인과 혜택</SessionText>
       <SessionText
         textStyle="
-          font-family: Pretendard;
-          font-weight: 800;
-          font-size: 26px;
-          color: #232323;
-          margin-bottom: 10px;
-        "
-      >중독되실 거에요.</SessionText>
-      <SessionText
-        textStyle="
           text-align: left;
           font-family: Pretendard;
           font-weight: 600;
           font-size: 14px;
           line-height: 19px;
           color: #747474;
+          margin-top: 7px;
           margin-bottom: 28px;
         "
       >
