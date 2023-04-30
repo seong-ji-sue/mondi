@@ -1,5 +1,6 @@
+import MainProduct from "@components/MainProduct";
 import { ArrowBottom, ArrowTop, Fire, Logo } from "@components/Svg";
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Color from "src/utils/color";
 import styled from "styled-components";
 
@@ -87,7 +88,6 @@ const Main = () => {
         <SessionCheer isNavigationSticky={isNavigationSticky} />
         <SessionCustom />
         <SessionVote />
-        {/* <SessionBenefit /> */}
         <SessionAutoNoti />
         <SessionGroupBuy />
         <SessionUseProcedure />
@@ -288,7 +288,6 @@ const SessionTitle = ({ isNavigationSticky }: { isNavigationSticky: boolean; }) 
     <SessionContainer
       containerStyle="
         padding: 44px 32px;
-        align-items: flex-start;
         background: linear-gradient(0deg, #111111, #111111), #FFFFFF;
       "
     >
@@ -343,6 +342,7 @@ const SessionTitle = ({ isNavigationSticky }: { isNavigationSticky: boolean; }) 
       >관심고객 등록 후 이용하기</EstimateButton>
       <SessionText
         textStyle="
+          @media all and (max-width: 359px) { font-size: 10px; }
           font-family: Pretendard;
           font-weight: 500;
           font-size: 11px;
@@ -360,7 +360,7 @@ const SessionSurvey = () => {
   return (
     <SessionContainer
       containerStyle="
-        padding: 42px 32px 15px 32px;
+        padding: 42px 32px 0 32px;
         align-items: flex-start;
         background: linear-gradient(0deg, #F5F5F5, #F5F5F5), #FFFFFF;
       "
@@ -437,61 +437,66 @@ const SessionSurvey = () => {
 const guides = [{
   title: "Survey",
   subtitle: "투표하기",
-  desc: "합리적인 가격과 혜택으로\n관심 상품을 구매하세요."
+  desc: "공동구매 오픈을 위해\n관심 상품의 수요를 조사해요."
 }, {
   title: "Deal",
   subtitle: "협상하기",
-  desc: "판매자가 제안한\n가격과 혜택을 확인하세요!"
+  desc: "가격과 혜택을 중점으로\n판매자를 선정해요."
 }, {
   title: "Group buying",
   subtitle: "이용하기",
-  desc: "합리적인 가격과 혜택으로\n관심 상품을 구매하세요."
+  desc: "이제 간편하고 합리적인\n공구가로 이용하세요."
 }];
 
 const GuideWrapperContainer = styled.div`
   display: flex;
-  white-space: nowrap;
   overflow: scroll;
   max-width: 500px;
   width: 100%;
+  filter: drop-shadow(0px 4px 16px rgba(0, 0, 0, 0.08));
   > * {
-    margin: 20px 7px;
-  }
-  > :last-child {
-    margin-right: 20px;
+    margin-right: 14px;
   }
   > :first-child {
-    margin-left: 20px;
+    margin-left: 32px;
+  }
+  > :last-child {
+    margin-right: 32px;
   }
 `;
 
-const GuideContainer = styled.div<{ isLast: boolean }>`
+const GuideContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: calc(229px - 46px);
-  height: 136px;
-  padding: 0 23px 27px 23px;
+  height: calc(136px - 46px);
+  justify-content: flex-end;
+  padding: 23px;
   background: linear-gradient(0deg, #FFFFFF, #FFFFFF), #F5F8FF;
   border-radius: 18px;
-  margin-right: ${({ isLast }) => isLast ? 0 : 14}px;
-  margin: 10px;
-  justify-content: flex-end;
-  margin: 20px 7px;
-  filter: drop-shadow(0px 4px 16px rgba(0, 0, 0, 0.08));
 `;
 
 const GuideTitleText = styled.span`
   font-family: Pretendard;
-  font-weight: 800;
-  font-size: 16px;
+  font-weight: 700;
+  font-size: 15px;
   color: #4e5567;
-  margin-bottom: 13px;
+  margin-bottom: 8px;
+`;
+
+const GuideSubTitleText = styled.span`
+  font-family: Pretendard;
+  font-weight: 500;
+  font-size: 14px;
+  color: #4e5567;
+  margin-bottom: 11px;
 `;
 
 const GuideDescText = styled.span`
   font-family: Pretendard;
   font-weight: 500;
-  font-size: 14px;
+  font-size: 13px;
+  line-height: 18px;
   color: #4e5567;
   width: inherit;
   white-space: break-spaces;
@@ -502,12 +507,18 @@ const SessionGuide = () => {
   return (
     <SessionContainer
       containerStyle="
-        padding: 27px 32px 38px 32px;
+        padding: 27px 0 36px 0;
         align-items: flex-start;
         background: linear-gradient(0deg, #F5F5F5, #F5F5F5), #FFFFFF;
       "
     >
-      <SessionRowContainer containerStyle="margin-bottom: 20px;">
+      <SessionContainer
+        containerStyle="
+          width: calc(100% - 64px);
+          align-items: flex-start;
+          padding: 0 32px;
+        "
+      >
         <SessionText
           textStyle={`
             font-family: Pretendard;
@@ -515,15 +526,16 @@ const SessionGuide = () => {
             font-size: 18px;
             line-height: 140%;
             color: #232323;
+            margin-bottom: 16px;
           `}
         >진행절차</SessionText>
-      </SessionRowContainer>
+      </SessionContainer>
       <GuideWrapperContainer>
         {guides.map((guide, index) => {
           return (
-            <GuideContainer key={`guide_${index}`} isLast={index === guides.length - 1}>
+            <GuideContainer key={`guide_${index}`}>
               <GuideTitleText>{guide.title}</GuideTitleText>
-              <GuideTitleText>{guide.subtitle}</GuideTitleText>
+              <GuideSubTitleText>{guide.subtitle}</GuideSubTitleText>
               <GuideDescText>{guide.desc}</GuideDescText>
             </GuideContainer>
           )
@@ -551,7 +563,8 @@ const CheerButton = styled.div`
   cursor: pointer;
 `;
 
-const CHEER_COUNT = 20;
+const CHEER_COUNT = 91;
+const MAX_CHEER_COUNT = 111;
 const SessionCheer = ({ isNavigationSticky }: { isNavigationSticky: boolean; }) => {
   const cheerElement = useRef<HTMLDivElement>(null);
 
@@ -578,7 +591,7 @@ const SessionCheer = ({ isNavigationSticky }: { isNavigationSticky: boolean; }) 
             color: #fff;
             margin-left: 9px;
           "
-        >앞으로 개발까지 남은 응원 {CHEER_COUNT}명</SessionText>
+        >앞으로 개발까지 남은 응원 {MAX_CHEER_COUNT - CHEER_COUNT}명</SessionText>
       </SessionRowContainer>
       <SessionText
         textStyle="
@@ -588,9 +601,9 @@ const SessionCheer = ({ isNavigationSticky }: { isNavigationSticky: boolean; }) 
           color: #fff;
           margin-bottom: 12px;
         "
-      >111명이 응원해줘야 탄생할 수 있어요</SessionText>
+      >{`${MAX_CHEER_COUNT}명이 응원해줘야 탄생할 수 있어요`}</SessionText>
       <CheerProgressContainer containerStyle="width: 100%; background: #D9D9D9; margin-bottom: 6px;">
-        <CheerProgressContainer containerStyle={`width: ${(111 - CHEER_COUNT) / 111 * 100}%; background: ${Color.THEME};`} />
+        <CheerProgressContainer containerStyle={`width: ${CHEER_COUNT / MAX_CHEER_COUNT * 100}%; background: ${Color.THEME};`} />
       </CheerProgressContainer>
       <SessionRowContainer containerStyle="width: 100%; justify-content: space-between; margin-bottom: 6px;">
         <SessionText
@@ -608,7 +621,7 @@ const SessionCheer = ({ isNavigationSticky }: { isNavigationSticky: boolean; }) 
             font-size: 14px;
             color: #fff;
           "
-        >111명</SessionText>
+        >{`${MAX_CHEER_COUNT}명`}</SessionText>
       </SessionRowContainer>
       <CheerButton>응원하기</CheerButton>
     </SessionContainer>
@@ -676,392 +689,144 @@ const SessionCustom = () => {
   )
 }
 
-const Product = (props: {
-  img: string; voteCnt: number; benefitCnt: number; state: string;
-  productName: string; productSpec: string;
-  originPrice: number; price: number; btnEnabled: boolean;
-}) => {
-  const btnText = useMemo(() => {
-    if (props.state === "vote")
-      return props.btnEnabled ? "이미 참여했어요" : "투표하기"
-    if (props.state === "willOpen")
-      return "오픈 알람받기"
-    if (props.state === "open")
-      return "구매하기"
-  }, [props.btnEnabled, props.state]);
-  return (
-    <VoteItemContainer >
-      <SessionImage src={props.img} imageStyle="width: 100%; background-color:#F5F5F7;" />
-      <VoteCountContainer >
-        <SessionText textStyle="
-          font-family: Pretendard;
-          font-style: normal;
-          font-weight: 400;
-          font-size: 11.5px;
-          line-height: 13px;
-        "><b>{Number(props.voteCnt).toLocaleString()}</b>명이 투표에 참여한 상품이에요.👏👏</SessionText>
-        {props.benefitCnt > 0 && <ItemBenefitIcon>추가혜택+{props.benefitCnt}</ItemBenefitIcon>}
-      </VoteCountContainer>
-      <VoteItemInfoContainer>
-        <SessionText textStyle="
-          font-family: Pretendard;
-          font-style: normal;
-          font-weight: 700;
-          font-size: 16px;
-          line-height: 100%;
-          color: #000000;
-          margin-bottom: 10px;
-        ">{props.productName}</SessionText>
-        <SessionText textStyle="
-          font-family: Pretendard;
-          font-style: normal;
-          font-weight: 400;
-          font-size: 12px;
-          line-height: 100%;
-          color: #808182;
-          margin-bottom: 18px;
-        ">{props.productSpec}</SessionText>
-        <SessionRowContainer style={{marginBottom: "8px"}}>
-          <SessionText textStyle="
-            font-family: 'Pretendard';
-            font-style: normal;
-            font-weight: 400;
-            font-size: 12px;
-            line-height: 100%;
-            letter-spacing: -0.408px;
-            color: #808182;
-            margin-right: 15px;
-          ">정상가</SessionText>
-          <SessionText textStyle="
-            font-family: 'Pretendard';
-            font-style: normal;
-            font-weight: 400;
-            font-size: 12px;
-            line-height: 100%;
-            letter-spacing: -0.408px;
-            color: #808182;
-          ">{Number(props.originPrice).toLocaleString()}원</SessionText>
-        </SessionRowContainer>
-        <SessionRowContainer>
-          <SessionText textStyle="
-            font-family: 'Pretendard';
-            font-style: normal;
-            font-weight: 400;
-            font-size: 12px;
-            line-height: 100%;
-            letter-spacing: -0.408px;
-            color: #00A12C;
-            margin-right: 15px;
-          ">목표가</SessionText>
-          <SessionText textStyle="
-            font-family: 'Pretendard';
-            font-style: normal;
-            font-weight: 700;
-            font-size: 16px;
-            line-height: 100%;
-            letter-spacing: -0.408px;
-            color: #3E3E46;
-          ">{Number(props.price).toLocaleString()}원</SessionText>
-          <SessionText textStyle="
-            font-family: 'Pretendard';
-            font-style: normal;
-            font-weight: 700;
-            font-size: 16px;
-            line-height: 100%;
-            letter-spacing: -0.408px;
-            color: #00A12C;
-            margin-left: 8px;
-          ">{((1 - Number(props.price) / Number(props.originPrice))*100).toFixed()}%</SessionText>
-        </SessionRowContainer>
-      </VoteItemInfoContainer>
-      <VoteButton enabled={props.btnEnabled}>{btnText}</VoteButton>
-    </VoteItemContainer>
-  );
-};
+const ProductMessageContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+const ProductMessageText = styled.span<{ textStyle?: string }>`
+  font-family: Pretendard;
+  font-weight: 400;
+  font-size: 11.5px;
+  @media all and (max-width: 359px) { font-size: 10px; }
+  color: #000;
+  ${({ textStyle }) => textStyle};
+`;
 
 const votes = [{
-  img: "/imgs/main_ipadpro11.png",
-  voteCnt: 2301,
-  benefitCnt: 1,
-  productName: "아이패드 프로 11세대 128GB",
-  productSpec: "막강한 성능의 M2 칩 탑재 - 스페이스컬러",
+  containerStyle: "min-width: calc(100% - 70px)",
+  imageSrc: "/imgs/main_ipadpro11.png",
+  imageStyle: "width: 93px;",
+  message: <ProductMessageContainer>
+    <ProductMessageText textStyle="font-weight: 600;">2,301</ProductMessageText>
+    <ProductMessageText>명이 투표에 참여한 상품이에요.</ProductMessageText>
+  </ProductMessageContainer>,
+  benefitCount: 1,
+  name: "아이패드 프로 11세대 128GB",
+  spec: "막강한 성능의 M2 칩 탑재 - 스페이스컬러",
   originPrice: 1249000,
+  priceTitle: "목표가",
   price: 899190,
-  btnEnabled: false,
-  state: "vote",
-},{
-  img: "/imgs/main_ipad10.png",
-  voteCnt: 1071,
-  benefitCnt: 1,
-  productName: "아이패드 10세대 256GB",
-  productSpec: "컬러 한가득 새로운 디자인으로 새롭게 태어난 iPad",
+  buttonText: "투표하기",
+  buttonDisable: false
+}, {
+  containerStyle: "min-width: calc(100% - 70px)",
+  imageSrc: "/imgs/main_ipad10.png",
+  imageStyle: "width: 113px;",
+  message: <ProductMessageContainer>
+    <ProductMessageText textStyle="font-weight: 600;">1,071</ProductMessageText>
+    <ProductMessageText>명이 투표에 참여한 상품이에요.</ProductMessageText>
+  </ProductMessageContainer>,
+  benefitCount: 1,
+  name: "아이패드 10세대 256GB",
+  spec: "컬러 한가득 새로운 디자인으로 새롭게 태어난 iPad",
   originPrice: 859000,
+  priceTitle: "목표가",
   price: 699000,
-  btnEnabled: true,
-  state: "vote",
+  buttonText: "이미 참여했어요",
+  buttonDisable: true
 }];
 
 const VoteWrapperContainer = styled.div`
   display: flex;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  white-space: nowrap;
   overflow: scroll;
-  width: calc(100% - 64px);
-  padding: 27px 32px;
+  max-width: 500px;
+  width: 100%;
+  margin-bottom: 65px;
+  filter: drop-shadow(0px 4px 16px rgba(0, 0, 0, 0.08));
   > * {
     margin-right: 20px;
   }
+  > :first-child {
+    margin-left: 32px;
+  }
   > :last-child {
-    margin-right: 0;
+    margin-right: 32px;
   }
 `;
 
-const VoteItemContainer = styled.div`
-  width: 100%;
-  /* width: 336px; */
-  background-color: white;
-  filter: drop-shadow(2px 8px 18px rgba(0, 0, 0, 0.14));
-  border-radius: 12px;
-  flex: 0 0 auto;
-`;
-
-const VoteCountContainer = styled.div`
-  padding: 12px 15px;
-  border-bottom: solid 1px #E5E5EA;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const ItemBenefitIcon =  styled.span`
-  background: #FFFFFF;
-  border: 0.5px solid rgba(0, 161, 44, 0.43);
-  border-radius: 6px;
-  font-family: Pretendard;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 9px;
-  line-height: 100%;
-  text-align: center;
-  color: #00A12C;
-  padding: 4px 6px;
-`;
-
-const VoteItemInfoContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: start;
-  padding: 20px 16px 24px;
-`;
-
-const VoteButton = styled.button<{ enabled: boolean; }>`
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 18px 65px;
-  background: ${({ enabled }) => enabled ? "#414141" : Color.THEME};
-  font-family: Pretendard;
-  font-weight: 500;
-  font-size: 13.4px;
-  line-height: 100%;
-  letter-spacing: -0.01em;
-  color: #fff;
-  border: none;
-  outline: none;
-  border-radius: 0 0 12px 12px;
-  cursor: ${({ enabled }) => enabled ? "default" : "pointer"};;
-  `;
-
 const SessionVote = () => {
-  return (<>
+  return (
     <SessionContainer
       containerStyle="
-        padding: 42px 32px 0 32px;
+        padding-top: 42px;
         align-items: flex-start;
         background: linear-gradient(0deg, #FFFFFF, #FFFFFF), #FFFFFF;
       "
     >
-      <TitleContainer>투표하기</TitleContainer>
-      <SessionText
-        textStyle="
-          font-family: Pretendard;
-          font-weight: 800;
-          font-size: 26px;
-          color: #232323;
-          margin-bottom: 4px;
-        "
-      >고민 부담 노노!</SessionText>
-      <SessionRowContainer containerStyle="margin-bottom: 10px;">
-        <SessionText
-          textStyle="
-            font-family: Pretendard;
-            font-weight: 800;
-            font-size: 26px;
-            color: #232323;
-          "
-        >가볍게&nbsp;</SessionText>
-        <SessionText
-          textStyle={`
-            font-family: Pretendard;
-            font-weight: 800;
-            font-size: 26px;
-            color: ${Color.THEME};
-          `}
-        >투표</SessionText>
-        <SessionText
-          textStyle="
-            font-family: Pretendard;
-            font-weight: 800;
-            font-size: 26px;
-            color: #232323;
-          "
-        >하세요</SessionText>
-      </SessionRowContainer>
-      <SessionText
-        textStyle="
-          text-align: left;
-          font-family: Pretendard;
-          font-weight: 500;
-          font-size: 14px;
-          line-height: 19px;
-          color: #747474;
-          margin-bottom: 14px;
-        "
-      >
-        {`관심 있는 상품에 투표하고\n공구가 확인 후 구매하세요.`}
-      </SessionText>
-    </SessionContainer>
-    <VoteWrapperContainer >
-      {votes.map((vote, key) => <Product key={key} {...vote} />)}
-    </VoteWrapperContainer>
-  </>)
-}
-
-/*
-const BenefitDescContainer = styled.div<{ containerStyle?: string; }>`
-  border: 1px solid rgba(0, 161, 44, 0.51);
-  box-shadow: 1px 2px 18px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  z-index: 1;
-  ${({ containerStyle }) => containerStyle};
-`;
-
-const BenefitDescText = styled.span<{ textStyle?: string }>`
-  font-family: Pretendard;
-  font-weight: 500;
-  font-size: 12px;
-  color: #5D6477;
-  white-space: pre-line;
-  word-break: keep-all;
-  ${({ textStyle }) => textStyle};
-`;
-
-const BenefitBottomContainer = styled.div`
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: 207px;
-  background: linear-gradient(0deg, #00A12C, #00A12C), #F5F5F5;
-`;
-
-const SessionBenefit = () => {
-  return (
-    <SessionContainer containerStyle="position: relative;">
       <SessionContainer
         containerStyle="
           width: calc(100% - 64px);
-          padding: 42px 32px 50px 32px;
+          padding: 0 32px;
           align-items: flex-start;
-          background: linear-gradient(0deg, #F5F5F5, #F5F5F5), #FFFFFF;
         "
       >
-        <TitleContainer>할인&혜택</TitleContainer>
-        <SessionText
-          textStyle={`
-            font-family: Pretendard;
-            font-weight: 800;
-            font-size: 26px;
-            color: ${Color.THEME};
-            margin-bottom: 4px;
-          `}
-        >투표만 해도</SessionText>
+        <TitleContainer>투표하기</TitleContainer>
         <SessionText
           textStyle="
             font-family: Pretendard;
             font-weight: 800;
             font-size: 26px;
             color: #232323;
-            margin-bottom: 10px;
+            margin-bottom: 4px;
           "
-        >혜택이 가득</SessionText>
+        >고민 부담 노노!</SessionText>
+        <SessionRowContainer containerStyle="margin-bottom: 10px;">
+          <SessionText
+            textStyle="
+              font-family: Pretendard;
+              font-weight: 800;
+              font-size: 26px;
+              color: #232323;
+            "
+          >가볍게&nbsp;</SessionText>
+          <SessionText
+            textStyle={`
+              font-family: Pretendard;
+              font-weight: 800;
+              font-size: 26px;
+              color: ${Color.THEME};
+            `}
+          >투표</SessionText>
+          <SessionText
+            textStyle="
+              font-family: Pretendard;
+              font-weight: 800;
+              font-size: 26px;
+              color: #232323;
+            "
+          >하세요</SessionText>
+        </SessionRowContainer>
         <SessionText
           textStyle="
             text-align: left;
             font-family: Pretendard;
-            font-weight: 600;
+            font-weight: 500;
             font-size: 14px;
             line-height: 19px;
             color: #747474;
-            margin-bottom: 26px;
+            margin-bottom: 27px;
           "
         >
-          {`투표에 참여 시 알림을 통해\n공구가와 혜택을 안내드려요.`}
+          {`관심 있는 상품에 투표하고\n공구가 확인 후 구매하세요.`}
         </SessionText>
-        <BenefitDescContainer
-          containerStyle="
-            width: calc(100% - 21px);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 6px 6px 6px 15px;
-            background: linear-gradient(0deg, #F7FFF9, #F7FFF9), #FFFFFF;
-            margin-bottom: 12px;
-          "
-        >
-          <BenefitDescText textStyle="margin-right: 6px;">
-            투표한 상품이 곧 오픈할 예정이에요. 확인해보세요!
-          </BenefitDescText>
-          <ArrowBottom size={24} color={Color.THEME} />
-        </BenefitDescContainer>
-        <SessionImage
-          src="/imgs/main_benefit_product.png"
-          imageStyle="width: 100%; z-index: 1; border-radius: 24px; margin-bottom: 12px;" />
-        <BenefitDescContainer
-          containerStyle="
-            width: calc(100% - 40px);
-            display: flex;
-            align-items: center;
-            padding: 12px 20px;
-            background: linear-gradient(0deg, #F6FFF9, #F6FFF9), #FFFFFF;
-            margin-bottom: 6px;
-          "
-        >
-          <BenefitDescText textStyle="margin-right: 8px;">
-            온라인 최저가 대비 10만원이 더 저렴해요.
-          </BenefitDescText>
-          <SessionImage src="/imgs/main_benefit_desc.png" imageStyle="width: 39px;" />
-        </BenefitDescContainer>
-        <BenefitDescContainer
-          containerStyle="
-            width: calc(100% - 40px);
-            display: flex;
-            align-items: center;
-            padding: 12px 20px;
-            background: #F6FFF9;
-          "
-        >
-          <BenefitDescText textStyle="margin-right: 8px;">
-            판매자분이 마이크로 고급 필터를 1+1으로 제공해요!
-          </BenefitDescText>
-        </BenefitDescContainer>
       </SessionContainer>
-      <BenefitBottomContainer />
+      <VoteWrapperContainer>
+        {votes.map((vote, index) => <MainProduct key={`vote_product_${index}`} {...vote} />)}
+      </VoteWrapperContainer>
     </SessionContainer>
   )
 }
-*/
 
 const SessionAutoNoti = () => {
   return (
@@ -1113,41 +878,60 @@ const SessionAutoNoti = () => {
 const categories = [{
   name: "투표하기",
   product: {
-    img: "/imgs/main_ipadpro11.png",
-    voteCnt: 2301,
-    benefitCnt: 1,
-    productName: "아이패드 프로 11세대 128GB",
-    productSpec: "막강한 성능의 M2 칩 탑재 - 스페이스컬러",
+    containerStyle: "width: 100%",
+    imageSrc: "/imgs/main_ipadpro11.png",
+    imageStyle: "width: 93px;",
+    message: <ProductMessageContainer>
+      <ProductMessageText textStyle="font-weight: 600;">2,301</ProductMessageText>
+      <ProductMessageText>명이 투표에 참여한 상품이에요.</ProductMessageText>
+    </ProductMessageContainer>,
+    benefitCount: 1,
+    name: "아이패드 프로 11세대 128GB",
+    spec: "막강한 성능의 M2 칩 탑재 - 스페이스컬러",
     originPrice: 1249000,
+    priceTitle: "목표가",
     price: 899190,
-    btnEnabled: false,
-    state: "vote",
+    buttonText: "투표하기",
+    buttonDisable: false
   }
 }, {
   name: "오픈예정",
   product: {
-    img: "/imgs/main_ipadpro11.png",
-    voteCnt: 2301,
-    benefitCnt: 1,
-    productName: "아이패드 프로 11세대 128GB",
-    productSpec: "막강한 성능의 M2 칩 탑재 - 스페이스컬러",
+    containerStyle: "width: 100%",
+    imageSrc: "/imgs/main_ipadpro11.png",
+    imageStyle: "width: 93px;",
+    message: <ProductMessageContainer>
+      <ProductMessageText textStyle="font-weight: 600;">00월 00일에</ProductMessageText>
+      <ProductMessageText>&nbsp;오픈 예정입니다.</ProductMessageText>
+    </ProductMessageContainer>,
+    benefitCount: 1,
+    name: "아이패드 프로 11세대 128GB",
+    spec: "막강한 성능의 M2 칩 탑재 - 스페이스컬러",
     originPrice: 1249000,
-    price: 624500,
-    btnEnabled: false,
-    state: "willOpen",
+    priceTitle: "공구가",
+    price: 899190,
+    buttonText: "오픈 알림받기",
+    buttonDisable: false
   }
 }, {
   name: "오픈",
   product: {
-    img: "/imgs/main_ipadpro11.png",
-    voteCnt: 2301,
-    benefitCnt: 1,
-    productName: "아이패드 프로 11세대 128GB",
-    productSpec: "막강한 성능의 M2 칩 탑재 - 스페이스컬러",
+    containerStyle: "width: 100%",
+    imageSrc: "/imgs/main_ipadpro11.png",
+    imageStyle: "width: 93px;",
+    message: <ProductMessageContainer>
+      <ProductMessageText>판매 마감까지&nbsp;</ProductMessageText>
+      <ProductMessageText textStyle="font-weight: 600;">00일</ProductMessageText>
+      <ProductMessageText>이 남았어요</ProductMessageText>
+    </ProductMessageContainer>,
+    benefitCount: 1,
+    name: "아이패드 프로 11세대 128GB",
+    spec: "막강한 성능의 M2 칩 탑재 - 스페이스컬러",
     originPrice: 1249000,
-    price: 624500,
-    btnEnabled: false,
-    state: "open",
+    priceTitle: "공구가",
+    price: 899190,
+    buttonText: "구매하기",
+    buttonDisable: false
   }
 }]
 
@@ -1157,19 +941,19 @@ const GroupBuyCategoryWrapperContainer = styled.div`
   overflow: scroll;
   max-width: 500px;
   width: 100%;
+  margin-bottom: 21px;
 `;
 
 const GroupBuyCategoryContainer = styled.div<{ selected?: boolean, isLast: boolean }>`
   ${({ selected }) => selected ? `
     background: ${Color.THEME};
-    box-shadow: 1px 2px 12px rgba(0, 0, 0, 0.12);
     color: #fff;
   ` : `
     background: rgba(255, 255, 255, 0.17);
     border: 1px solid #D1D1D1;
-    box-shadow: 1px 2px 12px rgba(0, 0, 0, 0.08);
     color: #828282;
   `};
+  box-shadow: 1px 2px 12px rgba(0, 0, 0, 0.08);
   padding: 10px 16px;
   border-radius: 25px;
   font-family: Pretendard;
@@ -1183,7 +967,6 @@ const GroupBuyProductContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding: 27px 0 60px;
   align-items: center;
   justify-content: center;
 `;
@@ -1247,7 +1030,7 @@ const SessionGroupBuy = () => {
         })}
       </GroupBuyCategoryWrapperContainer>
       <GroupBuyProductContainer>
-        <Product {...categories[selectedCategory].product} />
+        <MainProduct {...categories[selectedCategory].product} />
       </GroupBuyProductContainer>
     </SessionContainer>
   )
@@ -1260,33 +1043,33 @@ const useProcedure = [{
   title: "오픈예정",
   desc: "판매자가 제안한\n가격과 혜택을 확인하세요!"
 }, {
-  title: "이용하기",
-  desc: "합리적인 가격과 혜택으로\n관심 상품을 구매하세요."
+  title: "오픈",
+  desc: "가격과 혜택을 비교 후\n빠르게 구매하세요!"
 }];
 
 const SessionUseProcedure = () => {
-  return (
+  return (<>
     <SessionContainer
       containerStyle="
-        padding: 27px 32px 38px 32px;
+        padding: 27px 0 38px 0;
         align-items: flex-start;
-        background: #FFFFFF;
+        background: #fff;
       "
     >
-      <SessionRowContainer containerStyle="margin-bottom: 20px;">
-        <SessionText
-          textStyle={`
-            font-family: Pretendard;
-            font-weight: 800;
-            font-size: 18px;
-            color: #232323;
-          `}
-        >이용절차</SessionText>
-      </SessionRowContainer>
+      <SessionText
+        textStyle={`
+          padding: 0 32px;
+          font-family: Pretendard;
+          font-weight: 800;
+          font-size: 18px;
+          color: #232323;
+          margin-bottom: 16px;
+        `}
+      >이용절차</SessionText>
       <GuideWrapperContainer>
         {useProcedure.map((guide, index) => {
           return (
-            <GuideContainer key={`guide_${index}`} isLast={index === guides.length - 1}>
+            <GuideContainer key={`guide_${index}`}>
               <GuideTitleText>{guide.title}</GuideTitleText>
               <GuideDescText>{guide.desc}</GuideDescText>
             </GuideContainer>
@@ -1294,7 +1077,7 @@ const SessionUseProcedure = () => {
         })}
       </GuideWrapperContainer>
     </SessionContainer>
-  )
+  </>)
 }
 
 const SessionSafe = () => {
@@ -1356,24 +1139,18 @@ const EventInfoContainer = styled.div`
   background: #FFFFFF;
   box-shadow: 1px 2px 18px rgba(0, 0, 0, 0.1);
   border-radius: 16px;
-  padding: 14px 27px 11px;
-  top: -30px;
+  padding: 16px 26px;
   transform: translate(0, -30px);
 `;
 const EventButton = styled.button`
-  width: 240px;
-  height: 48px;
+  padding: 16px 50px;
   background-color: #252525;
   border-radius: 30px;
-  outline: none;
-  border: none;
   font-family: Pretendard;
-  font-style: normal;
   font-weight: 500;
   font-size: 15px;
-  line-height: 100%;
-  text-align: center;
-  color: #FFFFFF;
+  color: #fff;
+  cursor: pointer;
 `;
 
 const SessionEvent = ({ isNavigationSticky }: { isNavigationSticky: boolean; }) => {
@@ -1407,35 +1184,53 @@ const SessionEvent = ({ isNavigationSticky }: { isNavigationSticky: boolean; }) 
           font-weight: 400;
           font-size: 12px;
           color: #121212;
+          margin-bottom: 21px;
         "
       >선착순 111명에 한해 오픈 기원 이벤트를 진행하고 있어요.</SessionText>
       <SessionImage src="/imgs/main_event.png" imageStyle="width: 150px;" />
-      <EventInfoContainer >
-        <SessionText
-          textStyle="
-            display: block;
+      <EventInfoContainer>
+        <SessionRowContainer containerStyle="margin-bottom: 6px;">
+          <SessionText textStyle="
             font-family: Pretendard;
-            font-style: normal;
             font-weight: 500;
-            font-size: 8px;
-            line-height: 132%;
-            font-weight: 400;
+            font-size: 10px;
             color: #5D6477;
-            margin-bottom: 4px;
-          "
-        >정상가 <b style={{fontSize: '12px'}}>4,500</b> 원</SessionText>
-        <SessionText
-          textStyle="
-            display: block;
+            margin-right: 6px;
+          ">정상가</SessionText>
+          <SessionText textStyle="
             font-family: Pretendard;
-            font-style: normal;
+            font-weight: 700;
+            font-size: 14px;
+            color: #5D6477;
+          ">4500</SessionText>
+          <SessionText textStyle="
+            font-family: Pretendard;
             font-weight: 500;
-            font-size: 8px;
-            line-height: 132%;
-            font-weight: 400;
-            color: #00A12C;
-          "
-        >공구가 <b style={{fontSize: '12px'}}>990</b> 원</SessionText>
+            font-size: 11px;
+            color: #5D6477;
+          ">원</SessionText>
+        </SessionRowContainer>
+        <SessionRowContainer>
+          <SessionText textStyle={`
+            font-family: Pretendard;
+            font-weight: 500;
+            font-size: 10px;
+            color: ${Color.THEME};
+            margin-right: 6px;
+          `}>공구가</SessionText>
+          <SessionText textStyle={`
+            font-family: Pretendard;
+            font-weight: 700;
+            font-size: 14px;
+            color: ${Color.THEME};
+          `}>990</SessionText>
+          <SessionText textStyle="
+            font-family: Pretendard;
+            font-weight: 500;
+            font-size: 11px;
+            color: #5D6477;
+          ">원</SessionText>
+        </SessionRowContainer>
       </EventInfoContainer>
       <EventButton >990원에 공구하러 가기</EventButton>
     </SessionContainer>
@@ -1634,6 +1429,7 @@ const SessionFooter = () => {
           font-family: Pretendard;
           font-weight: 400;
           font-size: 12px;
+          @media all and (max-width: 359px) { font-size: 10px; }
           line-height: 20px;
           color: #fff;
         "
@@ -1655,6 +1451,7 @@ const SessionFooter = () => {
           font-family: Pretendard;
           font-weight: 400;
           font-size: 12px;
+          @media all and (max-width: 359px) { font-size: 10px; }
           color: rgba(255, 255, 255, 0.64);
         "
       >Design by Genie, Developed By Oscar, Lucus and Cobb</SessionText>

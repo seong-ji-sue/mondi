@@ -61,11 +61,6 @@
         url(/fonts/Pretendard/woff/Pretendard-Black.woff) format('woff');
 }
 
-@font-face {
-	font-family: LocusSangsang;
-  src: url(/fonts/locus_sangsang.ttf) format("truetype");
-}
-
 html {
   width: 100%;
   height: 100%;
