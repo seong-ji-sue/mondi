@@ -1,7 +1,7 @@
 import MainProduct from "@components/MainProduct";
 import { ArrowBottom, ArrowTop, Fire, Logo } from "@components/Svg";
 import useAppStore from "@stores/app";
-import React, { useEffect, useRef, useState } from "react";
+import React, { RefObject, useEffect, useRef, useState } from "react";
 import Color from "src/utils/color";
 import styled from "styled-components";
 
@@ -20,33 +20,38 @@ const Container = styled.div`
   padding-bottom: 80px;
 `;
 
-let navigationOffsetTop: number | undefined;
-let voteButtonOffsetTop: number | undefined;
-let guideOffsetTop: number | undefined;
-let cheerOffsetTop: number | undefined;
-let eventOffsetTop: number | undefined;
-
 const Main = () => {
   const [navigationIndex, setNavigationIndex] = useState<number>(0);
   const [isNavigationSticky, setIsNavigationSticky] = useState<boolean>(false);
   const [isMainStickyFooterShow, setIsMainStickyFooterShow] = useState<boolean>(false);
   const containerElement = useRef<HTMLDivElement>(null);
+  const headerElement = useRef<HTMLDivElement>(null);
+  const navigationElement = useRef<HTMLDivElement>(null);
+  const voteButtonElement = useRef<HTMLAnchorElement>(null);
+  const faqElement = useRef<HTMLDivElement>(null);
+  const cheerElement = useRef<HTMLDivElement>(null);
+  const eventElement = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const stickyStyle = 'position: fixed; top: 0; z-index: 10;';
+    if (isNavigationSticky) {
+      containerElement.current?.setAttribute('style', `padding-top: ${navigationElement.current?.offsetHeight ?? 0}px;`);
+      navigationElement.current?.setAttribute('style', stickyStyle);
+    } else {
+      containerElement.current?.removeAttribute('style');
+      navigationElement.current?.removeAttribute('style');
+    }
+
     const onScroll = () => {
       const pageYOffset = window.pageYOffset;
-      if (navigationOffsetTop) {
-        setIsNavigationSticky(pageYOffset >= navigationOffsetTop);
-      }
-      if (voteButtonOffsetTop) {
-        setIsMainStickyFooterShow(pageYOffset >= voteButtonOffsetTop);
-      }
-      if (guideOffsetTop && pageYOffset >= guideOffsetTop) {
-        useAppStore.setState({ faqActiveIndex: 0 });
+      const navigationHeight = (navigationElement.current?.offsetHeight ?? 0);
+      setIsNavigationSticky(pageYOffset >= (headerElement.current?.offsetHeight ?? 0));
+      setIsMainStickyFooterShow(pageYOffset >= (voteButtonElement.current?.offsetTop ?? 0));
+      if (pageYOffset >= (faqElement.current?.offsetTop ?? 0) - navigationHeight) {
         setNavigationIndex(3);
-      } else if (eventOffsetTop && pageYOffset >= eventOffsetTop) {
+      } else if (pageYOffset >= (eventElement.current?.offsetTop ?? 0) - navigationHeight) {
         setNavigationIndex(2);
-      } else if (cheerOffsetTop && pageYOffset >= cheerOffsetTop) {
+      } else if (pageYOffset >= (cheerElement.current?.offsetTop ?? 0) - navigationHeight) {
         setNavigationIndex(1);
       } else {
         setNavigationIndex(0)
@@ -57,37 +62,51 @@ const Main = () => {
     return () => {
       window.removeEventListener("scroll", onScroll);
     }
-  }, []);
-
-  useEffect(() => {
-    if (isNavigationSticky) {
-      containerElement.current?.setAttribute('style', 'padding-top: 50px;');
-    } else {
-      containerElement.current?.removeAttribute('style');
-    }
   }, [isNavigationSticky]);
 
   return (
     <ContainerWrapper ref={containerElement}>
       <Container>
-        <Header />
+        <Header headerElement={headerElement} />
         <Navigation
+          navigationElement={navigationElement}
           navigationIndex={navigationIndex}
-          isNavigationSticky={isNavigationSticky}
+          onMenuClick={(index) => {
+            const navigationHeight = navigationElement.current?.offsetHeight ?? 0;
+            if (index === 0) {
+              window.scrollTo({ top: headerElement.current?.offsetHeight ?? 0, behavior: "smooth" });
+            } else if (index === 1) {
+              window.scrollTo({
+                top: (cheerElement.current?.offsetTop ?? 0) - navigationHeight,
+                behavior: "smooth"
+              });
+            } else if (index === 2) {
+              window.scrollTo({
+                top: (eventElement.current?.offsetTop ?? 0) - navigationHeight,
+                behavior: "smooth"
+              });
+            } else if (index === 3) {
+              window.scrollTo({
+                top: (faqElement.current?.offsetTop ?? 0) - navigationHeight,
+                behavior: "smooth"
+              });
+              useAppStore.setState({ faqActiveIndex: 0 });
+            }
+          }}
         />
-        <SessionTitle isNavigationSticky={isNavigationSticky} />
+        <SessionTitle voteButtonElement={voteButtonElement} />
         <SessionSurvey />
         <SessionGuide />
-        <SessionCheer isNavigationSticky={isNavigationSticky} />
+        <SessionCheer cheerElement={cheerElement} />
         <SessionCustom />
         <SessionVote />
         <SessionAutoNoti />
         <SessionGroupBuy />
         <SessionUseProcedure />
         <SessionSafe />
-        <SessionEvent isNavigationSticky={isNavigationSticky} />
+        <SessionEvent eventElement={eventElement} />
         <SessionSurveyDeal />
-        <SessionFaq isNavigationSticky={isNavigationSticky} />
+        <SessionFaq faqElement={faqElement} />
         <SessionFooter />
         {isMainStickyFooterShow && <StickyFooter />}
       </Container>
@@ -116,9 +135,9 @@ const HeaderButton = styled.a`
   text-decoration: none;
 `;
 
-const Header = () => {
+const Header = ({ headerElement }: { headerElement: RefObject<HTMLDivElement> }) => {
   return (
-    <HeaderContainer>
+    <HeaderContainer ref={headerElement}>
       <Logo />
       <HeaderButton href={GOOGLE_DOCS_URL}>관심고객 등록 후 이용하기</HeaderButton>
     </HeaderContainer>
@@ -154,27 +173,14 @@ const NavigationMenu = styled.div<{ selected?: boolean }>`
 const navigationMenus = ["서비스 소개", "투표 현황 보기", "이벤트 참여", "이용방법"];
 
 const Navigation = ({
+  navigationElement,
   navigationIndex,
-  isNavigationSticky,
+  onMenuClick
 }: {
+  navigationElement: RefObject<HTMLDivElement>;
   navigationIndex: number;
-  isNavigationSticky: boolean;
+  onMenuClick(index: number): void;
 }) => {
-  const navigationElement = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    navigationOffsetTop = navigationElement.current?.offsetTop;
-  }, []);
-
-  useEffect(() => {
-    const stickyStyle = 'position: fixed; top: 0; z-index: 10;';
-    if (isNavigationSticky) {
-      navigationElement.current?.setAttribute('style', stickyStyle);
-    } else {
-      navigationElement.current?.removeAttribute('style');
-    }
-  }, [isNavigationSticky]);
-
   return (
     <NavigationContainer ref={navigationElement}>
       {navigationMenus.map((navigationMenu, index) => {
@@ -182,27 +188,7 @@ const Navigation = ({
           <NavigationMenu
             key={`navigation_menu_${index}`}
             selected={navigationIndex === index}
-            onClick={() => {
-              if (index === 0) {
-                window.scrollTo({ top: 56, behavior: "smooth" });
-              } else if (index === 1) {
-                window.scrollTo({
-                  top: isNavigationSticky ? cheerOffsetTop : cheerOffsetTop && cheerOffsetTop - 100,
-                  behavior: "smooth"
-                });
-              } else if (index === 2) {
-                window.scrollTo({
-                  top: isNavigationSticky ? eventOffsetTop : eventOffsetTop && eventOffsetTop - 100,
-                  behavior: "smooth"
-                });
-              } else if (index === 3) {
-                window.scrollTo({
-                  top: isNavigationSticky ? guideOffsetTop : guideOffsetTop && guideOffsetTop - 100,
-                  behavior: "smooth"
-                });
-                useAppStore.setState({ faqActiveIndex: 0 });
-              }
-            }}
+            onClick={() => onMenuClick(index)}
           >
             {navigationMenu}
           </NavigationMenu>
@@ -264,13 +250,7 @@ const EstimateButton = styled.a`
   text-decoration: none;
 `;
 
-const SessionTitle = ({ isNavigationSticky }: { isNavigationSticky: boolean; }) => {
-  const voteButtonElement = useRef<HTMLAnchorElement>(null);
-
-  useEffect(() => {
-    voteButtonOffsetTop = voteButtonElement.current?.offsetTop;
-  }, [isNavigationSticky]);
-
+const SessionTitle = ({ voteButtonElement }: { voteButtonElement: RefObject<HTMLAnchorElement>; }) => {
   return (
     <SessionContainer
       containerStyle="
@@ -552,13 +532,7 @@ const CheerButton = styled.div`
 
 const CHEER_COUNT = 91;
 const MAX_CHEER_COUNT = 111;
-const SessionCheer = ({ isNavigationSticky }: { isNavigationSticky: boolean; }) => {
-  const cheerElement = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    cheerOffsetTop = cheerOffsetTop ? cheerElement.current?.offsetTop : (cheerElement.current?.offsetTop ?? 0) + 50;
-  }, [isNavigationSticky]);
-
+const SessionCheer = ({ cheerElement }: { cheerElement: RefObject<HTMLDivElement>; }) => {
   return (
     <SessionContainer
       ref={cheerElement}
@@ -1140,13 +1114,7 @@ const EventButton = styled.button`
   cursor: pointer;
 `;
 
-const SessionEvent = ({ isNavigationSticky }: { isNavigationSticky: boolean; }) => {
-  const eventElement = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    eventOffsetTop = eventOffsetTop ? eventElement.current?.offsetTop : (eventElement.current?.offsetTop ?? 0) + 50;
-  }, [isNavigationSticky]);
-
+const SessionEvent = ({ eventElement }: { eventElement: RefObject<HTMLDivElement>; }) => {
   return (
     <SessionContainer
       ref={eventElement}
@@ -1318,17 +1286,12 @@ const FaqText = styled.span<{ textStyle?: string }>`
   ${({ textStyle }) => textStyle};
 `;
 
-const SessionFaq = ({ isNavigationSticky }: { isNavigationSticky: boolean; }) => {
+const SessionFaq = ({ faqElement }: { faqElement: RefObject<HTMLDivElement>; }) => {
   const faqActiveIndex = useAppStore(state => state.faqActiveIndex);
-  const guideElement = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    guideOffsetTop = guideOffsetTop ? guideElement.current?.offsetTop : (guideElement.current?.offsetTop ?? 0) + 51;
-  }, [isNavigationSticky]);
   
   return (
     <SessionContainer
-      ref={guideElement}
+      ref={faqElement}
       containerStyle="padding: 46px 0 52px 0; background: #F9F9F9;">
       <TitleContainer>Q&A</TitleContainer>
       <SessionText
