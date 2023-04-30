@@ -8,8 +8,8 @@ import { GA_ID, pageview } from 'src/utils/gtag';
 
 const TITLE = "서베이딜";
 const DESC = "투표로 탄생하는 공동구매";
-const URL = "";
-const IMAGE = "";
+const URL = "https://www.surveydeal.co.kr";
+const IMAGE = "https://www.surveydeal.co.kr/imgs/og.png";
 
 const App = ({ Component, pageProps }: AppProps) => {
   const router = useRouter();
