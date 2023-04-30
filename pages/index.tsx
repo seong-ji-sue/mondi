@@ -42,7 +42,6 @@ const Main = () => {
         setIsMainStickyFooterShow(pageYOffset >= voteButtonOffsetTop);
       }
       if (guideOffsetTop && pageYOffset >= guideOffsetTop) {
-        useAppStore.setState({ faqActiveIndex: 0 });
         setNavigationIndex(3);
       } else if (eventOffsetTop && pageYOffset >= eventOffsetTop) {
         setNavigationIndex(2);
@@ -200,7 +199,6 @@ const Navigation = ({
                   top: isNavigationSticky ? guideOffsetTop : guideOffsetTop && guideOffsetTop - 100,
                   behavior: "smooth"
                 });
-                useAppStore.setState({ faqActiveIndex: 0 });
               }
             }}
           >
@@ -1319,7 +1317,7 @@ const FaqText = styled.span<{ textStyle?: string }>`
 `;
 
 const SessionFaq = ({ isNavigationSticky }: { isNavigationSticky: boolean; }) => {
-  const faqActiveIndex = useAppStore(state => state.faqActiveIndex);
+  const [activeIndex, setActiveIndex] = useState<number>(-1);
   const guideElement = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -1345,11 +1343,7 @@ const SessionFaq = ({ isNavigationSticky }: { isNavigationSticky: boolean; }) =>
           <FaqContainer
             key={`faq_${index}`}
             isLast={index === faqs.length - 1}
-            onClick={() => {
-              useAppStore.setState(state => ({
-                faqActiveIndex: state.faqActiveIndex === index ? -1 : index
-              }))
-            }}
+            onClick={() => setActiveIndex(prev => prev === index ? -1 : index)}
           >
             <FaqText
                 textStyle={`
@@ -1369,7 +1363,7 @@ const SessionFaq = ({ isNavigationSticky }: { isNavigationSticky: boolean; }) =>
                     color: #333;
                   "
                 >{faq.question}</FaqText>
-                {faqActiveIndex === index &&
+                {activeIndex === index &&
                   <FaqText
                     textStyle="
                       font-weight: 500;
@@ -1383,7 +1377,7 @@ const SessionFaq = ({ isNavigationSticky }: { isNavigationSticky: boolean; }) =>
                   </FaqText>
                 } 
               </FaqQnAContainer>
-              {faqActiveIndex === index ? <ArrowTop /> : <ArrowBottom size={16} color="#5D6477" />}
+              {activeIndex === index ? <ArrowTop /> : <ArrowBottom size={16} color="#5D6477" />}
           </FaqContainer>
         )
       })}
