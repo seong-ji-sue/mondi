@@ -1103,7 +1103,7 @@ const EventInfoContainer = styled.div`
   padding: 16px 26px;
   transform: translate(0, -30px);
 `;
-const EventButton = styled.button`
+const EventButton = styled.div`
   padding: 16px 50px;
   background-color: #252525;
   border-radius: 30px;
