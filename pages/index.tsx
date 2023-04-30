@@ -46,7 +46,7 @@ const Main = () => {
       const pageYOffset = window.pageYOffset;
       const navigationHeight = (navigationElement.current?.offsetHeight ?? 0);
       setIsNavigationSticky(pageYOffset >= (headerElement.current?.offsetHeight ?? 0));
-      setIsMainStickyFooterShow(pageYOffset >= (voteButtonElement.current?.offsetTop ?? 0));
+      setIsMainStickyFooterShow(pageYOffset >= (voteButtonElement.current?.offsetTop ?? 0) - navigationHeight);
       if (pageYOffset >= (faqElement.current?.offsetTop ?? 0) - navigationHeight) {
         setNavigationIndex(3);
       } else if (pageYOffset >= (eventElement.current?.offsetTop ?? 0) - navigationHeight) {
