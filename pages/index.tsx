@@ -909,7 +909,7 @@ const categories = [{
     spec: "막강한 성능의 M2 칩 탑재 - 스페이스컬러",
     originPrice: 1249000,
     priceTitle: "공구가",
-    price: 899190,
+    price: 624500,
     buttonText: "오픈 알림받기",
     buttonDisable: false
   }
@@ -929,7 +929,7 @@ const categories = [{
     spec: "막강한 성능의 M2 칩 탑재 - 스페이스컬러",
     originPrice: 1249000,
     priceTitle: "공구가",
-    price: 899190,
+    price: 624500,
     buttonText: "구매하기",
     buttonDisable: false
   }
