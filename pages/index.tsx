@@ -1,5 +1,6 @@
 import MainProduct from "@components/MainProduct";
 import { ArrowBottom, ArrowTop, Fire, Logo } from "@components/Svg";
+import useAppStore from "@stores/app";
 import React, { useEffect, useRef, useState } from "react";
 import Color from "src/utils/color";
 import styled from "styled-components";
@@ -24,11 +25,9 @@ let voteButtonOffsetTop: number | undefined;
 let guideOffsetTop: number | undefined;
 let cheerOffsetTop: number | undefined;
 let eventOffsetTop: number | undefined;
-let surveyDealOffsetTop: number | undefined;
 
 const Main = () => {
   const [navigationIndex, setNavigationIndex] = useState<number>(0);
-  const [isNavigationShow, setIsNavigationShow] = useState<boolean>(true);
   const [isNavigationSticky, setIsNavigationSticky] = useState<boolean>(false);
   const [isMainStickyFooterShow, setIsMainStickyFooterShow] = useState<boolean>(false);
   const containerElement = useRef<HTMLDivElement>(null);
@@ -42,19 +41,14 @@ const Main = () => {
       if (voteButtonOffsetTop) {
         setIsMainStickyFooterShow(pageYOffset >= voteButtonOffsetTop);
       }
-      if (surveyDealOffsetTop && pageYOffset >= surveyDealOffsetTop) {
-        // setIsNavigationShow(false);
-      } else if (guideOffsetTop && pageYOffset >= guideOffsetTop) {
-        setIsNavigationShow(true);
+      if (guideOffsetTop && pageYOffset >= guideOffsetTop) {
+        useAppStore.setState({ faqActiveIndex: 0 });
         setNavigationIndex(3);
       } else if (eventOffsetTop && pageYOffset >= eventOffsetTop) {
-        setIsNavigationShow(true);
         setNavigationIndex(2);
       } else if (cheerOffsetTop && pageYOffset >= cheerOffsetTop) {
-        setIsNavigationShow(true);
         setNavigationIndex(1);
       } else {
-        setIsNavigationShow(true);
         setNavigationIndex(0)
       }
     }
@@ -80,7 +74,6 @@ const Main = () => {
         <Navigation
           navigationIndex={navigationIndex}
           isNavigationSticky={isNavigationSticky}
-          isNavigationShow={isNavigationShow}
         />
         <SessionTitle isNavigationSticky={isNavigationSticky} />
         <SessionSurvey />
@@ -163,11 +156,9 @@ const navigationMenus = ["서비스 소개", "투표 현황 보기", "이벤트 
 const Navigation = ({
   navigationIndex,
   isNavigationSticky,
-  isNavigationShow
 }: {
   navigationIndex: number;
   isNavigationSticky: boolean;
-  isNavigationShow: boolean;
 }) => {
   const navigationElement = useRef<HTMLDivElement>(null);
 
@@ -177,17 +168,12 @@ const Navigation = ({
 
   useEffect(() => {
     const stickyStyle = 'position: fixed; top: 0; z-index: 10;';
-    const hideStyle = 'display: none';
-    if (isNavigationSticky && isNavigationShow) {
+    if (isNavigationSticky) {
       navigationElement.current?.setAttribute('style', stickyStyle);
-    } else if (isNavigationSticky) {
-      navigationElement.current?.setAttribute('style', stickyStyle + hideStyle);
-    } else if (isNavigationShow) {
-      navigationElement.current?.removeAttribute('style');
     } else {
-      navigationElement.current?.setAttribute('style', hideStyle);
+      navigationElement.current?.removeAttribute('style');
     }
-  }, [isNavigationSticky, isNavigationShow]);
+  }, [isNavigationSticky]);
 
   return (
     <NavigationContainer ref={navigationElement}>
@@ -214,6 +200,7 @@ const Navigation = ({
                   top: isNavigationSticky ? guideOffsetTop : guideOffsetTop && guideOffsetTop - 100,
                   behavior: "smooth"
                 });
+                useAppStore.setState({ faqActiveIndex: 0 });
               }
             }}
           >
@@ -1332,7 +1319,7 @@ const FaqText = styled.span<{ textStyle?: string }>`
 `;
 
 const SessionFaq = ({ isNavigationSticky }: { isNavigationSticky: boolean; }) => {
-  const [activeIndex, setActiveIndex] = useState<number>(-1);
+  const faqActiveIndex = useAppStore(state => state.faqActiveIndex);
   const guideElement = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -1358,7 +1345,11 @@ const SessionFaq = ({ isNavigationSticky }: { isNavigationSticky: boolean; }) =>
           <FaqContainer
             key={`faq_${index}`}
             isLast={index === faqs.length - 1}
-            onClick={() => setActiveIndex(prev => prev === index ? -1 : index)}
+            onClick={() => {
+              useAppStore.setState(state => ({
+                faqActiveIndex: state.faqActiveIndex === index ? -1 : index
+              }))
+            }}
           >
             <FaqText
                 textStyle={`
@@ -1378,7 +1369,7 @@ const SessionFaq = ({ isNavigationSticky }: { isNavigationSticky: boolean; }) =>
                     color: #333;
                   "
                 >{faq.question}</FaqText>
-                {activeIndex === index &&
+                {faqActiveIndex === index &&
                   <FaqText
                     textStyle="
                       font-weight: 500;
@@ -1392,7 +1383,7 @@ const SessionFaq = ({ isNavigationSticky }: { isNavigationSticky: boolean; }) =>
                   </FaqText>
                 } 
               </FaqQnAContainer>
-              {activeIndex === index ? <ArrowTop /> : <ArrowBottom size={16} color="#5D6477" />}
+              {faqActiveIndex === index ? <ArrowTop /> : <ArrowBottom size={16} color="#5D6477" />}
           </FaqContainer>
         )
       })}
