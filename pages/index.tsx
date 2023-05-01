@@ -704,7 +704,7 @@ const VoteWrapperContainer = styled.div`
   max-width: 500px;
   width: 100%;
   margin-bottom: 65px;
-  filter: drop-shadow(0px 4px 16px rgba(0, 0, 0, 0.08));
+  filter: drop-shadow(2px 8px 18px rgba(0, 0, 0, 0.14));
   > * {
     margin-right: 20px;
   }
@@ -899,7 +899,6 @@ const categories = [{
 const GroupBuyCategoryWrapperContainer = styled.div`
   display: flex;
   white-space: nowrap;
-  overflow: scroll;
   max-width: 500px;
   width: 100%;
   margin-bottom: 21px;
@@ -930,6 +929,7 @@ const GroupBuyProductContainer = styled.div`
   width: 100%;
   align-items: center;
   justify-content: center;
+  filter: drop-shadow(2px 8px 18px rgba(0, 0, 0, 0.14));
 `;
 
 const SessionGroupBuy = () => {
