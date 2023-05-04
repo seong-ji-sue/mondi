@@ -1,30 +1,36 @@
 # Environment
 
+1. 의존성
+
   <pre>
   - node v16.14.0
   - mysql v5.7.41
   </pre>
 
+2. yarn 설치
 
+  <pre>
+    npm install -g yarn
+  </pre>
 
 # Build
 
 1. 패키지 설치
 
   <pre>
-  > npm install
+  > yarn
   </pre>
 
 2. 빌드
 
   개발 환경
   <pre>
-  > npm run dev-build
+  > yarn dev-build
   </pre>
 
   운영 환경
   <pre>
-  > npm run prod-build
+  > yarn prod-build
   </pre>
 
 # Start
@@ -41,10 +47,10 @@
 
   개발 환경
   <pre>
-  > npm run dev-start
+  > yarn dev-start
   </pre>
 
   운영 환경
   <pre>
-  > npm run prod-start
+  > yarn prod-start
   </pre>

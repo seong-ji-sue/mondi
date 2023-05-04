@@ -4,8 +4,8 @@ import morgan from "morgan";
 import moment from "moment";
 import { IS_DEV, EXPRESS_PORT, MYSQL_HOST, MYSQL_PORT, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DB } from "./env";
 import { DataSource } from "typeorm";
-import adminRouter from "./routes/admin";
-import serviceRouter from "./routes/service";
+import routes from "./routes";
+import path from "path";
 
 const app = next({ dev: IS_DEV })
 const handle = app.getRequestHandler()
@@ -23,9 +23,8 @@ export const dataSource = new DataSource({
   username: MYSQL_USER,
   password: MYSQL_PASSWORD,
   database: MYSQL_DB,
-  synchronize: true,
+  synchronize: false,
   logging: false,
-  cache: true,
   dropSchema: false,
   entities: ["server/entities/*.ts"]
 });
@@ -44,8 +43,9 @@ app.prepare().then(async () => {
   });
   server.use(morgan("combined"));
 
-  server.use("/api", serviceRouter);
-  server.use("/api/admin", adminRouter);
+  server.use("/uploads", express.static(path.join(__dirname, "../../uploads")))
+
+  server.use("/api", routes);
 
   server.all('*', (req, res) => {
     return handle(req, res)
