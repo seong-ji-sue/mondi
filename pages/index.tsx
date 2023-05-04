@@ -302,7 +302,7 @@ const SessionTitle = ({ voteButtonElement }: { voteButtonElement: RefObject<HTML
          &nbsp;서베이딜
         </SessionText>
       </SessionRowContainer>
-      <SessionImage src="/imgs/main_title.png" imageStyle="width: 266px; align-self: center; margin-bottom: 47px;" />
+      <SessionImage src="/imgs/main_title.png" imageStyle="width: 295px; margin-bottom: 52px;" />
       <EstimateButton
         ref={voteButtonElement}
         href={GOOGLE_DOCS_URL}
@@ -1142,7 +1142,7 @@ const SessionEvent = ({ eventElement }: { eventElement: RefObject<HTMLDivElement
           margin-bottom: 21px;
         "
       >선착순 111명에 한해 오픈 기원 이벤트를 진행하고 있어요.</SessionText>
-      <SessionImage src="/imgs/main_event.png" imageStyle="width: 150px;" />
+      <SessionImage src="/imgs/main_event.png" imageStyle="width: 151px;" />
       <EventInfoContainer>
         <SessionRowContainer containerStyle="margin-bottom: 6px;">
           <SessionText textStyle="
