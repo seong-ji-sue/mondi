@@ -22,7 +22,6 @@ const ImageContainer = styled.div`
 `;
 
 const Image = styled.img<{ imageStyle?: string }>`
-  width: 100%;
   object-fit: contain;
   ${({ imageStyle }) => imageStyle};
 `;
@@ -39,7 +38,6 @@ const BenefitIcon =  styled.span`
   background: #fff;
   border: 0.5px solid rgba(0, 161, 44, 0.43);
   border-radius: 6px;
-  font-family: Pretendard;
   font-weight: 500;
   font-size: 10px;
   @media all and (max-width: 359px) { zoom: 0.8; }
@@ -60,16 +58,18 @@ const TextContainer = styled.div<{ containerStyle?: string }>`
 `
 
 const Text = styled.div<{ textStyle?: string }>`
-  font-family: Pretendard;
+  font-size: 12px;
   font-weight: 400;
   ${({ textStyle }) => textStyle};
 `;
 
 const Button = styled.div<{ disable: boolean }>`
-  margin-top: 8px;
   display: flex;
   justify-content: center;
   padding: 16px;
+  margin-top: 8px;
+  font-size: 15px;
+  font-weight: 500;
   color: #fff;
   background: ${({ disable }) => disable ?  "#414141" : Color.THEME};
 `;
@@ -105,54 +105,22 @@ const MainProduct = ({
 
   return (
     <Container containerStyle={containerStyle}>
-      <ImageContainer>
-        <Image alt="" src={imageSrc} imageStyle={imageStyle} />
-      </ImageContainer>
+      <ImageContainer><Image alt="" src={imageSrc} imageStyle={imageStyle} /></ImageContainer>
       <DescContainer>
         {message}
         <BenefitIcon>{`추가혜택+${benefitCount}`}</BenefitIcon>
       </DescContainer>
       <ContentContainer>
-        <Text textStyle="
-          font-weight: 700;
-          font-size: 16px;
-          color: #000;
-          margin-bottom: 10px;
-        ">{name}</Text>
-        <Text textStyle="
-          font-size: 12px;
-          @media all and (max-width: 359px) { font-size: 10px; }
-          color: #808182;
-          margin-bottom: 19px;
-        ">{spec}</Text>
+        <Text textStyle="font-weight: 700; font-size: 16px; color: #000; margin-bottom: 10px;">{name}</Text>
+        <Text textStyle="color: #808182; margin-bottom: 19px; @media all and (max-width: 359px) { font-size: 10px; } ">{spec}</Text>
         <TextContainer containerStyle="margin-bottom: 6px;">
-          <Text textStyle="
-            font-size: 12px;
-            color: #808182;
-            margin-right: 15px;
-          ">정상가</Text>
-          <Text textStyle="
-            font-size: 12px;
-            color: #B0B0B9;
-          ">{wonComma(originPrice)}원</Text>
+          <Text textStyle="color: #808182; margin-right: 15px;">정상가</Text>
+          <Text textStyle="color: #B0B0B9;">{wonComma(originPrice)}원</Text>
         </TextContainer>
         <TextContainer>
-          <Text textStyle={`
-            font-size: 12px;
-            color: ${Color.THEME};
-            margin-right: 15px;
-          `}>{priceTitle}</Text>
-          <Text textStyle="
-            font-size: 16px;
-            color: #3E3E46;
-            font-weight: 700;
-            margin-right: 7px;
-          ">{wonComma(price)}원</Text>
-          <Text textStyle={`
-            font-size: 16px;
-            font-weight: 700;
-            color: ${Color.THEME};
-          `}>{discountPercent}%</Text>
+          <Text textStyle={`color: ${Color.THEME}; margin-right: 15px;`}>{priceTitle}</Text>
+          <Text textStyle="font-size: 16px; color: #3E3E46; font-weight: 700; margin-right: 7px;">{wonComma(price)}원</Text>
+          <Text textStyle={`font-size: 16px; font-weight: 700; color: ${Color.THEME};`}>{discountPercent}%</Text>
         </TextContainer>
       </ContentContainer>
       <Button disable={buttonDisable}>{buttonText}</Button>

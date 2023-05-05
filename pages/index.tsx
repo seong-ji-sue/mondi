@@ -6,18 +6,14 @@ import Color from "src/utils/color";
 import styled from "styled-components";
 
 const GOOGLE_DOCS_URL = "https://forms.gle/CJm5N3gASYiPJTB58";
-
-const ContainerWrapper = styled.div`
-  max-width: 500px;
-  height: 100%;
-  padding: 0;
-  margin: 0 auto;
-`;
+const HEADER_HEIGHT = 55;
+const NAVIGATION_HEIGHT = 50;
+const STICKY_FOOTER_HEIGHT = 80;
 
 const Container = styled.div`
   width: 100%;
   border: 1px solid #e7e7e7;
-  padding-bottom: 80px;
+  padding-bottom: ${STICKY_FOOTER_HEIGHT}px;
 `;
 
 const Main = () => {
@@ -25,7 +21,6 @@ const Main = () => {
   const [isNavigationSticky, setIsNavigationSticky] = useState<boolean>(false);
   const [isMainStickyFooterShow, setIsMainStickyFooterShow] = useState<boolean>(false);
   const containerElement = useRef<HTMLDivElement>(null);
-  const headerElement = useRef<HTMLDivElement>(null);
   const navigationElement = useRef<HTMLDivElement>(null);
   const voteButtonElement = useRef<HTMLAnchorElement>(null);
   const faqElement = useRef<HTMLDivElement>(null);
@@ -33,25 +28,15 @@ const Main = () => {
   const eventElement = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const stickyStyle = 'position: fixed; top: 0; z-index: 10;';
-    if (isNavigationSticky) {
-      containerElement.current?.setAttribute('style', `padding-top: ${navigationElement.current?.offsetHeight ?? 0}px;`);
-      navigationElement.current?.setAttribute('style', stickyStyle);
-    } else {
-      containerElement.current?.removeAttribute('style');
-      navigationElement.current?.removeAttribute('style');
-    }
-
     const onScroll = () => {
       const pageYOffset = window.pageYOffset;
-      const navigationHeight = (navigationElement.current?.offsetHeight ?? 0);
-      setIsNavigationSticky(pageYOffset >= (headerElement.current?.offsetHeight ?? 0));
-      setIsMainStickyFooterShow(pageYOffset >= (voteButtonElement.current?.offsetTop ?? 0) - navigationHeight);
-      if (pageYOffset >= (faqElement.current?.offsetTop ?? 0) - navigationHeight) {
+      setIsNavigationSticky(pageYOffset >= HEADER_HEIGHT);
+      setIsMainStickyFooterShow(pageYOffset >= (voteButtonElement.current?.offsetTop ?? 0) - NAVIGATION_HEIGHT);
+      if (pageYOffset >= (faqElement.current?.offsetTop ?? 0) - NAVIGATION_HEIGHT) {
         setNavigationIndex(3);
-      } else if (pageYOffset >= (eventElement.current?.offsetTop ?? 0) - navigationHeight) {
+      } else if (pageYOffset >= (eventElement.current?.offsetTop ?? 0) - NAVIGATION_HEIGHT) {
         setNavigationIndex(2);
-      } else if (pageYOffset >= (cheerElement.current?.offsetTop ?? 0) - navigationHeight) {
+      } else if (pageYOffset >= (cheerElement.current?.offsetTop ?? 0) - NAVIGATION_HEIGHT) {
         setNavigationIndex(1);
       } else {
         setNavigationIndex(0)
@@ -62,55 +47,63 @@ const Main = () => {
     return () => {
       window.removeEventListener("scroll", onScroll);
     }
+  }, [])
+
+  useEffect(() => {
+    const stickyStyle = 'position: fixed; top: 0; z-index: 10;';
+    if (isNavigationSticky) {
+      containerElement.current?.setAttribute('style', `padding-top: ${NAVIGATION_HEIGHT}px;`);
+      navigationElement.current?.setAttribute('style', stickyStyle);
+    } else {
+      containerElement.current?.removeAttribute('style');
+      navigationElement.current?.removeAttribute('style');
+    }
   }, [isNavigationSticky]);
 
   return (
-    <ContainerWrapper ref={containerElement}>
-      <Container>
-        <Header headerElement={headerElement} />
-        <Navigation
-          navigationElement={navigationElement}
-          navigationIndex={navigationIndex}
-          onMenuClick={(index) => {
-            const navigationHeight = navigationElement.current?.offsetHeight ?? 0;
-            if (index === 0) {
-              window.scrollTo({ top: headerElement.current?.offsetHeight ?? 0, behavior: "smooth" });
-            } else if (index === 1) {
-              window.scrollTo({
-                top: (cheerElement.current?.offsetTop ?? 0) - navigationHeight,
-                behavior: "smooth"
-              });
-            } else if (index === 2) {
-              window.scrollTo({
-                top: (eventElement.current?.offsetTop ?? 0) - navigationHeight,
-                behavior: "smooth"
-              });
-            } else if (index === 3) {
-              window.scrollTo({
-                top: (faqElement.current?.offsetTop ?? 0) - navigationHeight,
-                behavior: "smooth"
-              });
-              useAppStore.setState({ faqActiveIndex: 0 });
-            }
-          }}
-        />
-        <SessionTitle voteButtonElement={voteButtonElement} />
-        <SessionSurvey />
-        <SessionGuide />
-        <SessionCheer cheerElement={cheerElement} />
-        <SessionCustom />
-        <SessionVote />
-        <SessionAutoNoti />
-        <SessionGroupBuy />
-        <SessionUseProcedure />
-        <SessionSafe />
-        <SessionEvent eventElement={eventElement} />
-        <SessionSurveyDeal />
-        <SessionFaq faqElement={faqElement} />
-        <SessionFooter />
-        {isMainStickyFooterShow && <StickyFooter />}
-      </Container>
-    </ContainerWrapper>
+    <Container ref={containerElement}>
+      <Header />
+      <Navigation
+        navigationElement={navigationElement}
+        navigationIndex={navigationIndex}
+        onMenuClick={(index) => {
+          if (index === 0) {
+            window.scrollTo({ top: HEADER_HEIGHT, behavior: "smooth" });
+          } else if (index === 1) {
+            window.scrollTo({
+              top: (cheerElement.current?.offsetTop ?? 0) - NAVIGATION_HEIGHT,
+              behavior: "smooth"
+            });
+          } else if (index === 2) {
+            window.scrollTo({
+              top: (eventElement.current?.offsetTop ?? 0) - NAVIGATION_HEIGHT,
+              behavior: "smooth"
+            });
+          } else if (index === 3) {
+            window.scrollTo({
+              top: (faqElement.current?.offsetTop ?? 0) - NAVIGATION_HEIGHT,
+              behavior: "smooth"
+            });
+            useAppStore.setState({ faqActiveIndex: 0 });
+          }
+        }}
+      />
+      <SessionTitle voteButtonElement={voteButtonElement} />
+      <SessionSurvey />
+      <SessionGuide />
+      <SessionCheer cheerElement={cheerElement} />
+      <SessionCustom />
+      <SessionVote />
+      <SessionAutoNoti />
+      <SessionGroupBuy />
+      <SessionUseProcedure />
+      <SessionSafe />
+      <SessionEvent eventElement={eventElement} />
+      <SessionSurveyDeal />
+      <SessionFaq faqElement={faqElement} />
+      <SessionFooter />
+      {isMainStickyFooterShow && <StickyFooter />}
+    </Container>
   );
 };
 
@@ -119,14 +112,14 @@ const HeaderContainer = styled.div`
   align-items: center;
   justify-content: space-between;
   width: calc(100% - 44px);
-  padding: 12px  22px;
+  height: 55px;
+  padding: 0 22px;
   background: linear-gradient(0deg, #111111, #111111), #FFFFFF;
 `;
 
 const HeaderButton = styled.a`
   padding: 9px 14px;
   background: ${Color.THEME};
-  font-family: Pretendard;
   font-weight: 400;
   font-size: 12px;
   color: #fff;
@@ -135,9 +128,9 @@ const HeaderButton = styled.a`
   text-decoration: none;
 `;
 
-const Header = ({ headerElement }: { headerElement: RefObject<HTMLDivElement> }) => {
+const Header = () => {
   return (
-    <HeaderContainer ref={headerElement}>
+    <HeaderContainer>
       <Logo />
       <HeaderButton href={GOOGLE_DOCS_URL}>관심고객 등록 후 이용하기</HeaderButton>
     </HeaderContainer>
@@ -149,7 +142,7 @@ const NavigationContainer = styled.div`
   background: #111;
   width: 100%;
   max-width: 500px;
-  height: 50px;
+  height: ${NAVIGATION_HEIGHT}px;
 `;
 
 const NavigationMenu = styled.div<{ selected?: boolean }>`
@@ -157,7 +150,6 @@ const NavigationMenu = styled.div<{ selected?: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: Pretendard;
   font-weight: 700;
   font-size: 12px;
   cursor: pointer;
@@ -213,15 +205,12 @@ const SessionRowContainer = styled.div<{ containerStyle?: string }>`
 `;
 
 const SessionText = styled.span<{ textStyle?: string }>`
-  text-align: center;
   white-space: pre-line;
   word-break: keep-all;
   ${({ textStyle }) => textStyle};
 `;
 
 const SessionImage = styled.img<{ imageStyle?: string }>`
-  max-width: 500px;
-  width: calc(100% - 40px);
   object-fit: contain;
   ${({ imageStyle }) => imageStyle};
 `;
@@ -230,7 +219,6 @@ const TitleContainer = styled.div`
   padding: 10px 16px;
   background: ${Color.THEME};
   border-radius: 25px;
-  font-family: Pretendard;
   font-weight: 500;
   font-size: 12px;
   color: #fff;
@@ -239,9 +227,8 @@ const TitleContainer = styled.div`
 
 const EstimateButton = styled.a`
   padding: 17px 31px;
-  align-self: center;
+  margin-bottom: 24px;
   background: ${Color.THEME};
-  font-family: Pretendard;
   font-weight: 500;
   font-size: 18px;
   color: #fff;
@@ -252,71 +239,23 @@ const EstimateButton = styled.a`
 
 const SessionTitle = ({ voteButtonElement }: { voteButtonElement: RefObject<HTMLAnchorElement>; }) => {
   return (
-    <SessionContainer
-      containerStyle="
-        padding: 44px 32px;
-        background: linear-gradient(0deg, #111111, #111111), #FFFFFF;
-      "
-    >
-      <SessionRowContainer containerStyle="margin-bottom: 4px;">
-        <SessionText
-          textStyle="
-            font-family: Pretendard;
-            font-weight: 800;
-            font-size: 30px;
-            color: #19D94E;
-          "
-        >
-          투표
-        </SessionText>
-        <SessionText
-          textStyle="
-            font-family: Pretendard;
-            font-weight: 700;
-            font-size: 30px;
-            color: #fff;
-          "
-        >
-          로 탄생하는
-        </SessionText>
+    <SessionContainer containerStyle="padding: 44px 32px; background: linear-gradient(0deg, #111111, #111111), #FFFFFF;">
+      <SessionRowContainer containerStyle="margin-bottom: 4px; font-size: 30px;">
+        <SessionText textStyle="font-weight: 800; color: #19D94E;">투표</SessionText>
+        <SessionText textStyle="font-weight: 700; color: #fff;">로 탄생하는</SessionText>
       </SessionRowContainer>
-      <SessionRowContainer containerStyle="margin-bottom: 30px;">
-        <SessionText
-          textStyle="
-            font-family: Pretendard;
-            font-weight: 700;
-            font-size: 30px;
-            color: #fff;
-          "
-        >
-          공동구매
-        </SessionText>
-        <SessionText
-          textStyle="
-            font-family: Pretendard;
-            font-weight: 700;
-            font-size: 30px;
-            color: #19D94E;
-          "
-        >
-         &nbsp;서베이딜
-        </SessionText>
+      <SessionRowContainer containerStyle="margin-bottom: 30px; font-size: 30px;">
+        <SessionText textStyle="font-weight: 700; color: #fff;">공동구매</SessionText>
+        <SessionText textStyle="font-weight: 800; color: #19D94E;">&nbsp;서베이딜</SessionText>
       </SessionRowContainer>
       <SessionImage src="/imgs/main_title.png" imageStyle="width: 295px; margin-bottom: 52px;" />
-      <EstimateButton
-        ref={voteButtonElement}
-        href={GOOGLE_DOCS_URL}
-      >관심고객 등록 후 이용하기</EstimateButton>
+      <EstimateButton ref={voteButtonElement} href={GOOGLE_DOCS_URL}>관심고객 등록 후 이용하기</EstimateButton>
       <SessionText
         textStyle="
           @media all and (max-width: 359px) { font-size: 10px; }
-          font-family: Pretendard;
           font-weight: 500;
           font-size: 11px;
-          line-height: 100%;
-          align-self: center;
           color: #9D9D9D;
-          margin-top: 24px;
         "
       >현재는 앱을 개발하고 있으며 일부 서비스만 이용할 수 있어요.</SessionText>
     </SessionContainer>
@@ -330,71 +269,22 @@ const SessionSurvey = () => {
         padding: 42px 32px 0 32px;
         align-items: flex-start;
         background: linear-gradient(0deg, #F5F5F5, #F5F5F5), #FFFFFF;
+        font-weight: 800;
+        font-size: 26px;
+        color: #b1b1b1;
       "
     >
       <TitleContainer>수요조사</TitleContainer>
-      <SessionText
-        textStyle="
-          font-family: Pretendard;
-          font-weight: 800;
-          font-size: 26px;
-          color: #b1b1b1;
-          margin-bottom: 4px;
-        "
-      >서베이딜은</SessionText>
+      <SessionText textStyle="color: #b1b1b1; margin-bottom: 4px;">서베이딜은</SessionText>
       <SessionRowContainer containerStyle="margin-bottom: 4px;">
-        <SessionText
-          textStyle={`
-            font-family: Pretendard;
-            font-weight: 800;
-            font-size: 26px;
-            color: ${Color.THEME};
-          `}
-        >수요조사</SessionText>
-        <SessionText
-          textStyle="
-            font-family: Pretendard;
-            font-weight: 800;
-            font-size: 26px;
-            color: #b1b1b1;
-          "
-        >를 바탕으로</SessionText>
+        <SessionText textStyle={`color: ${Color.THEME};`}>수요조사</SessionText>
+        <SessionText>를 바탕으로</SessionText>
       </SessionRowContainer>
-      <SessionText
-        textStyle="
-          font-family: Pretendard;
-          font-weight: 800;
-          font-size: 26px;
-          color: #b1b1b1;
-          margin-bottom: 4px;
-        "
-      >공동구매를 열어가는</SessionText>
-      <SessionText
-        textStyle="
-          font-family: Pretendard;
-          font-weight: 800;
-          font-size: 26px;
-          color: #232323;
-          margin-bottom: 4px;
-        "
-      >국내 최초의 공동구매</SessionText>
+      <SessionText textStyle="margin-bottom: 4px;">공동구매를 열어가는</SessionText>
+      <SessionText textStyle="color: #232323; margin-bottom: 4px;">국내 최초의 공동구매</SessionText>
       <SessionRowContainer containerStyle="margin-bottom: 34px;">
-        <SessionText
-          textStyle="
-            font-family: Pretendard;
-            font-weight: 800;
-            font-size: 26px;
-            color: #232323;
-          "
-        >플랫폼</SessionText>
-        <SessionText
-          textStyle="
-            font-family: Pretendard;
-            font-weight: 800;
-            font-size: 26px;
-            color: #b1b1b1;
-          "
-        >입니다.</SessionText>
+        <SessionText textStyle="color: #232323;">플랫폼</SessionText>
+        <SessionText>입니다.</SessionText>
       </SessionRowContainer>
       <SessionImage src="/imgs/main_survey.png" imageStyle="width: 186px; align-self: flex-end;" />
     </SessionContainer>
@@ -417,19 +307,12 @@ const guides = [{
 
 const GuideWrapperContainer = styled.div`
   display: flex;
-  overflow: scroll;
-  max-width: 500px;
+  overflow-x: scroll;
   width: 100%;
   filter: drop-shadow(0px 4px 16px rgba(0, 0, 0, 0.08));
-  > * {
-    margin-right: 14px;
-  }
-  > :first-child {
-    margin-left: 32px;
-  }
-  > :last-child {
-    margin-right: 32px;
-  }
+  > * { margin-right: 14px; }
+  > :first-child { margin-left: 32px; }
+  > :last-child { margin-right: 32px; }
 `;
 
 const GuideContainer = styled.div`
@@ -444,7 +327,6 @@ const GuideContainer = styled.div`
 `;
 
 const GuideTitleText = styled.span`
-  font-family: Pretendard;
   font-weight: 700;
   font-size: 15px;
   color: #4e5567;
@@ -452,7 +334,6 @@ const GuideTitleText = styled.span`
 `;
 
 const GuideSubTitleText = styled.span`
-  font-family: Pretendard;
   font-weight: 500;
   font-size: 14px;
   color: #4e5567;
@@ -460,7 +341,6 @@ const GuideSubTitleText = styled.span`
 `;
 
 const GuideDescText = styled.span`
-  font-family: Pretendard;
   font-weight: 500;
   font-size: 13px;
   line-height: 18px;
@@ -472,41 +352,18 @@ const GuideDescText = styled.span`
 
 const SessionGuide = () => {
   return (
-    <SessionContainer
-      containerStyle="
-        padding: 27px 0 36px 0;
-        align-items: flex-start;
-        background: linear-gradient(0deg, #F5F5F5, #F5F5F5), #FFFFFF;
-      "
-    >
-      <SessionContainer
-        containerStyle="
-          width: calc(100% - 64px);
-          align-items: flex-start;
-          padding: 0 32px;
-        "
-      >
-        <SessionText
-          textStyle={`
-            font-family: Pretendard;
-            font-weight: 800;
-            font-size: 18px;
-            line-height: 140%;
-            color: #232323;
-            margin-bottom: 16px;
-          `}
-        >진행절차</SessionText>
+    <SessionContainer containerStyle="padding: 27px 0 36px 0; background: linear-gradient(0deg, #F5F5F5, #F5F5F5), #FFFFFF;">
+      <SessionContainer containerStyle="width: calc(100% - 64px); align-items: flex-start; padding: 0 32px;">
+        <SessionText textStyle="font-weight: 800; font-size: 18px; color: #232323; margin-bottom: 16px;">진행절차</SessionText>
       </SessionContainer>
       <GuideWrapperContainer>
-        {guides.map((guide, index) => {
-          return (
-            <GuideContainer key={`guide_${index}`}>
-              <GuideTitleText>{guide.title}</GuideTitleText>
-              <GuideSubTitleText>{guide.subtitle}</GuideSubTitleText>
-              <GuideDescText>{guide.desc}</GuideDescText>
-            </GuideContainer>
-          )
-        })}
+        {guides.map((guide, index) => (
+          <GuideContainer key={`guide_${index}`}>
+            <GuideTitleText>{guide.title}</GuideTitleText>
+            <GuideSubTitleText>{guide.subtitle}</GuideSubTitleText>
+            <GuideDescText>{guide.desc}</GuideDescText>
+          </GuideContainer>
+        ))}
       </GuideWrapperContainer>
     </SessionContainer>
   )
@@ -523,7 +380,6 @@ const CheerButton = styled.div`
   padding: 12px 30px;
   border-radius: 20px;
   background: ${Color.THEME};
-  font-family: Pretendard;
   font-weight: 500;
   font-size: 16px;
   color: #fff;
@@ -540,49 +396,32 @@ const SessionCheer = ({ cheerElement }: { cheerElement: RefObject<HTMLDivElement
         padding: 36px 32px 39px 32px;
         align-items: flex-start;
         background: linear-gradient(0deg, #1C1C1C, #1C1C1C), #FFFFFF;
+        color: #fff;
       "
     >
       <SessionRowContainer containerStyle="margin-bottom: 18px; align-items: flex-end;">
         <Fire />
-        <SessionText
-          textStyle="
-            font-family: Pretendard;
-            font-weight: 700;
-            font-size: 18px;
-            color: #fff;
-            margin-left: 9px;
-          "
-        >앞으로 개발까지 남은 응원 {MAX_CHEER_COUNT - CHEER_COUNT}명</SessionText>
+        <SessionText textStyle="font-weight: 700; font-size: 18px;margin-left: 9px;">
+          앞으로 개발까지 남은 응원 {MAX_CHEER_COUNT - CHEER_COUNT}명
+        </SessionText>
       </SessionRowContainer>
-      <SessionText
-        textStyle="
-          font-family: Pretendard;
-          font-weight: 500;
-          font-size: 14px;
-          color: #fff;
-          margin-bottom: 12px;
-        "
-      >{`${MAX_CHEER_COUNT}명이 응원해줘야 탄생할 수 있어요`}</SessionText>
+      <SessionText textStyle="font-weight: 500; font-size: 14px; margin-bottom: 12px;">
+        {`${MAX_CHEER_COUNT}명이 응원해줘야 탄생할 수 있어요`}
+      </SessionText>
       <CheerProgressContainer containerStyle="width: 100%; background: #D9D9D9; margin-bottom: 6px;">
         <CheerProgressContainer containerStyle={`width: ${CHEER_COUNT / MAX_CHEER_COUNT * 100}%; background: ${Color.THEME};`} />
       </CheerProgressContainer>
-      <SessionRowContainer containerStyle="width: 100%; justify-content: space-between; margin-bottom: 6px;">
-        <SessionText
-          textStyle="
-            font-family: Pretendard;
-            font-weight: 500;
-            font-size: 14px;
-            color: #fff;
-          "
-        >1명</SessionText>
-        <SessionText
-          textStyle="
-            font-family: Pretendard;
-            font-weight: 500;
-            font-size: 14px;
-            color: #fff;
-          "
-        >{`${MAX_CHEER_COUNT}명`}</SessionText>
+      <SessionRowContainer
+        containerStyle="
+          width: 100%;
+          justify-content: space-between;
+          margin-bottom: 6px;
+          font-weight: 500;
+          font-size: 14px;
+        "
+      >
+        <SessionText>1명</SessionText>
+        <SessionText>{`${MAX_CHEER_COUNT}명`}</SessionText>
       </SessionRowContainer>
       <CheerButton>응원하기</CheerButton>
     </SessionContainer>
@@ -591,57 +430,23 @@ const SessionCheer = ({ cheerElement }: { cheerElement: RefObject<HTMLDivElement
 
 const SessionCustom = () => {
   return (
-    <SessionContainer
-      containerStyle="
-        padding-bottom: 28px;
-        background: linear-gradient(0deg, #F5F5F5, #F5F5F5), #FFFFFF;
-      "
-    >
+    <SessionContainer containerStyle="padding-bottom: 28px; background: linear-gradient(0deg, #F5F5F5, #F5F5F5), #FFFFFF;">
       <SessionContainer
         containerStyle="
           padding: 42px 32px 44px 32px;
           width: calc(100% - 64px);
           align-items: flex-start;
+          font-weight: 800;
+          font-size: 26px;
         "
       >
         <TitleContainer>고객 맞춤</TitleContainer>
         <SessionRowContainer containerStyle="margin-bottom: 4px;">
-          <SessionText
-            textStyle="
-              font-family: Pretendard;
-              font-weight: 800;
-              font-size: 26px;
-              color: #232323;
-            "
-          >내게 딱 필요한&nbsp;</SessionText>
-          <SessionText
-            textStyle={`
-              font-family: Pretendard;
-              font-weight: 800;
-              font-size: 26px;
-              color: ${Color.THEME};
-            `}
-          >공동구매</SessionText>
+          <SessionText textStyle="color: #232323;">내게 딱 필요한&nbsp;</SessionText>
+          <SessionText textStyle={`color: ${Color.THEME};`}>공동구매</SessionText>
         </SessionRowContainer>
-        <SessionText
-          textStyle="
-            font-family: Pretendard;
-            font-weight: 800;
-            font-size: 26px;
-            color: #232323;
-            margin-bottom: 10px;
-          "
-        >발견부터 경험까지</SessionText>
-        <SessionText
-          textStyle="
-            text-align: left;
-            font-family: Pretendard;
-            font-weight: 600;
-            font-size: 14px;
-            line-height: 19px;
-            color: #747474;
-          "
-        >
+        <SessionText textStyle="color: #232323; margin-bottom: 10px;">발견부터 경험까지</SessionText>
+        <SessionText textStyle="font-weight: 600; font-size: 14px; line-height: 19px; color: #747474;">
           {`관심사 등록 시 내게 필요한\n공동구매가 만들어져요.`}
         </SessionText>
       </SessionContainer>
@@ -656,7 +461,6 @@ const ProductMessageContainer = styled.div`
 `;
 
 const ProductMessageText = styled.span<{ textStyle?: string }>`
-  font-family: Pretendard;
   font-weight: 400;
   font-size: 11.5px;
   @media all and (max-width: 359px) { font-size: 10px; }
@@ -700,85 +504,36 @@ const votes = [{
 
 const VoteWrapperContainer = styled.div`
   display: flex;
-  overflow: scroll;
-  max-width: 500px;
+  overflow-x: scroll;
   width: 100%;
   margin-bottom: 65px;
   filter: drop-shadow(2px 8px 18px rgba(0, 0, 0, 0.14));
-  > * {
-    margin-right: 20px;
-  }
-  > :first-child {
-    margin-left: 32px;
-  }
-  > :last-child {
-    margin-right: 32px;
-  }
+  > * { margin-right: 20px; }
+  > :first-child { margin-left: 32px; }
+  > :last-child { margin-right: 32px; }
 `;
 
 const SessionVote = () => {
   return (
-    <SessionContainer
-      containerStyle="
-        padding-top: 42px;
-        align-items: flex-start;
-        background: linear-gradient(0deg, #FFFFFF, #FFFFFF), #FFFFFF;
-      "
-    >
+    <SessionContainer containerStyle="padding-top: 42px; background: #fff;">
       <SessionContainer
         containerStyle="
           width: calc(100% - 64px);
           padding: 0 32px;
           align-items: flex-start;
+          font-weight: 800;
+          font-size: 26px;
+          color: #232323;
         "
       >
         <TitleContainer>투표하기</TitleContainer>
-        <SessionText
-          textStyle="
-            font-family: Pretendard;
-            font-weight: 800;
-            font-size: 26px;
-            color: #232323;
-            margin-bottom: 4px;
-          "
-        >고민 부담 노노!</SessionText>
+        <SessionText textStyle="margin-bottom: 4px;">고민 부담 노노!</SessionText>
         <SessionRowContainer containerStyle="margin-bottom: 10px;">
-          <SessionText
-            textStyle="
-              font-family: Pretendard;
-              font-weight: 800;
-              font-size: 26px;
-              color: #232323;
-            "
-          >가볍게&nbsp;</SessionText>
-          <SessionText
-            textStyle={`
-              font-family: Pretendard;
-              font-weight: 800;
-              font-size: 26px;
-              color: ${Color.THEME};
-            `}
-          >투표</SessionText>
-          <SessionText
-            textStyle="
-              font-family: Pretendard;
-              font-weight: 800;
-              font-size: 26px;
-              color: #232323;
-            "
-          >하세요</SessionText>
+          <SessionText>가볍게&nbsp;</SessionText>
+          <SessionText textStyle={`color: ${Color.THEME};`}>투표</SessionText>
+          <SessionText>하세요</SessionText>
         </SessionRowContainer>
-        <SessionText
-          textStyle="
-            text-align: left;
-            font-family: Pretendard;
-            font-weight: 500;
-            font-size: 14px;
-            line-height: 19px;
-            color: #747474;
-            margin-bottom: 27px;
-          "
-        >
+        <SessionText textStyle="font-weight: 500; font-size: 14px; line-height: 19px; color: #747474; margin-bottom: 27px;">
           {`관심 있는 상품에 투표하고\n공구가 확인 후 구매하세요.`}
         </SessionText>
       </SessionContainer>
@@ -796,39 +551,14 @@ const SessionAutoNoti = () => {
         padding: 42px 32px;
         align-items: flex-start;
         background: linear-gradient(0deg, rgba(245, 245, 245, 0.6), rgba(245, 245, 245, 0.6)), #FFFFFF;
+        font-weight: 800;
+        font-size: 26px;
       "
     >
       <TitleContainer>자동 알림</TitleContainer>
-      <SessionText
-        textStyle={`
-          font-family: Pretendard;
-          font-weight: 800;
-          font-size: 26px;
-          color: ${Color.THEME};          
-          margin-bottom: 4px;
-        `}
-      >투표만 해도</SessionText>
-      <SessionRowContainer containerStyle="margin-bottom: 10px;">
-        <SessionText
-          textStyle={`
-            font-family: Pretendard;
-            font-weight: 800;
-            font-size: 26px;
-            color: #232323;
-          `}
-        >알아서 척척</SessionText>
-      </SessionRowContainer>
-      <SessionText
-        textStyle="
-          text-align: left;
-          font-family: Pretendard;
-          font-weight: 500;
-          font-size: 14px;
-          line-height: 19px;
-          color: #747474;
-          margin-bottom: 3px;
-        "
-      >
+      <SessionText textStyle={`color: ${Color.THEME}; margin-bottom: 4px;`}>투표만 해도</SessionText>
+      <SessionText textStyle="color: #232323; margin-bottom: 10px;">알아서 척척</SessionText>
+      <SessionText textStyle="font-weight: 500; font-size: 14px; line-height: 19px; color: #747474; margin-bottom: 3px;">
         {`투표에 참여 시 알림을 통해\n공구가와 혜택을 안내드려요.`}
       </SessionText>
       <SessionImage src="/imgs/main_use_procedure.png" imageStyle="width: 100%;" />
@@ -902,9 +632,11 @@ const GroupBuyCategoryWrapperContainer = styled.div`
   max-width: 500px;
   width: 100%;
   margin-bottom: 21px;
+  > * { margin-right: 8px; }
+  > :last-child { margin-right: 0 }
 `;
 
-const GroupBuyCategoryContainer = styled.div<{ selected?: boolean, isLast: boolean }>`
+const GroupBuyCategoryContainer = styled.div<{ selected?: boolean }>`
   ${({ selected }) => selected ? `
     background: ${Color.THEME};
     color: #fff;
@@ -919,7 +651,6 @@ const GroupBuyCategoryContainer = styled.div<{ selected?: boolean, isLast: boole
   font-family: Pretendard;
   font-weight: 500;
   font-size: 14px;
-  margin-right: ${({ isLast }) => isLast ? 0 : 8}px;
   cursor: pointer;
 `;
 
@@ -940,55 +671,24 @@ const SessionGroupBuy = () => {
         padding: 42px 32px 46px 32px;
         align-items: flex-start;
         background: #fff;
+        font-weight: 800;
+        font-size: 26px;
       "
     >
       <TitleContainer>공동구매</TitleContainer>
-      <SessionText
-        textStyle={`
-          font-family: Pretendard;
-          font-weight: 800;
-          font-size: 26px;
-          line-height: 36px;
-          color: #121212;
-          margin-bottom: 4px;
-        `}
-      >기다린만큼</SessionText>
-      <SessionText
-        textStyle={`
-          font-family: Pretendard;
-          font-weight: 800;
-          font-size: 26px;
-          color: ${Color.THEME};
-          margin-bottom: 4px;
-        `}
-      >커지는 할인과 혜택</SessionText>
-      <SessionText
-        textStyle="
-          text-align: left;
-          font-family: Pretendard;
-          font-weight: 600;
-          font-size: 14px;
-          line-height: 19px;
-          color: #747474;
-          margin-top: 7px;
-          margin-bottom: 28px;
-        "
-      >
+      <SessionText textStyle="color: #121212; margin-bottom: 4px;">기다린만큼</SessionText>
+      <SessionText textStyle={`color: ${Color.THEME}; margin-bottom: 4px;`}>커지는 할인과 혜택</SessionText>
+      <SessionText textStyle="font-weight: 600; font-size: 14px; line-height: 19px; color: #747474; margin: 7px 0 28px 0;">
         {`설문 조사를 바탕으로 공동구매 진행 시\n온라인 최저가보다 할인과 혜택이 더 많아요.`}
       </SessionText>
       <GroupBuyCategoryWrapperContainer>
-        {categories.map((category, index) => {
-          return (
-            <GroupBuyCategoryContainer
-              key={`caterogy_${index}`}
-              selected={selectedCategory === index}
-              isLast={index === categories.length - 1}
-              onClick={() => setSeletedCategory(index)}
-            >
-              {category.name}
-            </GroupBuyCategoryContainer>
-          )
-        })}
+        {categories.map((category, index) => (
+          <GroupBuyCategoryContainer
+            key={`group_buy_caterogy_${index}`}
+            selected={selectedCategory === index}
+            onClick={() => setSeletedCategory(index)}
+          >{category.name}</GroupBuyCategoryContainer>
+        ))}
       </GroupBuyCategoryWrapperContainer>
       <GroupBuyProductContainer>
         <MainProduct {...categories[selectedCategory].product} />
@@ -1009,36 +709,19 @@ const useProcedure = [{
 }];
 
 const SessionUseProcedure = () => {
-  return (<>
-    <SessionContainer
-      containerStyle="
-        padding: 27px 0 38px 0;
-        align-items: flex-start;
-        background: #fff;
-      "
-    >
-      <SessionText
-        textStyle={`
-          padding: 0 32px;
-          font-family: Pretendard;
-          font-weight: 800;
-          font-size: 18px;
-          color: #232323;
-          margin-bottom: 16px;
-        `}
-      >이용절차</SessionText>
+  return (
+    <SessionContainer containerStyle="padding: 27px 0 38px 0; align-items: flex-start; background: #fff;">
+      <SessionText textStyle="padding: 0 32px; font-weight: 800; font-size: 18px; color: #232323; margin-bottom: 16px;">이용절차</SessionText>
       <GuideWrapperContainer>
-        {useProcedure.map((guide, index) => {
-          return (
-            <GuideContainer key={`guide_${index}`}>
-              <GuideTitleText>{guide.title}</GuideTitleText>
-              <GuideDescText>{guide.desc}</GuideDescText>
-            </GuideContainer>
-          )
-        })}
+        {useProcedure.map((guide, index) => (
+          <GuideContainer key={`use_procedure_${index}`}>
+            <GuideTitleText>{guide.title}</GuideTitleText>
+            <GuideDescText>{guide.desc}</GuideDescText>
+          </GuideContainer>
+        ))}
       </GuideWrapperContainer>
     </SessionContainer>
-  </>)
+  )
 }
 
 const SessionSafe = () => {
@@ -1048,56 +731,27 @@ const SessionSafe = () => {
         padding: 42px 32px;
         align-items: flex-start;
         background: linear-gradient(0deg, rgba(245, 245, 245, 0.6), rgba(245, 245, 245, 0.6)), #FFFFFF;
+        font-weight: 800;
+        font-size: 26px;
+        color: #232323;
       "
     >
       <TitleContainer>안전한 서비스</TitleContainer>
-      <SessionText
-        textStyle="
-          font-family: Pretendard;
-          font-weight: 800;
-          font-size: 26px;
-          color: #232323;
-          margin-bottom: 4px;
-        "
-      >편리함을 넘어</SessionText>
+      <SessionText textStyle="margin-bottom: 4px;">편리함을 넘어</SessionText>
       <SessionRowContainer containerStyle="margin-bottom: 10px;">
-        <SessionText
-          textStyle={`
-            font-family: Pretendard;
-            font-weight: 800;
-            font-size: 26px;
-            color: ${Color.THEME};
-          `}
-        >안전하게&nbsp;</SessionText>
-        <SessionText
-          textStyle="
-            font-family: Pretendard;
-            font-weight: 800;
-            font-size: 26px;
-            color: #232323;
-          "
-        >이용하세요</SessionText>
+        <SessionText textStyle={`color: ${Color.THEME};`}>안전하게&nbsp;</SessionText>
+        <SessionText>이용하세요</SessionText>
       </SessionRowContainer>
-      <SessionText
-        textStyle="
-          text-align: left;
-          font-family: Pretendard;
-          font-weight: 500;
-          font-size: 14px;
-          line-height: 19px;
-          color: #747474;
-          margin-bottom: 3px;
-        "
-      >
+      <SessionText textStyle="font-weight: 500; font-size: 14px; line-height: 19px; color: #747474; margin-bottom: 13px;">
         {`불편한 경험을 갖지 않도록\n고객 보호 정책을 우선합니다.`}
       </SessionText>
-      <SessionImage src="/imgs/main_safe.png" imageStyle="width: 100%; margin-top: 10px;" />
+      <SessionImage src="/imgs/main_safe.png" imageStyle="width: 100%;" />
     </SessionContainer>
   )
 }
 
 const EventInfoContainer = styled.div`
-  background: #FFFFFF;
+  background: #fff;
   box-shadow: 1px 2px 18px rgba(0, 0, 0, 0.1);
   border-radius: 16px;
   padding: 16px 26px;
@@ -1107,7 +761,6 @@ const EventButton = styled.div`
   padding: 16px 50px;
   background-color: #252525;
   border-radius: 30px;
-  font-family: Pretendard;
   font-weight: 500;
   font-size: 15px;
   color: #fff;
@@ -1118,73 +771,24 @@ const SessionEvent = ({ eventElement }: { eventElement: RefObject<HTMLDivElement
   return (
     <SessionContainer
       ref={eventElement}
-      containerStyle="
-        padding: 42px 0 46px 0;
-        background: #fff;
-      "
+      containerStyle="padding: 42px 0 46px 0; background: #fff; color: #121212;"
     >
       <TitleContainer>이벤트</TitleContainer>
-      <SessionText
-        textStyle="
-          font-family: Pretendard;
-          font-weight: 800;
-          font-size: 26px;
-          color: #121212;
-          margin-bottom: 7px;
-        "
-      >서베이딜의 탄생을 도와주세요.</SessionText>
-      <SessionText
-        textStyle="
-          font-family: Pretendard;
-          font-weight: 400;
-          font-size: 12px;
-          color: #121212;
-          margin-bottom: 21px;
-        "
-      >선착순 111명에 한해 오픈 기원 이벤트를 진행하고 있어요.</SessionText>
+      <SessionText textStyle="font-weight: 800; font-size: 26px; margin-bottom: 7px;">서베이딜의 탄생을 도와주세요.</SessionText>
+      <SessionText textStyle="font-weight: 400; font-size: 12px; margin-bottom: 21px;">
+        선착순 111명에 한해 오픈 기원 이벤트를 진행하고 있어요.
+      </SessionText>
       <SessionImage src="/imgs/main_event.png" imageStyle="width: 151px;" />
       <EventInfoContainer>
-        <SessionRowContainer containerStyle="margin-bottom: 6px;">
-          <SessionText textStyle="
-            font-family: Pretendard;
-            font-weight: 500;
-            font-size: 10px;
-            color: #5D6477;
-            margin-right: 6px;
-          ">정상가</SessionText>
-          <SessionText textStyle="
-            font-family: Pretendard;
-            font-weight: 700;
-            font-size: 14px;
-            color: #5D6477;
-          ">4500</SessionText>
-          <SessionText textStyle="
-            font-family: Pretendard;
-            font-weight: 500;
-            font-size: 11px;
-            color: #5D6477;
-          ">원</SessionText>
+        <SessionRowContainer containerStyle="margin-bottom: 6px; color: #5D6477;">
+          <SessionText textStyle="font-weight: 500; font-size: 10px; margin-right: 6px;">정상가</SessionText>
+          <SessionText textStyle="font-weight: 700; font-size: 14px;">4500</SessionText>
+          <SessionText textStyle="font-weight: 500; font-size: 11px;">원</SessionText>
         </SessionRowContainer>
-        <SessionRowContainer>
-          <SessionText textStyle={`
-            font-family: Pretendard;
-            font-weight: 500;
-            font-size: 10px;
-            color: ${Color.THEME};
-            margin-right: 6px;
-          `}>공구가</SessionText>
-          <SessionText textStyle={`
-            font-family: Pretendard;
-            font-weight: 700;
-            font-size: 14px;
-            color: ${Color.THEME};
-          `}>990</SessionText>
-          <SessionText textStyle="
-            font-family: Pretendard;
-            font-weight: 500;
-            font-size: 11px;
-            color: #5D6477;
-          ">원</SessionText>
+        <SessionRowContainer containerStyle={`color: ${Color.THEME};`}>
+          <SessionText textStyle="font-weight: 500; font-size: 10px; margin-right: 6px;">공구가</SessionText>
+          <SessionText textStyle="font-weight: 700; font-size: 14px;">990</SessionText>
+          <SessionText textStyle="font-weight: 500; font-size: 11px; color: #5D6477;">원</SessionText>
         </SessionRowContainer>
       </EventInfoContainer>
       <EventButton >990원에 공구하러 가기</EventButton>
@@ -1194,47 +798,14 @@ const SessionEvent = ({ eventElement }: { eventElement: RefObject<HTMLDivElement
 
 const SessionSurveyDeal = () => {
   return (
-    <SessionContainer
-      containerStyle={`
-        padding: 112px 0 122px; 0;
-        background: ${Color.THEME};
-      `}
-    >
-      <SessionText
-        textStyle="
-          font-family: Pretendard;
-          font-weight: 800;
-          font-size: 26px;
-          line-height: 35px;
-          color: #fff;
-          margin-bottom: 12px;
-        "
-      >{`내일이 더 여유로운 생활,\n서베이딜을 시작하세요.`}</SessionText>
-      <SessionRowContainer>
-        <SessionText
-          textStyle="
-            font-family: Pretendard;
-            font-weight: 400;
-            font-size: 12px;
-            color: #fff;
-          "
-        >공동 구매 시&nbsp;</SessionText>
-        <SessionText
-          textStyle="
-            font-family: Pretendard;
-            font-weight: 800;
-            font-size: 12px;
-            color: #fff;
-          "
-        >최대 40%의&nbsp;</SessionText>
-        <SessionText
-          textStyle="
-            font-family: Pretendard;
-            font-weight: 400;
-            font-size: 12px;
-            color: #fff;
-          "
-        >비용을 아낄 수 있어요.</SessionText>
+    <SessionContainer containerStyle={`padding: 112px 0 122px; 0; background: ${Color.THEME};`}>
+      <SessionText textStyle="font-weight: 800; font-size: 26px; line-height: 35px; color: #fff; margin-bottom: 12px;">
+        {`내일이 더 여유로운 생활,\n서베이딜을 시작하세요.`}
+      </SessionText>
+      <SessionRowContainer containerStyle="font-size: 12px; color: #fff;">
+        <SessionText textStyle="font-weight: 400;">공동 구매 시&nbsp;</SessionText>
+        <SessionText textStyle="font-weight: 800;">최대 40%의&nbsp;</SessionText>
+        <SessionText textStyle="font-weight: 400;">비용을 아낄 수 있어요.</SessionText>
       </SessionRowContainer>
     </SessionContainer>
   )
@@ -1262,7 +833,6 @@ const faqs = [{
 
 const FaqContainer = styled.div<{ isLast?: boolean }>`
   display: flex;
-  max-width: calc(500px - 74px);
   width: calc(100% - 74px);
   padding: 20px 16px;
   border: 1px solid #DADFDB;
@@ -1277,13 +847,8 @@ const FaqQnAContainer = styled.div<{ isActive?: boolean }>`
   flex-direction: column;
   flex: 1;
   margin-right: 10px;
-`;
-
-const FaqText = styled.span<{ textStyle?: string }>`
-  font-family: Pretendard;
-  white-space: pre-line;
-  word-break: keep-all;
-  ${({ textStyle }) => textStyle};
+  font-size: 14px;
+  line-height: 20px; 
 `;
 
 const SessionFaq = ({ faqElement }: { faqElement: RefObject<HTMLDivElement>; }) => {
@@ -1294,62 +859,23 @@ const SessionFaq = ({ faqElement }: { faqElement: RefObject<HTMLDivElement>; }) 
       ref={faqElement}
       containerStyle="padding: 46px 0 52px 0; background: #F9F9F9;">
       <TitleContainer>Q&A</TitleContainer>
-      <SessionText
-         textStyle="
-          font-family: Pretendard;
-          font-weight: 800;
-          font-size: 26px;
-          color: #121212;
-          margin-bottom: 28px;
-        "
-      >자주 묻는 질문</SessionText>
-      {faqs.map((faq, index) => {
-        return (
-          <FaqContainer
-            key={`faq_${index}`}
-            isLast={index === faqs.length - 1}
-            onClick={() => {
-              useAppStore.setState(state => ({
-                faqActiveIndex: state.faqActiveIndex === index ? -1 : index
-              }))
-            }}
-          >
-            <FaqText
-                textStyle={`
-                  font-weight: 600;
-                  font-size: 18px;
-                  line-height: 18px;
-                  color: ${Color.THEME};
-                  margin-right: 8px;
-                `}
-              >Q</FaqText>
-              <FaqQnAContainer>
-                <FaqText
-                  textStyle="
-                    font-weight: 600;
-                    font-size: 14px;
-                    line-height: 20px;
-                    color: #333;
-                  "
-                >{faq.question}</FaqText>
-                {faqActiveIndex === index &&
-                  <FaqText
-                    textStyle="
-                      font-weight: 500;
-                      font-size: 14px;
-                      color: #5D6477;
-                      line-height: 20px;
-                      margin-top: 12px;
-                    "
-                  >
-                    {faq.answer}
-                  </FaqText>
-                } 
-              </FaqQnAContainer>
-              {faqActiveIndex === index ? <ArrowTop /> : <ArrowBottom size={16} color="#5D6477" />}
-          </FaqContainer>
-        )
-      })}
+      <SessionText textStyle="font-weight: 800; font-size: 26px; color: #121212; margin-bottom: 28px;">자주 묻는 질문</SessionText>
+      {faqs.map((faq, index) => (
+        <FaqContainer
+          key={`faq_${index}`}
+          isLast={index === faqs.length - 1}
+          onClick={() => useAppStore.setState(state => ({ faqActiveIndex: state.faqActiveIndex === index ? -1 : index }))}
+        >
+          <SessionText textStyle={`font-weight: 600; font-size: 18px; line-height: 18px; color: ${Color.THEME}; margin-right: 8px;`}>Q</SessionText>
+          <FaqQnAContainer>
+            <SessionText textStyle="font-weight: 600; color: #333;">{faq.question}</SessionText>
+            {faqActiveIndex === index &&
+              <SessionText textStyle="font-weight: 500; color: #5D6477; margin-top: 12px;">{faq.answer}</SessionText>
+            } 
+          </FaqQnAContainer>
+          {faqActiveIndex === index ? <ArrowTop /> : <ArrowBottom size={16} color="#5D6477" />}
+        </FaqContainer>
+      ))}
     </SessionContainer>
   )
 }
@@ -1361,16 +887,12 @@ const SessionFooter = () => {
         padding: 24px;
         background: #262626;
         align-items: flex-start;
+        font-weight: 400;
+        font-size: 12px;
+        @media all and (max-width: 359px) { font-size: 10px; }
       "
     >
-      <SessionRowContainer
-        containerStyle="
-          width: 100%;
-          margin-bottom: 18px;
-          padding-bottom: 18px;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-        "
-      >
+      <SessionRowContainer containerStyle="width: 100%; margin-bottom: 18px; padding-bottom: 18px; border-bottom: 1px solid rgba(255, 255, 255, 0.3);">
         <Logo />
       </SessionRowContainer>
       <SessionText
@@ -1379,11 +901,6 @@ const SessionFooter = () => {
           margin-bottom: 18px;
           padding-bottom: 18px;
           border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-          text-align: left;
-          font-family: Pretendard;
-          font-weight: 400;
-          font-size: 12px;
-          @media all and (max-width: 359px) { font-size: 10px; }
           line-height: 20px;
           color: #fff;
         "
@@ -1400,15 +917,9 @@ const SessionFooter = () => {
           
           Copyright. 2023 서베이딜, Mondi All Rights Reserved.`}
       </SessionText>
-      <SessionText
-        textStyle="
-          font-family: Pretendard;
-          font-weight: 400;
-          font-size: 12px;
-          @media all and (max-width: 359px) { font-size: 10px; }
-          color: rgba(255, 255, 255, 0.64);
-        "
-      >Design by Genie, Developed By Oscar, Lucus and Cobb</SessionText>
+      <SessionText textStyle="color: rgba(255, 255, 255, 0.64);">
+        Design by Genie, Developed By Oscar, Lucus and Cobb
+      </SessionText>
     </SessionContainer>
   )
 }
@@ -1419,7 +930,7 @@ const StickyFooterContainer = styled.div`
   bottom: 0px;
   width: 100%;
   max-width: 500px;
-  height: 80px;
+  height: ${STICKY_FOOTER_HEIGHT}px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1432,7 +943,6 @@ const StickyFooterEstimateButton = styled.a`
   display: flex;
   justify-content: center;
   background: ${Color.THEME};
-  font-family: Pretendard;
   font-weight: 500;
   font-size: 18px;
   color: #fff;
@@ -1441,13 +951,10 @@ const StickyFooterEstimateButton = styled.a`
   text-decoration: none;
 `
 
-
 const StickyFooter = () => {
   return (
     <StickyFooterContainer>
-      <StickyFooterEstimateButton
-        href={GOOGLE_DOCS_URL}
-      >관심고객 등록 후 이용하기</StickyFooterEstimateButton>
+      <StickyFooterEstimateButton href={GOOGLE_DOCS_URL}>관심고객 등록 후 이용하기</StickyFooterEstimateButton>
     </StickyFooterContainer>
   )
 }
