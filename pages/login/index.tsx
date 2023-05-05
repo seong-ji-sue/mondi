@@ -97,7 +97,7 @@ const Login = () => {
         <KakaoLoginButton
           onClick={() => {
             window.Kakao.Auth.authorize({
-              redirectUri: "http://172.30.1.65:3000/login/kakao"
+              redirectUri: process.env.KAKAO_REDIRECT_URI
             });
           }}
         >
