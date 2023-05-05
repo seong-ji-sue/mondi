@@ -1,5 +1,5 @@
 import CryptoJS from "crypto-js";
-import { CRYPTO_SECRET } from "server/env";
+import { CRYPTO_SECRET } from "../env";
 
 export const encryptAES = (message: string) => {
   return CryptoJS.AES.encrypt(message, CRYPTO_SECRET).toString();
