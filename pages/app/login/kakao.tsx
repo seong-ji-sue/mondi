@@ -18,7 +18,7 @@ const Kakao = () => {
         localStorage.setItem("accessToken", accessToken);
         localStorage.setItem("refreshToken", refreshToken);
         Api.getInstance().setServiceAuth({ token: accessToken });
-        router.replace("/main");
+        router.replace("/app");
       })
   }, [code]);
 

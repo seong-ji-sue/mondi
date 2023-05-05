@@ -22,7 +22,7 @@ class Api {
             originalRequest.headers.Authorization = `Bearer ${accessToken}`
             return this.serviceAxios(originalRequest);
           } catch (error) {
-            window.location.href = "/login";
+            window.location.href = "/app/login";
           }
         }
         return Promise.reject(error);
