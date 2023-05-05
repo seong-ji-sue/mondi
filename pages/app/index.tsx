@@ -7,7 +7,7 @@ const UserInfoText = styled.span`
   word-break: keep-all;
 `;
 
-const Main = () => {
+const App = () => {
   const [userInfo, setUserInfo] = useState<User.IInfo>({
     nickname: "", email: "", name: "", phoneNumber: "", birthyear: "", birthday: "", gender: ""
   });
@@ -31,4 +31,4 @@ const Main = () => {
   )
 }
 
-export default Main;
+export default App;
