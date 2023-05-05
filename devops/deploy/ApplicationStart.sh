@@ -4,10 +4,6 @@ cd /home/ec2-user/mondi
 
 export PATH=/home/ec2-user/.nvm/versions/node/v16.14.0/bin:$PATH
 
-cat > .env <<EOF
-EXPRESS_PORT=3000
-EOF
-
 log_name="/home/ec2-user/mondi/applicationStart.log"
 
 pm2 reload mondi &> $log_name

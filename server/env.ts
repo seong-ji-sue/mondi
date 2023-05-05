@@ -11,3 +11,10 @@ export const MYSQL_PORT = Number(process.env.MYSQL_PORT);
 export const MYSQL_USER = process.env.MYSQL_USER;
 export const MYSQL_PASSWORD = process.env.MYSQL_PASSWORD;
 export const MYSQL_DB = process.env.MYSQL_DB;
+
+export const KAKAO_JS_KEY = process.env.KAKAO_JS_KEY;
+
+export const ACCESS_JWT_SECRET = process.env.ACCESS_JWT_SECRET ?? "";
+export const REFRESH_JWT_SECRET = process.env.REFRESH_JWT_SECRET ?? "";
+
+export const CRYPTO_SECRET = process.env.CRYPTO_SECRET ?? "";

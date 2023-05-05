@@ -4,7 +4,13 @@ import Script from 'next/script';
 import "../styles/globals.css";
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { GA_ID, pageview } from 'src/utils/gtag';
+import { GA_ID, pageview } from '@utils/gtag';
+
+declare global {
+  interface Window {
+    Kakao: any;
+  }
+}
 
 const TITLE = "서베이딜";
 const DESC = "투표로 탄생하는 공동구매";
@@ -67,6 +73,12 @@ const App = ({ Component, pageProps }: AppProps) => {
           `
         }}
       />
+      <Script
+        src='https://developers.kakao.com/sdk/js/kakao.js'
+        onLoad={() => {
+          window.Kakao.init(process.env.KAKAO_JS_KEY)
+        }} 
+      ></Script>
       <Component {...pageProps} />
     </>
   )

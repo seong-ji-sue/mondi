@@ -2,7 +2,7 @@ import MainProduct from "@components/MainProduct";
 import { ArrowBottom, ArrowTop, Fire, Logo } from "@components/Svg";
 import useAppStore from "@stores/app";
 import React, { RefObject, useEffect, useRef, useState } from "react";
-import Color from "src/utils/color";
+import Color from "@utils/color";
 import styled from "styled-components";
 
 const GOOGLE_DOCS_URL = "https://forms.gle/CJm5N3gASYiPJTB58";

@@ -1,6 +1,6 @@
 import React, { ReactElement } from "react";
-import Color from "src/utils/color";
-import { wonComma } from "src/utils/string";
+import Color from "@utils/color";
+import { wonComma } from "@utils/string";
 import styled from "styled-components";
 
 const Container = styled.div<{ containerStyle?: string }>`

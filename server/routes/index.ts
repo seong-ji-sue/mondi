@@ -1,8 +1,10 @@
 import express from "express";
-import testRouter from "./test";
+import loginRouter from "./login";
+import authRouter from "./auth";
 
 const serviceRouter = express.Router();
 
-serviceRouter.use('/test', testRouter);
+serviceRouter.use("/login", loginRouter);
+serviceRouter.use("/auth", authRouter);
 
 export default serviceRouter;

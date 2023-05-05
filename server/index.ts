@@ -6,6 +6,7 @@ import { IS_DEV, EXPRESS_PORT, MYSQL_HOST, MYSQL_PORT, MYSQL_USER, MYSQL_PASSWOR
 import { DataSource } from "typeorm";
 import routes from "./routes";
 import path from "path";
+import bodyParser from "body-parser";
 
 const app = next({ dev: IS_DEV })
 const handle = app.getRequestHandler()
@@ -26,13 +27,13 @@ export const dataSource = new DataSource({
   synchronize: false,
   logging: false,
   dropSchema: false,
-  entities: ["server/entities/*.ts"]
+  entities: ["server/entities/*.entity.ts"]
 });
 
 app.prepare().then(async () => {
   const server = express()
 
-  // await dataSource.initialize();
+  await dataSource.initialize();
 
   morgan.token("remote-addr", (req: express.Request) => {
     const clientIp = req.headers["x-real-ip"]?.toString() || req.ip;
@@ -42,6 +43,8 @@ app.prepare().then(async () => {
     return moment().format("YYYY-MM-DD HH:mm:ss");
   });
   server.use(morgan("combined"));
+
+  server.use(bodyParser.json());
 
   server.use("/uploads", express.static(path.join(__dirname, "../../uploads")))
 
