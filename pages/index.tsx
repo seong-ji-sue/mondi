@@ -111,7 +111,7 @@ const HeaderContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: calc(100% - 44px);
+  width: 100%;
   height: 55px;
   padding: 0 22px;
   background: linear-gradient(0deg, #111111, #111111), #FFFFFF;
@@ -141,7 +141,7 @@ const NavigationContainer = styled.div`
   display: flex;
   background: #111;
   width: 100%;
-  max-width: 500px;
+  max-width: 498px;
   height: ${NAVIGATION_HEIGHT}px;
 `;
 
@@ -318,8 +318,8 @@ const GuideWrapperContainer = styled.div`
 const GuideContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: calc(229px - 46px);
-  height: calc(136px - 46px);
+  width: 229px;
+  height: 136px;
   justify-content: flex-end;
   padding: 23px;
   background: linear-gradient(0deg, #FFFFFF, #FFFFFF), #F5F8FF;
@@ -353,7 +353,7 @@ const GuideDescText = styled.span`
 const SessionGuide = () => {
   return (
     <SessionContainer containerStyle="padding: 27px 0 36px 0; background: linear-gradient(0deg, #F5F5F5, #F5F5F5), #FFFFFF;">
-      <SessionContainer containerStyle="width: calc(100% - 64px); align-items: flex-start; padding: 0 32px;">
+      <SessionContainer containerStyle="width: 100%; align-items: flex-start; padding: 0 32px;">
         <SessionText textStyle="font-weight: 800; font-size: 18px; color: #232323; margin-bottom: 16px;">진행절차</SessionText>
       </SessionContainer>
       <GuideWrapperContainer>
@@ -434,7 +434,7 @@ const SessionCustom = () => {
       <SessionContainer
         containerStyle="
           padding: 42px 32px 44px 32px;
-          width: calc(100% - 64px);
+          width: 100%;
           align-items: flex-start;
           font-weight: 800;
           font-size: 26px;
@@ -518,7 +518,7 @@ const SessionVote = () => {
     <SessionContainer containerStyle="padding-top: 42px; background: #fff;">
       <SessionContainer
         containerStyle="
-          width: calc(100% - 64px);
+          width: 100%;
           padding: 0 32px;
           align-items: flex-start;
           font-weight: 800;
@@ -628,9 +628,6 @@ const categories = [{
 
 const GroupBuyCategoryWrapperContainer = styled.div`
   display: flex;
-  white-space: nowrap;
-  max-width: 500px;
-  width: 100%;
   margin-bottom: 21px;
   > * { margin-right: 8px; }
   > :last-child { margin-right: 0 }
@@ -833,7 +830,7 @@ const faqs = [{
 
 const FaqContainer = styled.div<{ isLast?: boolean }>`
   display: flex;
-  width: calc(100% - 74px);
+  width: calc(100% - 40px);
   padding: 20px 16px;
   border: 1px solid #DADFDB;
   background: #fff;
@@ -929,7 +926,7 @@ const StickyFooterContainer = styled.div`
   z-index: 10;
   bottom: 0px;
   width: 100%;
-  max-width: 500px;
+  max-width: 498px;
   height: ${STICKY_FOOTER_HEIGHT}px;
   display: flex;
   align-items: center;
@@ -938,7 +935,7 @@ const StickyFooterContainer = styled.div`
 `;
 
 const StickyFooterEstimateButton = styled.a`
-  width: calc(100% - 40px - 62px);
+  width: calc(100% - 40px);
   padding: 17px 31px;
   display: flex;
   justify-content: center;
