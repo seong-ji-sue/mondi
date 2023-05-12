@@ -12,7 +12,7 @@ const Container = styled.div`
 `;
 
 const TitleContainer = styled.div`
-  margin-top: 24px;
+  margin: 24px 0 18px 0;
   padding: 0 22px;
 `
 const TitleText = styled.p`
@@ -56,16 +56,9 @@ const App = () => {
         <TitleText>투표하기</TitleText>
         <SubContent>투표로 만들어지는 공동구매</SubContent>
       </TitleContainer>
-      <Card />
-      {/* <UserInfoText>
-        {`닉네임: ${userInfo.nickname}
-        이메일: ${userInfo.email}
-        이름: ${userInfo.name}
-        전화번호: ${userInfo.phoneNumber}
-        출생 연도: ${userInfo.birthyear}
-        생일: ${userInfo.birthday}
-        성별: ${userInfo.gender}`}
-      </UserInfoText> */}
+      {[1,2,3].map((num, index)=>{
+        return <Card key={"card"+index} />
+      })}
     </Container>
     
   )
