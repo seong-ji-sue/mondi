@@ -5,6 +5,8 @@ import "../styles/globals.css";
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { GA_ID, pageview } from '@utils/gtag';
+import AlertModal from '@components/AlertModal';
+import useAppStore from '@stores/app';
 
 declare global {
   interface Window {
@@ -18,6 +20,7 @@ const URL = "https://www.surveydeal.co.kr";
 const IMAGE = "https://www.surveydeal.co.kr/imgs/og.png";
 
 const App = ({ Component, pageProps }: AppProps) => {
+  const alert = useAppStore(state => state.alert);
   const router = useRouter();
   
    useEffect(() => {
@@ -80,6 +83,7 @@ const App = ({ Component, pageProps }: AppProps) => {
         }} 
       ></Script>
       <Component {...pageProps} />
+      <AlertModal {...alert} />
     </>
   )
 }

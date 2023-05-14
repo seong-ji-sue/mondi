@@ -4,7 +4,7 @@ import styled from "styled-components";
 import Color from "@utils/color";
 import { useRouter } from "next/router";
 
-const OverlabContainer = styled.div`
+const OverlayContainer = styled.div`
   display: flex;
   align-items: flex-end;
   width: 100%;
@@ -113,7 +113,7 @@ const Terms = () => {
   const buttonAcivate = agrees.filter(agree =>  !agree.checked && agree.required).length === 0;
 
   return (
-    <OverlabContainer>
+    <OverlayContainer>
       <Container>
         <TitleText>약관에 동의해주세요</TitleText>
         <DescText>{`여러분의 개인정보와 서비스 이용 권리\n잘 지켜드릴게요`}</DescText>
@@ -157,7 +157,7 @@ const Terms = () => {
           }}
         >확인</ConfirmButton>
       </Container>
-    </OverlabContainer>
+    </OverlayContainer>
   )
 }
 

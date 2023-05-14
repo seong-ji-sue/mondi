@@ -39,3 +39,32 @@ export const CheckCircle = ({ size, color, onClick }: { size: number; color: str
     <path d="M11 0C4.939 0 0 4.939 0 11C0 17.061 4.939 22 11 22C17.061 22 22 17.061 22 11C22 4.939 17.061 0 11 0ZM16.258 8.47L10.021 14.707C9.867 14.861 9.658 14.949 9.438 14.949C9.218 14.949 9.009 14.861 8.855 14.707L5.742 11.594C5.423 11.275 5.423 10.747 5.742 10.428C6.061 10.109 6.589 10.109 6.908 10.428L9.438 12.958L15.092 7.304C15.411 6.985 15.939 6.985 16.258 7.304C16.577 7.623 16.577 8.14 16.258 8.47Z" fill={color}/>
   </svg>
 )
+
+export const Close = ({ onClick }: { onClick?(): void }) => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ cursor: onClick ? "pointer" : "none" }} onClick={onClick}>
+    <path d="M5 5.24023L18.9991 19.2393" stroke="#111111" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M5.00094 19.2393L19 5.24023" stroke="#111111" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+)
+
+export const Logout = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M17.4414 14.62L20.0014 12.06L17.4414 9.5" stroke="#48484D" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M9.76172 12.0601H19.9317" stroke="#48484D" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M11.7617 20C7.34172 20 3.76172 17 3.76172 12C3.76172 7 7.34172 4 11.7617 4" stroke="#48484D" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+)
+
+export const ArrowLeft = ({ onClick }: { onClick?(): void }) => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ cursor: onClick ? "pointer" : "none" }} onClick={onClick}>
+    <path d="M14.9998 20.1603L8.47984 13.6403C7.70984 12.8703 7.70984 11.6103 8.47984 10.8403L14.9998 4.32031" stroke="#111111" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+)
+
+export const MenuIcon = ({ onClick }: { onClick?(): void }) => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ cursor: onClick ? "pointer" : "none" }} onClick={onClick}>
+    <path d="M3 7.24023H21" stroke="#111111" strokeWidth="1.5" strokeLinecap="round"/>
+    <path d="M3 12.2402H21" stroke="#111111" strokeWidth="1.5" strokeLinecap="round"/>
+    <path d="M3 17.2402H21" stroke="#111111" strokeWidth="1.5" strokeLinecap="round"/>
+  </svg>
+)
