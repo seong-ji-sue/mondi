@@ -9,6 +9,7 @@ const Container = styled.div`
   overflow: hidden;
   border-radius: 12px;  
   filter: drop-shadow(1px 2px 10px rgba(0, 0, 0, 0.08));
+  margin-bottom: 20px;
 `;
 
 const ImageContainer = styled.div`
@@ -102,7 +103,7 @@ const VoteText = styled.span<{ activate: boolean }>`
   color: ${({ activate }) => activate ? "#2A2A2B" : "#C2C2C5"};
 `;
 
-const Product = () => {
+const Product = ({ activate }: { activate: boolean; }) => {
   return (
     <Container>
       <ImageContainer>
@@ -132,8 +133,8 @@ const Product = () => {
           <OriginPriceText>{`(${wonComma(679000)})`}</OriginPriceText>
         </PriceContainer>
         <VoteContainer>
-          <LogoIcon color={Color.APP_THEME} style={{ marginRight: 10 }} />
-          <VoteText activate>투표완료</VoteText>
+          <LogoIcon color={activate ? Color.APP_THEME : "#E2E2E2"} style={{ marginRight: 10 }} />
+          <VoteText activate={activate}>{activate ? "투표하기" : "투표 완료"}</VoteText>
         </VoteContainer>
       </BottomContainer>
     </Container>

@@ -36,7 +36,8 @@ const App = () => {
       <Container>
         <TitleText>투표하기</TitleText>
         <SubTitleText>투표로 만들어지는 공동구매</SubTitleText>
-        <Product />
+        <Product activate />
+        <Product activate={false} />
       </Container>
     </>
   )

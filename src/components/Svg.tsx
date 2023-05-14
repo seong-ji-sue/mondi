@@ -87,13 +87,13 @@ export const Contour = ({ width, height }:{ width: number; height: number }) => 
 export const LogoIcon = ({ color, style }: { color: string; style?: CSSProperties | undefined; }) => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={style}>
     <g clipPath="url(#clip0_1337_5711)">
-    <path d="M6 21.7272L12.8182 11.5454L20.6667 12.8181L14.303 22.7878L6 21.7272Z" fill="#10E94B" stroke="black"/>
-    <path d="M3.15234 10.9699L9.97053 0.788086L17.819 2.06081L11.4554 12.0305L3.15234 10.9699Z" fill="#10E94B" stroke="black"/>
+    <path d="M6 21.7272L12.8182 11.5454L20.6667 12.8181L14.303 22.7878L6 21.7272Z" fill={color} stroke="black"/>
+    <path d="M3.15234 10.9699L9.97053 0.788086L17.819 2.06081L11.4554 12.0305L3.15234 10.9699Z" fill={color} stroke="black"/>
     <path d="M14.3673 10.6803L21.1787 0H8.49451L0 13.3197H9.63274L2.82383 24H15.5055L24 10.6803H14.3673ZM9.97293 2.69824H16.26L11.2058 10.6214H4.91868L9.97293 2.69824ZM14.0271 21.3018H7.74251L12.7968 13.3786H19.0813L14.0271 21.3018Z" fill={color}/>
     </g>
     <defs>
     <clipPath id="clip0_1337_5711">
-    <rect width="24" height="24" fill="white"/>
+    <rect width="24" height="24" fill={color}/>
     </clipPath>
     </defs>
   </svg>
