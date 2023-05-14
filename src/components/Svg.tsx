@@ -1,3 +1,5 @@
+import { CSSProperties } from "react";
+
 export const Logo = ({ color, width, height }: { color: string; width: number; height: number; }) => (
   <svg width={width} height={height} viewBox="0 0 60 16" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M13.4315 0C13.541 0 13.5957 0.0486648 13.5957 0.145994V15.3111C13.5957 15.4206 13.541 15.4754 13.4315 15.4754H11.8985C11.8012 15.4754 11.7525 15.4206 11.7525 15.3111V7.26321H7.95668C7.84718 7.26321 7.79243 7.21454 7.79243 7.11721V5.67552C7.79243 5.57819 7.84718 5.52953 7.95668 5.52953H11.7525V0.145994C11.7525 0.0486648 11.8012 0 11.8985 0H13.4315ZM7.90193 10.4568C8.31558 11.1016 8.71098 11.6369 9.08813 12.0628C9.46528 12.4764 9.72686 12.7562 9.87285 12.9022C9.94585 12.9752 9.94585 13.0482 9.87285 13.1212L8.85089 14.2344C8.77789 14.3318 8.7049 14.3318 8.6319 14.2344C8.46157 14.0763 8.1635 13.766 7.73769 13.3037C7.32404 12.8292 6.87997 12.227 6.40549 11.497C6.1135 11.0469 5.84585 10.6028 5.60252 10.1648C5.3592 9.71469 5.14629 9.25846 4.9638 8.79614C4.78131 9.25846 4.5684 9.71469 4.32507 10.1648C4.08175 10.6028 3.82018 11.0469 3.54036 11.497C3.05371 12.227 2.59748 12.8292 2.17166 13.3037C1.75801 13.766 1.47211 14.0763 1.31395 14.2344C1.22878 14.3196 1.1497 14.3196 1.07671 14.2344L0.565727 13.6869L0.0547478 13.1212C-0.0182493 13.0482 -0.0182493 12.9752 0.0547478 12.9022C0.200742 12.7562 0.462315 12.4764 0.839466 12.0628C1.21662 11.6369 1.61202 11.1016 2.02567 10.4568C2.25682 10.104 2.49407 9.70252 2.73739 9.25237C2.98071 8.80223 3.1997 8.31558 3.39436 7.79243C3.58902 7.26929 3.74718 6.71573 3.86884 6.13175C3.9905 5.54778 4.05134 4.94555 4.05134 4.32507V0.401484C4.05134 0.291988 4.10608 0.237241 4.21558 0.237241H5.73027C5.8276 0.237241 5.87626 0.291988 5.87626 0.401484V4.32507C5.87626 4.94555 5.93709 5.54778 6.05875 6.13175C6.18042 6.71573 6.33858 7.26929 6.53323 7.79243C6.72789 8.31558 6.94688 8.80223 7.19021 9.25237C7.43353 9.70252 7.67077 10.104 7.90193 10.4568Z" fill={color}/>
@@ -35,13 +37,13 @@ export const Kakao = () => (
 )
 
 export const CheckCircle = ({ size, color, onClick }: { size: number; color: string; onClick?(): void }) => (
-  <svg width={size} height={size} viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" onClick={onClick} style={{ cursor: "pointer" }}>
+  <svg width={size} height={size} viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" style={onClick ? { cursor: "pointer"} : {}} onClick={onClick}>
     <path d="M11 0C4.939 0 0 4.939 0 11C0 17.061 4.939 22 11 22C17.061 22 22 17.061 22 11C22 4.939 17.061 0 11 0ZM16.258 8.47L10.021 14.707C9.867 14.861 9.658 14.949 9.438 14.949C9.218 14.949 9.009 14.861 8.855 14.707L5.742 11.594C5.423 11.275 5.423 10.747 5.742 10.428C6.061 10.109 6.589 10.109 6.908 10.428L9.438 12.958L15.092 7.304C15.411 6.985 15.939 6.985 16.258 7.304C16.577 7.623 16.577 8.14 16.258 8.47Z" fill={color}/>
   </svg>
 )
 
 export const Close = ({ onClick }: { onClick?(): void }) => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ cursor: onClick ? "pointer" : "none" }} onClick={onClick}>
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={onClick ? { cursor: "pointer"} : {}} onClick={onClick}>
     <path d="M5 5.24023L18.9991 19.2393" stroke="#111111" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
     <path d="M5.00094 19.2393L19 5.24023" stroke="#111111" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
   </svg>
@@ -56,22 +58,22 @@ export const Logout = () => (
 )
 
 export const ArrowLeft = ({ onClick }: { onClick?(): void }) => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ cursor: onClick ? "pointer" : "none" }} onClick={onClick}>
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={onClick ? { cursor: "pointer"} : {}} onClick={onClick}>
     <path d="M14.9998 20.1603L8.47984 13.6403C7.70984 12.8703 7.70984 11.6103 8.47984 10.8403L14.9998 4.32031" stroke="#111111" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
   </svg>
 )
 
 export const MenuIcon = ({ onClick }: { onClick?(): void }) => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ cursor: onClick ? "pointer" : "none" }} onClick={onClick}>
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={onClick ? { cursor: "pointer"} : {}} onClick={onClick}>
     <path d="M3 7.24023H21" stroke="#111111" strokeWidth="1.5" strokeLinecap="round"/>
     <path d="M3 12.2402H21" stroke="#111111" strokeWidth="1.5" strokeLinecap="round"/>
     <path d="M3 17.2402H21" stroke="#111111" strokeWidth="1.5" strokeLinecap="round"/>
   </svg>
 )
 
-export const QuestionMark = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
-    <circle cx="7" cy="7" r="6.75" fill="#F2F2F2" stroke="#8E8E93" stroke-width="0.5"/>
+export const QuestionMark = ({ onClick }: { onClick?(): void }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none" style={onClick ? { cursor: "pointer"} : {}} onClick={onClick}>
+    <circle cx="7" cy="7" r="6.75" fill="#F2F2F2" stroke="#8E8E93" strokeWidth="0.5"/>
     <path d="M6.39062 8.36719V8.40625H7.0625V8.36719C7.07812 7.69141 7.25391 7.39062 7.74219 7.09375C8.22656 6.79688 8.51562 6.37109 8.51562 5.75781C8.51562 4.89453 7.87891 4.26562 6.89844 4.26562C6.00391 4.26562 5.28906 4.81641 5.25 5.76562H5.96094C6.00391 5.12109 6.45312 4.85547 6.89844 4.85938C7.41406 4.85547 7.82812 5.19531 7.82812 5.72656C7.82812 6.16406 7.58203 6.47656 7.25781 6.67188C6.71875 7 6.39844 7.32031 6.39062 8.36719ZM6.25 9.53906C6.24219 9.81641 6.47656 10.043 6.75 10.0469C7.02734 10.043 7.25391 9.81641 7.25 9.53906C7.25391 9.26562 7.02734 9.03906 6.75 9.03906C6.47656 9.03906 6.24219 9.26562 6.25 9.53906Z" fill="#8E8E93"/>
   </svg>
 )
@@ -79,5 +81,20 @@ export const QuestionMark = () => (
 export const Contour = ({ width, height }:{ width: number; height: number }) => (
   <svg xmlns="http://www.w3.org/2000/svg" width={width} height={height} viewBox="0 0 1 35" fill="none">
     <line x1="0.5" y1="2.18558e-08" x2="0.499998" y2="35" stroke="#DADADC"/>
+  </svg>
+)
+
+export const LogoIcon = ({ color, style }: { color: string; style?: CSSProperties | undefined; }) => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={style}>
+    <g clipPath="url(#clip0_1337_5711)">
+    <path d="M6 21.7272L12.8182 11.5454L20.6667 12.8181L14.303 22.7878L6 21.7272Z" fill="#10E94B" stroke="black"/>
+    <path d="M3.15234 10.9699L9.97053 0.788086L17.819 2.06081L11.4554 12.0305L3.15234 10.9699Z" fill="#10E94B" stroke="black"/>
+    <path d="M14.3673 10.6803L21.1787 0H8.49451L0 13.3197H9.63274L2.82383 24H15.5055L24 10.6803H14.3673ZM9.97293 2.69824H16.26L11.2058 10.6214H4.91868L9.97293 2.69824ZM14.0271 21.3018H7.74251L12.7968 13.3786H19.0813L14.0271 21.3018Z" fill={color}/>
+    </g>
+    <defs>
+    <clipPath id="clip0_1337_5711">
+    <rect width="24" height="24" fill="white"/>
+    </clipPath>
+    </defs>
   </svg>
 )

@@ -1,62 +1,44 @@
 import React from "react";
 import styled from "styled-components";
 import Header from "@components/Header";
-import Card from "@components/Card";
-import { Logo } from "@components/Svg";
+import Product from "@components/Product";
+import { Logo, LogoIcon } from "@components/Svg";
 import Menu from "@components/menu";
+import Color from "@utils/color";
 
 const Container = styled.div`
-  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 0 20px;
 `;
 
-const LogoImage = styled.img`
-  width: 24px;
-  height: 24px;
-  margin-right: 4px;
-`;
-
-const TitleContainer = styled.div`
-  margin: 24px 0 18px 0;
-  padding: 0 22px;
-`;
-
-const TitleText = styled.p`
-  color: #000000;
-  font-style: normal;
+const TitleText = styled.span`
+  margin: 24px 0 8px 0;
   font-weight: 700;
   font-size: 22px;
-  line-height: 100%;
-  letter-spacing: -0.408px;
-  margin: 0;
+  color: #000;
 `;
 
-const SubContent = styled.p`
-  color: #8A8A8D;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 13px;
-  line-height: 130%;
-  margin: 6px 0 0 0;
+const SubTitleText = styled.span`
+  margin-bottom: 20px;
 `;
 
 const App = () => {
   return (
-    <Container>
+    <>
       <Header
         left={<>
-          <LogoImage src="/imgs/favicon.png" />
+          <LogoIcon color={Color.APP_THEME} style={{ marginRight: 4 }} />
           <Logo color="#26262B" width={55} height={14} />
         </>}
         right={<Menu />}
       />
-      <TitleContainer>
+      <Container>
         <TitleText>투표하기</TitleText>
-        <SubContent>투표로 만들어지는 공동구매</SubContent>
-      </TitleContainer>
-      {[1,2,3].map((num, index)=>{
-        return <Card key={"card"+index} />
-      })}
-    </Container>
+        <SubTitleText>투표로 만들어지는 공동구매</SubTitleText>
+        <Product />
+      </Container>
+    </>
   )
 }
 

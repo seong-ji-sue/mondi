@@ -98,21 +98,26 @@ const Menu = () => {
               )
             })}
           </MenusContainer>
-          <LogoutButton>
-            <LogoutButtonText
-              onClick={() => {
-                useAppStore.setState({
-                  alert: {
-                    show: true,
-                    title: "로그아웃 하시겠습니까?",
-                    onNo: () => useAppStore.setState({ alert: defaultAlert }),
-                    onYes: () => {
-                      localStorage.clear();
-                      router.replace("/app");
+          <LogoutButton
+            onClick={() => {
+              useAppStore.setState({
+                alert: {
+                  show: true,
+                  title: "로그아웃 하시겠습니까?",
+                  onNo: () => useAppStore.setState({ alert: defaultAlert }),
+                  onYes: () => {
+                    localStorage.clear();
+                    if (router.pathname === "/app") {
+                      setVisible(false);
+                      return;
                     }
+                    router.replace("/app");
                   }
-                })
-              }}>로그아웃</LogoutButtonText>
+                }
+              })
+            }}
+          >
+            <LogoutButtonText>로그아웃</LogoutButtonText>
             <Logout />
           </LogoutButton>
         </Container>

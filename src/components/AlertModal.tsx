@@ -30,6 +30,7 @@ const Container = styled.div`
 const ContentContainer = styled.div`
   flex: 1;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 `;
@@ -46,6 +47,7 @@ const DescText = styled.div`
   font-weight: 500;
   font-size: 13px;
   white-space: pre-line;
+  text-align: center;
 `;
 
 const ButtonsContainer = styled.div`
