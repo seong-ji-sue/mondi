@@ -6,7 +6,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
-  background: linear-gradient(0deg, #1F1F1F, #1F1F1F), linear-gradient(0deg, #FFFFFF, #FFFFFF), #E6EDFF;
+  background: linear-gradient(0deg, #FFFFFF, #FFFFFF), #E6EDFF;
 `;
 
 const TitleContainer = styled.div`

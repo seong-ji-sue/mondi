@@ -12,7 +12,6 @@ const STICKY_FOOTER_HEIGHT = 80;
 
 const Container = styled.div`
   width: 100%;
-  border: 1px solid #e7e7e7;
   padding-bottom: ${STICKY_FOOTER_HEIGHT}px;
 `;
 

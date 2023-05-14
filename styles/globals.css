@@ -86,6 +86,14 @@ body #__next {
   margin: 0 auto;
 }
 
+body #__next {
+	width: 100%;
+	max-width: 500px;
+  height: 100%;
+  padding: 0;
+  border: 1px solid #e7e7e7;
+}
+
 * {
 	box-sizing: border-box;
 }
