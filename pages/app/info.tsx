@@ -1,6 +1,6 @@
 import Header from "@components/Header";
 import { ArrowLeft } from "@components/Svg";
-import Menu from "@components/menu";
+import Menu from "@components/Menu";
 import { useRouter } from "next/router";
 import React from "react";
 

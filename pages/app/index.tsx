@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Header from "@components/Header";
 import Product from "@components/Product";
 import { Logo, LogoIcon } from "@components/Svg";
-import Menu from "@components/menu";
+import Menu from "@components/Menu";
 import Color from "@utils/color";
 
 const Container = styled.div`
