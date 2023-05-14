@@ -130,7 +130,7 @@ const HeaderButton = styled.a`
 const Header = () => {
   return (
     <HeaderContainer>
-      <Logo />
+      <Logo color="white" width={60} height={16} />
       <HeaderButton href={GOOGLE_DOCS_URL}>관심고객 등록 후 이용하기</HeaderButton>
     </HeaderContainer>
   )
@@ -889,7 +889,7 @@ const SessionFooter = () => {
       "
     >
       <SessionRowContainer containerStyle="width: 100%; margin-bottom: 18px; padding-bottom: 18px; border-bottom: 1px solid rgba(255, 255, 255, 0.3);">
-        <Logo />
+        <Logo color="white" width={60} height={16} />
       </SessionRowContainer>
       <SessionText
         textStyle="

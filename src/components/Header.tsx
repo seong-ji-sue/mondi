@@ -17,15 +17,13 @@ const TitleText = styled.div`
   margin: 0 10px;
 `;
 
-const Header = ({ left, title, right }: { left?: ReactElement; title?: string; right?: ReactElement;
-}) => {
+const Header = ({ left, title, right }: { left?: ReactElement; title?: string; right?: ReactElement; }) => {
   return (
     <Container>
       {left}
       <TitleText>{title}</TitleText>
       {right}
     </Container>
-   
   )
 }
 
