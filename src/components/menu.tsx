@@ -91,7 +91,7 @@ const Menu = () => {
                   selected={menu.path === router.pathname}
                   onClick={() => {
                     if (menu.path) {
-                      router.replace(menu.path)
+                      router.push(menu.path)
                     }
                   }}
                 >{menu.name}</MenuText>
