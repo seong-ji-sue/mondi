@@ -7,6 +7,7 @@ import { DataSource } from "typeorm";
 import routes from "./routes";
 import path from "path";
 import bodyParser from "body-parser";
+import { Entities } from "./entities";
 
 const app = next({ dev: IS_DEV })
 const handle = app.getRequestHandler()
@@ -27,7 +28,7 @@ export const dataSource = new DataSource({
   synchronize: false,
   logging: false,
   dropSchema: false,
-  entities: ["server/entities/*.entity.ts"]
+  entities: [...Entities]
 });
 
 app.prepare().then(async () => {
