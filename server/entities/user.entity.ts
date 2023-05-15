@@ -1,5 +1,6 @@
-import { Entity, Column, OneToMany } from 'typeorm';
+import { Entity, Column, OneToMany, ManyToOne, ManyToMany, JoinTable } from 'typeorm';
 import CommonEntity from './common';
+import Survey from './servey.entity';
 import UserType from './userType.entity';
 
 @Entity("user")
@@ -27,4 +28,7 @@ export default class User extends CommonEntity {
 
   @OneToMany(() => UserType, (userType) => userType.user)
   userTypes: UserType[];
+
+  @ManyToMany(() => Survey, (survey) => survey.users)
+  surveys: Survey[];
 }
