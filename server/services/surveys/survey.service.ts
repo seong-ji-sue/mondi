@@ -49,7 +49,7 @@ export const getSurvey = async ({surveyId = -1, userId = -1}) => {
   })
   
   if (!data) {
-    throw 404;
+    return;
   }
 
   const survey = new SurveyDTO(data);
