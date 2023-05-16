@@ -1,6 +1,6 @@
 import { Entity, Column, OneToMany, ManyToOne, ManyToMany, JoinTable } from 'typeorm';
 import CommonEntity from './common';
-import Survey from './servey.entity';
+import Survey from './survey.entity';
 import UserType from './userType.entity';
 
 @Entity("user")

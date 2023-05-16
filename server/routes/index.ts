@@ -7,6 +7,6 @@ const serviceRouter = express.Router();
 
 serviceRouter.use("/login", loginRouter);
 serviceRouter.use("/auth", authRouter);
-serviceRouter.use("/serveys", surveysRouter);
+serviceRouter.use("/surveys", surveysRouter);
 
 export default serviceRouter;

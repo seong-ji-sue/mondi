@@ -57,6 +57,6 @@ export default class Survey extends CommonEntity {
   detailImages: [string, string] | [] = []; 
 
   @ManyToMany(() => User, (user) => user.surveys)
-  @JoinTable()
+  @JoinTable({name: "survey_users"})
   users: User[];
 }

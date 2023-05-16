@@ -1,4 +1,4 @@
-import Survey from "server/entities/servey.entity";
+import Survey from "../../server/entities/survey.entity";
 
 export class SurveyDTO extends Survey {
   constructor(survey: Survey) {
