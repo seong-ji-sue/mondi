@@ -5,6 +5,7 @@ import Product from "@components/Product";
 import { Logo, LogoIcon } from "@components/Svg";
 import Menu from "@components/Menu";
 import Color from "@utils/color";
+import { useRouter } from "next/router";
 
 const Container = styled.div`
   display: flex;
@@ -23,7 +24,16 @@ const SubTitleText = styled.span`
   margin-bottom: 20px;
 `;
 
+const productStyle = {
+  borderRadius:'12px',
+  cursor:'pointer',
+  margin: '20px'
+}
+
 const App = () => {
+
+  const router = useRouter();
+
   return (
     <>
       <Header
@@ -36,8 +46,8 @@ const App = () => {
       <Container>
         <TitleText>투표하기</TitleText>
         <SubTitleText>투표로 만들어지는 공동구매</SubTitleText>
-        <Product activate />
-        <Product activate={false} />
+        <Product style={productStyle} routerMove={()=>{router.push('/app/detail')}} activate />
+        <Product style={productStyle} routerMove={()=>{router.push('/app/detail')}} activate={false} />
       </Container>
     </>
   )

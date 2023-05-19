@@ -57,8 +57,8 @@ export const Logout = () => (
   </svg>
 )
 
-export const ArrowLeft = ({ onClick }: { onClick?(): void }) => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={onClick ? { cursor: "pointer"} : {}} onClick={onClick}>
+export const ArrowLeft = ({ style, onClick }: { style?:{}, onClick?(): void }) => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={Object.assign({}, style, onClick ? {cursor:"pointer"}:{} )} onClick={onClick}>
     <path d="M14.9998 20.1603L8.47984 13.6403C7.70984 12.8703 7.70984 11.6103 8.47984 10.8403L14.9998 4.32031" stroke="#111111" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
   </svg>
 )
@@ -71,7 +71,7 @@ export const MenuIcon = ({ onClick }: { onClick?(): void }) => (
   </svg>
 )
 
-export const QuestionMark = ({ onClick }: { onClick?(): void }) => (
+export const QuestionMark = ({ style, onClick }: { style?:string, onClick?(): void }) => (
   <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none" style={onClick ? { cursor: "pointer"} : {}} onClick={onClick}>
     <circle cx="7" cy="7" r="6.75" fill="#F2F2F2" stroke="#8E8E93" strokeWidth="0.5"/>
     <path d="M6.39062 8.36719V8.40625H7.0625V8.36719C7.07812 7.69141 7.25391 7.39062 7.74219 7.09375C8.22656 6.79688 8.51562 6.37109 8.51562 5.75781C8.51562 4.89453 7.87891 4.26562 6.89844 4.26562C6.00391 4.26562 5.28906 4.81641 5.25 5.76562H5.96094C6.00391 5.12109 6.45312 4.85547 6.89844 4.85938C7.41406 4.85547 7.82812 5.19531 7.82812 5.72656C7.82812 6.16406 7.58203 6.47656 7.25781 6.67188C6.71875 7 6.39844 7.32031 6.39062 8.36719ZM6.25 9.53906C6.24219 9.81641 6.47656 10.043 6.75 10.0469C7.02734 10.043 7.25391 9.81641 7.25 9.53906C7.25391 9.26562 7.02734 9.03906 6.75 9.03906C6.47656 9.03906 6.24219 9.26562 6.25 9.53906Z" fill="#8E8E93"/>
@@ -96,5 +96,13 @@ export const LogoIcon = ({ color, style }: { color: string; style?: CSSPropertie
     <rect width="24" height="24" fill={color}/>
     </clipPath>
     </defs>
+  </svg>
+)
+
+export const Export = ({ style, onClick }: { style?:{}, onClick?(): void }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" style={Object.assign({}, style, onClick ? {cursor:"pointer"}:{} )} onClick={onClick}>
+    <path d="M9.32031 6.49994L11.8803 3.93994L14.4403 6.49994" stroke="#111111" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M11.8789 14.18V4.01001" stroke="#111111" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M4 12C4 16.42 7 20 12 20C17 20 20 16.42 20 12" stroke="#111111" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
   </svg>
 )
