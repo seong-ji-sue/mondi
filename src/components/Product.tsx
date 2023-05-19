@@ -1,15 +1,17 @@
 import { wonComma } from "@utils/string";
 import React from "react";
+import { CSSProperties } from "react";
 import styled from "styled-components";
 import { LogoIcon, QuestionMark } from "./Svg";
 import Color from "@utils/color";
 import { closeAlert, openAlert } from "@utils/alert";
 
-const Container = styled.div`
+const Container = styled.div<{borderRadius?:string|number, cursor?:string, margin?:string|number}>`
   overflow: hidden;
-  border-radius: 12px;  
+  border-radius: ${({borderRadius})=>borderRadius};  
   filter: drop-shadow(1px 2px 10px rgba(0, 0, 0, 0.08));
-  margin-bottom: 20px;
+  margin-bottom: ${({margin})=>margin};
+  cursor:${({cursor})=>cursor};
 `;
 
 const ImageContainer = styled.div`
@@ -34,7 +36,7 @@ const ContentContainer = styled.div`
   padding: 0 0 13px 16px;
 `;
 
-const BarndText = styled.span<{ textStyle?: string; }>`
+const BrandText = styled.span<{ textStyle?: string; }>`
   font-weight: 600;
   font-size: 12px;
   margin-bottom: 7px;
@@ -56,11 +58,12 @@ const DescText = styled.span<{ textStyle?: string; }>`
   color: #F2F2F2;
 `;
 
-const BottomContainer = styled.div`
+const BottomContainer = styled.div<{borderBottom?:string|number}>`
   display: flex;
   align-items: center;
   padding: 19px 0;
   background: #fff;
+  border-bottom: ${({borderBottom})=>borderBottom};
 `;
 
 const PriceContainer = styled.div`
@@ -103,17 +106,18 @@ const VoteText = styled.span<{ activate: boolean }>`
   color: ${({ activate }) => activate ? "#2A2A2B" : "#C2C2C5"};
 `;
 
-const Product = ({ activate }: { activate: boolean; }) => {
+const Product = ({style, activate, routerMove }: { style?: CSSProperties | undefined, activate: boolean, routerMove?(): void }) => {
+
   return (
-    <Container>
+    <Container borderRadius={style?.borderRadius} cursor={style?.cursor} margin={style?.margin} onClick={routerMove}>
       <ImageContainer>
         <ContentContainer>
-          <BarndText>브랜드명</BarndText>
+          <BrandText>브랜드명</BrandText>
           <NameText>비건 립케어</NameText>
           <DescText>{`동물성 성분은 빼고 만들어\n건강한 립케어`}</DescText>
         </ContentContainer>
       </ImageContainer>
-      <BottomContainer>
+      <BottomContainer borderBottom={style?.borderBottom}>
         <PriceContainer>
           <PriceRowContainer>
             <PriceText>{wonComma(499900)}원</PriceText>
