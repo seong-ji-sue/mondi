@@ -2,8 +2,8 @@ import jwt from "jsonwebtoken";
 import { NextFunction, Request, Response } from "express";
 import { isEmpty } from "lodash";
 import { dataSource } from "../";
-import UserType from "../../server/entities/userType.entity";
 import { ACCESS_JWT_SECRET } from "../../server/env";
+import User from "../entities/user.entity";
 
 export const parseUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -12,19 +12,18 @@ export const parseUser = async (req: Request, res: Response, next: NextFunction)
       return next();
     }
 
-    const {type = '', id = ''} = jwt.verify(token.split(' ')[1], ACCESS_JWT_SECRET) as any;
-    const userTypeRepository = dataSource.getRepository(UserType);
-    const userType = await userTypeRepository.findOne({
+    const {type = '', id = ''} = jwt.verify(token.split(' ')[1], ACCESS_JWT_SECRET) as Token.JWT;
+    const userRepository = dataSource.getRepository(User);
+    const user = await userRepository.findOne({
       where: {key: [type, id].join('_')},
-      select: ["id", "user"],
-      relations: ["user"]
+      select: ["id"]
     });
 
-    if (isEmpty(userType) || isEmpty(userType.user)) {
+    if (isEmpty(user)) {
       return res.status(401).send();
     }
 
-    req.auth = {...req.auth, user: userType.user};
+    req.auth = {...req.auth, user};
     next();
   } catch (err) {
     console.error(err);

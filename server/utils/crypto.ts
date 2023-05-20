@@ -8,7 +8,3 @@ export const encryptAES = (message: string) => {
 export const decryptAES = (encrypted: string) => {
   return CryptoJS.AES.decrypt(encrypted, CRYPTO_SECRET).toString(CryptoJS.enc.Utf8);
 };
-
-export const encryptSHA512 = (message: string) => {
-  return CryptoJS.SHA512(message).toString();
-}
