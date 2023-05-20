@@ -3,6 +3,12 @@ import { ArrowLeft } from "@components/Svg";
 import Menu from "@components/Menu";
 import { useRouter } from "next/router";
 import React from "react";
+import SurveyCard from "@components/Survey";
+import styled from "styled-components";
+
+const Conatiner = styled.div`
+  padding: 15px 20px 0 20px;
+`;
 
 const Survey = () => {
   const router = useRouter();
@@ -14,7 +20,10 @@ const Survey = () => {
         title="투표함"
         right={<Menu />}
       />
-      <h1>Survey</h1>
+      <Conatiner>
+        <SurveyCard />
+        <SurveyCard />
+      </Conatiner>
     </>
   )
 }

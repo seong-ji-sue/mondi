@@ -1,5 +1,4 @@
 import { Close, Logout, MenuIcon } from "@components/Svg";
-import useAppStore, { defaultAlert } from "@stores/app";
 import useAuthStore from "@stores/auth";
 import { closeAlert, openAlert } from "@utils/alert";
 import { useRouter } from "next/router";

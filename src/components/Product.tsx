@@ -2,7 +2,6 @@ import { wonComma } from "@utils/string";
 import React from "react";
 import styled from "styled-components";
 import { LogoIcon, QuestionMark } from "./Svg";
-import useAppStore, { defaultAlert } from "@stores/app";
 import Color from "@utils/color";
 import { closeAlert, openAlert } from "@utils/alert";
 

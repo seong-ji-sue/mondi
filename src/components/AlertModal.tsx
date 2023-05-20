@@ -1,4 +1,3 @@
-import useAppStore, { defaultAlert } from "@stores/app";
 import { closeAlert } from "@utils/alert";
 import Color from "@utils/color";
 import React from "react";
