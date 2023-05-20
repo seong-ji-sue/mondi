@@ -2,7 +2,8 @@ import { wonComma } from "@utils/string";
 import React from "react";
 import { CSSProperties } from "react";
 import styled from "styled-components";
-import { LogoIcon, QuestionMark } from "./Svg";
+import { LogoIcon, QuestionMark, Contour } from "./Svg";
+import useAppStore, { defaultAlert } from "@stores/app";
 import Color from "@utils/color";
 import { closeAlert, openAlert } from "@utils/alert";
 
@@ -71,7 +72,6 @@ const PriceContainer = styled.div`
   flex-direction: column;
   flex: 1;
   padding-left: 16px;
-  border-right: 1px solid #DADADC;
 `;
 
 const PriceRowContainer = styled.div`
@@ -133,6 +133,7 @@ const Product = ({style, activate, routerMove }: { style?: CSSProperties | undef
           </PriceRowContainer>
           <OriginPriceText>{`(${wonComma(679000)})`}</OriginPriceText>
         </PriceContainer>
+        <Contour width={1} height={35} />
         <VoteContainer>
           <LogoIcon color={activate ? Color.APP_THEME : "#E2E2E2"} style={{ marginRight: 10 }} />
           <VoteText activate={activate}>{activate ? "투표하기" : "투표 완료"}</VoteText>
