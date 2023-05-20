@@ -7,9 +7,8 @@ import { useRouter } from 'next/router';
 import { GA_ID, pageview } from '@utils/gtag';
 import AlertModal from '@components/AlertModal';
 import useAppStore from '@stores/app';
-import api from '@modules/api';
+import Api from '@modules/api';
 import useAuthStore from '@stores/auth';
-import { NOT_AUTH_PATH } from 'src/values/paths';
 
 declare global {
   interface Window {
@@ -39,10 +38,7 @@ const App = ({ Component, pageProps }: AppProps) => {
   }, [router.events]);
 
   useEffect(() => {
-    if (NOT_AUTH_PATH.includes(router.pathname)) {
-      return;
-    }
-    api
+    Api
       .getInstance()
       .getServiceAxios()
       .get("/api/auth/check")
