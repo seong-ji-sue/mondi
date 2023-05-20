@@ -1,26 +1,11 @@
 import { CheckCircle } from "@components/Svg";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Color from "@utils/color";
 import { useRouter } from "next/router";
-
-const OverlayContainer = styled.div`
-  display: flex;
-  align-items: flex-end;
-  width: 100%;
-  height: 100%;
-  background: rgba(77, 77, 77, 0.74);
-`;
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 82%;
-  padding: 37px 20px 30px 20px;
-  background: #fff;
-  border-radius: 12px 12px 0px 0px;
-`;
+import BottomModal from "@components/BottomModal";
+import Api from "@modules/api";
+import useAuthStore from "@stores/auth";
 
 const TitleText = styled.span`
   font-weight: 700;
@@ -108,56 +93,72 @@ const terms = [{
 
 const Terms = () => {
   const router = useRouter();
+  const accessToken = useAuthStore(state => state.accessToken);
+  const refreshToken = useAuthStore(state => state.refreshToken);
   const [agrees, setAgrees] = useState(terms.map(term => ({ checked: false, required: term.required })));
   const allchecked = agrees.filter(agree => !agree.checked).length === 0;
   const buttonAcivate = agrees.filter(agree =>  !agree.checked && agree.required).length === 0;
 
+  useEffect(() => {
+    if (!accessToken || !refreshToken) {
+      router.replace("/app/login");
+    }
+  }, []);
+
+  const onAllCheckAgree = () => {
+    setAgrees(terms.map(term => ({ checked: !allchecked, required: term.required })))
+  }
+
+  const onCheckAgree = (index: number) => {
+    const cloneAgrees = [...agrees]
+    cloneAgrees[index].checked = !cloneAgrees[index].checked;
+    setAgrees(cloneAgrees);
+  }
+
+  const onConfirm = () => {
+    localStorage.setItem("accessToken", accessToken);
+    localStorage.setItem("refreshToken", refreshToken);
+    Api.getInstance().setServiceAuth({ token: accessToken });
+    useAuthStore.setState({ state: true, accessToken: "", refreshToken: "" });
+    router.replace("/app");
+  }
+  
   return (
-    <OverlayContainer>
-      <Container>
+    <BottomModal
+      containerStyle="height: 82%; padding-bottom: 30px;"
+      content={<>
         <TitleText>약관에 동의해주세요</TitleText>
-        <DescText>{`여러분의 개인정보와 서비스 이용 권리\n잘 지켜드릴게요`}</DescText>
-        <TermContainer>
-          <CheckCircle
-            size={22}
-            color={allchecked ? Color.APP_THEME : "#DADADC"}
-            onClick={() => {
-              setAgrees(terms.map(term => ({ checked: !allchecked, required: term.required })))
-            }}
-          />
-          <TermTitle textStyle="font-weight: 700; font-size: 16px;">모두 동의</TermTitle>
-        </TermContainer>
-        <AllAgreeDescText>서비스 이용을 위해 아래 약관에 모두 동의합니다.</AllAgreeDescText>
-        <TermsContainer>
-          {terms.map((term, index) => {
-            return (
-              <TermContainer key={`term_${index}`} containerStyle="margin-bottom: 20px;">
-                <CheckCircle
-                  size={20}
-                  color={agrees[index].checked ? Color.APP_THEME : "#DADADC"}
-                  onClick={() => {
-                    const cloneAgrees = [...agrees]
-                    cloneAgrees[index].checked = !cloneAgrees[index].checked;
-                    setAgrees(cloneAgrees);
-                  }}
-                />
-                <TermTitle>{term.title}</TermTitle>
-                {term.look && <TermLookText>보기</TermLookText>}
-              </TermContainer>
-            )
-          })}
-        </TermsContainer>
-        <ConfirmButton
-          activate={buttonAcivate}
-          onClick={() => {
-            if (!buttonAcivate) {
-              return;
-            }
-            router.replace("/app");
-          }}
-        >확인</ConfirmButton>
-      </Container>
-    </OverlayContainer>
+          <DescText>{`여러분의 개인정보와 서비스 이용 권리\n잘 지켜드릴게요`}</DescText>
+          <TermContainer>
+            <CheckCircle
+              size={22}
+              color={allchecked ? Color.APP_THEME : "#DADADC"}
+              onClick={onAllCheckAgree}
+            />
+            <TermTitle textStyle="font-weight: 700; font-size: 16px;">모두 동의</TermTitle>
+          </TermContainer>
+          <AllAgreeDescText>서비스 이용을 위해 아래 약관에 모두 동의합니다.</AllAgreeDescText>
+          <TermsContainer>
+            {terms.map((term, index) => {
+              return (
+                <TermContainer key={`term_${index}`} containerStyle="margin-bottom: 20px;">
+                  <CheckCircle
+                    size={20}
+                    color={agrees[index].checked ? Color.APP_THEME : "#DADADC"}
+                    onClick={() => onCheckAgree(index)}
+                  />
+                  <TermTitle>{term.title}</TermTitle>
+                  {term.look && <TermLookText>보기</TermLookText>}
+                </TermContainer>
+              )
+            })}
+          </TermsContainer>
+          <ConfirmButton
+            activate={buttonAcivate}
+            onClick={buttonAcivate ? onConfirm : undefined}
+          >확인</ConfirmButton>
+      </>}
+    />
   )
 }
 

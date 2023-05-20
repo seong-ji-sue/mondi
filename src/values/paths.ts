@@ -1,1 +1,1 @@
-export const NOT_AUTH_PATH = ["/", "/app", "/app/login", "/app/login/kakao"];
+export const NOT_AUTH_PATH = ["/", "/app", "/app/login", "/app/login/kakao", "/app/terms"];

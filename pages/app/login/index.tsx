@@ -80,6 +80,12 @@ const LoginDescText = styled.span`
 `;
 
 const Login = () => {
+  const onKakaoLogin = () => {
+    window.Kakao.Auth.authorize({
+      redirectUri: process.env.KAKAO_REDIRECT_URI
+    });
+  }
+
   return (
     <Container>
       <TitleContainer>
@@ -95,11 +101,7 @@ const Login = () => {
       </TitleContainer>
       <LoginContainer>
         <KakaoLoginButton
-          onClick={() => {
-            window.Kakao.Auth.authorize({
-              redirectUri: process.env.KAKAO_REDIRECT_URI
-            });
-          }}
+          onClick={onKakaoLogin}
         >
           <Kakao />
           <KakaoLoginButtonText>카카오톡으로 3초만에 시작하기</KakaoLoginButtonText>

@@ -16,11 +16,11 @@ const Kakao = () => {
       .post("/api/login/kakao", { code })
       .then(res => {
         const { accessToken, refreshToken } = res.data;
-        localStorage.setItem("accessToken", accessToken);
-        localStorage.setItem("refreshToken", refreshToken);
-        Api.getInstance().setServiceAuth({ token: accessToken });
-        useAuthStore.setState({ state: true });
+        useAuthStore.setState({ accessToken, refreshToken });
         router.replace("/app/terms");
+      })
+      .catch(() => {
+        router.replace("/app/login");
       });
   }, [code]);
 
