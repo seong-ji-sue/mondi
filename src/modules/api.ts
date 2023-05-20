@@ -27,10 +27,9 @@ class Api {
             originalRequest.headers.Authorization = `Bearer ${accessToken}`;
             return this.serviceAxios(originalRequest);
           } catch (error) {
-            if (NOT_AUTH_PATH.includes(window.location.pathname)) {
-              return;
+            if (!NOT_AUTH_PATH.includes(window.location.pathname)) {
+              window.location.href = "/app";
             }
-            window.location.href = "/app";
           }
         }
         return Promise.reject(error);
