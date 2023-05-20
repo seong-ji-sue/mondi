@@ -1,6 +1,6 @@
 import MainProduct from "@components/MainProduct";
 import { ArrowBottom, ArrowTop, Fire, Logo } from "@components/Svg";
-import useAppStore from "@stores/app";
+import useIntroStore from "@stores/intro";
 import React, { RefObject, useEffect, useRef, useState } from "react";
 import Color from "@utils/color";
 import styled from "styled-components";
@@ -83,7 +83,7 @@ const Main = () => {
               top: (faqElement.current?.offsetTop ?? 0) - NAVIGATION_HEIGHT,
               behavior: "smooth"
             });
-            useAppStore.setState({ faqActiveIndex: 0 });
+            useIntroStore.setState({ faqActiveIndex: 0 });
           }
         }}
       />
@@ -848,7 +848,7 @@ const FaqQnAContainer = styled.div<{ isActive?: boolean }>`
 `;
 
 const SessionFaq = ({ faqElement }: { faqElement: RefObject<HTMLDivElement>; }) => {
-  const faqActiveIndex = useAppStore(state => state.faqActiveIndex);
+  const faqActiveIndex = useIntroStore(state => state.faqActiveIndex);
   
   return (
     <SessionContainer
@@ -860,7 +860,7 @@ const SessionFaq = ({ faqElement }: { faqElement: RefObject<HTMLDivElement>; }) 
         <FaqContainer
           key={`faq_${index}`}
           isLast={index === faqs.length - 1}
-          onClick={() => useAppStore.setState(state => ({ faqActiveIndex: state.faqActiveIndex === index ? -1 : index }))}
+          onClick={() => useIntroStore.setState(state => ({ faqActiveIndex: state.faqActiveIndex === index ? -1 : index }))}
         >
           <SessionText textStyle={`font-weight: 600; font-size: 18px; line-height: 18px; color: ${Color.THEME}; margin-right: 8px;`}>Q</SessionText>
           <FaqQnAContainer>

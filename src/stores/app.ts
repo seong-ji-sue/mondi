@@ -1,7 +1,6 @@
 import create from "zustand";
 
 interface IAppState {
-  faqActiveIndex: number;
   alert: App.IAlert;
 }
 
@@ -12,7 +11,6 @@ export const defaultAlert = {
 }
 
 const appState: IAppState = {
-  faqActiveIndex: -1,
   alert: defaultAlert
 }
 
