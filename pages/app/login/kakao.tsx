@@ -1,4 +1,5 @@
 import Api from "@modules/api";
+import useAuthStore from "@stores/auth";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
@@ -18,8 +19,9 @@ const Kakao = () => {
         localStorage.setItem("accessToken", accessToken);
         localStorage.setItem("refreshToken", refreshToken);
         Api.getInstance().setServiceAuth({ token: accessToken });
-        router.replace("/app");
-      })
+        useAuthStore.setState({ state: true });
+        router.replace("/app/terms");
+      });
   }, [code]);
 
   return null;

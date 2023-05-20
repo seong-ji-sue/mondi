@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { LogoIcon, QuestionMark } from "./Svg";
 import useAppStore, { defaultAlert } from "@stores/app";
 import Color from "@utils/color";
+import { closeAlert, openAlert } from "@utils/alert";
 
 const Container = styled.div`
   overflow: hidden;
@@ -119,13 +120,10 @@ const Product = ({ activate }: { activate: boolean; }) => {
             <PriceText>{wonComma(499900)}원</PriceText>
             <QuestionMark 
               onClick={() => {
-                useAppStore.setState({
-                  alert: {
-                    show: true,
-                    title: "목표가란?",
-                    desc: `‘목표가’는 실제 판매 금액이 아닌\n목표하는 공구 가격이에요.\n실제 판매 금액은 달라 질 수 있어요.`,
-                    onYes: () => useAppStore.setState({ alert: defaultAlert })
-                  }
+                openAlert({
+                  title: "목표가란?",
+                  desc: `‘목표가’는 실제 판매 금액이 아닌\n목표하는 공구 가격이에요.\n실제 판매 금액은 달라 질 수 있어요.`,
+                  onYes: closeAlert
                 })
               }}
             />

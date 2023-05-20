@@ -1,4 +1,5 @@
 import useAppStore, { defaultAlert } from "@stores/app";
+import { closeAlert } from "@utils/alert";
 import Color from "@utils/color";
 import React from "react";
 import styled from "styled-components";
@@ -39,15 +40,19 @@ const TitleText = styled.div`
   color: #2A2A2B;
   font-weight: 700;
   font-size: 15px;
-  margin-bottom: 10px;
+  line-height: 20px;
+  white-space: pre-line;
+  text-align: center;
 `;
 
 const DescText = styled.div`
   color: #9B9B9F;
   font-weight: 500;
   font-size: 13px;
+  line-height: 17px;
   white-space: pre-line;
   text-align: center;
+  margin-top: 10px;
 `;
 
 const ButtonsContainer = styled.div`
@@ -72,7 +77,7 @@ const AlertModal = ({ show, title, desc, onNo, onYes}: App.IAlert) => {
   }
 
   return (
-    <OverlayContainer onClick={() => useAppStore.setState({ alert: defaultAlert })}>
+    <OverlayContainer onClick={closeAlert}>
       <Container>
         <ContentContainer>
           <TitleText>{title}</TitleText>

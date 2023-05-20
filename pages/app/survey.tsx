@@ -4,7 +4,7 @@ import Menu from "@components/Menu";
 import { useRouter } from "next/router";
 import React from "react";
 
-const Vote = () => {
+const Survey = () => {
   const router = useRouter();
 
   return (
@@ -14,9 +14,9 @@ const Vote = () => {
         title="투표함"
         right={<Menu />}
       />
-      <h1>Vote</h1>
+      <h1>Survey</h1>
     </>
   )
 }
 
-export default Vote;
+export default Survey;
