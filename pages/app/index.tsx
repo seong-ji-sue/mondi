@@ -28,7 +28,7 @@ const App = () => {
     <>
       <Header
         left={<>
-          <LogoIcon color={Color.APP_THEME} style={{ marginRight: 4 }} />
+          <LogoIcon color="#10E94B" style={{ marginRight: 4 }} />
           <Logo color="#26262B" width={55} height={14} />
         </>}
         right={<Menu />}

@@ -132,7 +132,7 @@ const Terms = () => {
           <TermContainer>
             <CheckCircle
               size={22}
-              color={allchecked ? Color.APP_THEME : "#DADADC"}
+              color={allchecked ? "#27E05A" : "#DADADC"}
               onClick={onAllCheckAgree}
             />
             <TermTitle textStyle="font-weight: 700; font-size: 16px;">모두 동의</TermTitle>
@@ -144,7 +144,7 @@ const Terms = () => {
                 <TermContainer key={`term_${index}`} containerStyle="margin-bottom: 20px;">
                   <CheckCircle
                     size={20}
-                    color={agrees[index].checked ? Color.APP_THEME : "#DADADC"}
+                    color={agrees[index].checked ? "#27E05A" : "#DADADC"}
                     onClick={() => onCheckAgree(index)}
                   />
                   <TermTitle>{term.title}</TermTitle>
