@@ -3,7 +3,7 @@ import { isEmpty, omit } from "lodash";
 import User from "../../../server/entities/user.entity";
 import { authCheck } from "../../../server/middlewares/check";
 import { parseUser } from "../../../server/middlewares/user";
-import { checkUserEnteredSurvey, enterSurvey, getSurvey, getSurveys } from "../../services/surveys/survey.service";
+import { checkUserEnteredSurvey, enterSurvey, getSurvey, getSurveys, quitSurvey } from "../../services/surveys/survey.service";
 
 const surveysRouter = express.Router();
 
@@ -57,6 +57,17 @@ surveysRouter
       const userEnteredSurvey = await enterSurvey({survey, user});
       // TODO omit 통합
       res.json(omit(userEnteredSurvey, "users"));
+    } catch (err) {
+      console.error(err);
+      next(err);
+    }
+  })
+  .delete('/:surveyId/quit', authCheck, parseUser, async (req, res, next) => {
+    try {
+      const surveyId = parseInt(req.params?.surveyId);
+      const user: User = req.auth?.user;
+      await quitSurvey({surveyId, userId: user.id});
+      res.status(200).send();
     } catch (err) {
       console.error(err);
       next(err);

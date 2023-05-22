@@ -81,6 +81,15 @@ export const enterSurvey = async ({survey, user}: {survey: Survey, user: User}) 
   return userEnteredSurvey;
 };
 
+export const quitSurvey = async ({surveyId, userId}: {surveyId: number, userId: number}) => {
+  const surveyRepository = dataSource.getRepository(Survey);
+  await surveyRepository
+    .createQueryBuilder()
+    .relation(Survey, "users")
+    .of(surveyId)
+    .remove(userId);
+};
+
 export const getUserSurveys = async ({page, limit, userId}: {page: number, limit: number, userId: number}) => {
   const result: {[key: string]: any} = {
     surveys: [],
