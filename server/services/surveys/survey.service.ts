@@ -2,9 +2,9 @@ import { dataSource } from "../../";
 import Survey, { surveyStates } from "../../../server/entities/survey.entity";
 import User from "../../../server/entities/user.entity";
 import { isEmpty, omit } from "lodash";
-import { SurveyDTO, SurveyListDTO } from "../../../server/dtos/survey.dto";
+import { MySurveyListDTO, SurveyDTO, SurveyListDTO } from "../../../server/dtos/survey.dto";
 
-export const getSurveys = async ({page = 1, limit = 10, userId = -1}) => {
+export const getSurveys = async ({page, limit, userId}: {page: number, limit: number, userId: number}) => {
   const result: {[key: string]: any} = {
     surveys: [],
     page,
@@ -41,7 +41,7 @@ export const getSurveys = async ({page = 1, limit = 10, userId = -1}) => {
   return result;
 };
 
-export const getSurvey = async ({surveyId = -1, userId = -1}) => {
+export const getSurvey = async ({surveyId, userId}: {surveyId: number, userId: number}) => {
   const surveyRepository = dataSource.getRepository(Survey);
   const data = await surveyRepository.findOne({
     where: {
@@ -79,4 +79,31 @@ export const enterSurvey = async ({survey, user}: {survey: Survey, user: User}) 
   userEnteredSurvey.isEntered = userEnteredSurvey.users.some(u => u.id === user.id);
   
   return userEnteredSurvey;
+};
+
+export const getUserSurveys = async ({page, limit, userId}: {page: number, limit: number, userId: number}) => {
+  const result: {[key: string]: any} = {
+    surveys: [],
+    page,
+    limit
+  };
+
+  const surveyRepository = dataSource.getRepository(Survey);
+  const queryBuilder = surveyRepository.createQueryBuilder("survey")
+    .leftJoinAndSelect("survey.users", "user")
+    .where('user.id = :userId', { userId })
+    .select(["survey.id", "survey.brandName", "survey.itemName", "survey.itemDescription", "survey.listThumbnailImage"])
+    
+  if (page === 1) {
+    result.totalCount = await queryBuilder.getCount();
+    result.totalPage = Math.ceil(result.totalCount / limit);
+  }
+
+  result.surveys = await queryBuilder
+    .skip((page - 1) * limit)
+    .limit(limit)
+    .getMany()
+    .then(r => r.map(survey => new MySurveyListDTO(survey)));
+    
+  return result;
 };

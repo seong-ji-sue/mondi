@@ -1,6 +1,5 @@
 import express, { Request, Response } from "express";
 import { isEmpty, omit } from "lodash";
-import next from "next";
 import User from "../../../server/entities/user.entity";
 import { authCheck } from "../../../server/middlewares/check";
 import { parseUser } from "../../../server/middlewares/user";

@@ -14,7 +14,7 @@ export class SurveyDTO extends Survey {
 type SurveyListDTOType = Pick<Survey, "id" | "state" | "brandName" | "itemName" | "itemDescription" | "price" | "targetPrice" | "users">
 export class SurveyListDTO implements SurveyListDTOType {
   constructor(survey: Survey) {
-    Object.assign(this, pick(survey, ['id', 'state', 'brandName', 'itemName', 'itemDescription', 'price', 'targetPrice', 'users']));
+    Object.assign(this, pick(survey, ['id', 'state', 'brandName', 'itemName', 'itemDescription', 'listThumbnailImage', 'price', 'targetPrice', 'users']));
   }
 
   id: number;
@@ -22,8 +22,23 @@ export class SurveyListDTO implements SurveyListDTOType {
   brandName: string;
   itemName: string;
   itemDescription: string;
+  listThumbnailImage: string;
   price: number;
   targetPrice: number;
   users: User[];
   isEntered: boolean = false;
+}
+
+type MySurveyListDTOType = Omit<SurveyListDTOType, "price" | "targetPrice" | "users">;
+export class MySurveyListDTO implements MySurveyListDTOType {
+  constructor(survey: Survey) {
+    Object.assign(this, pick(survey, ['id', 'state', 'brandName', 'itemName', 'itemDescription', 'listThumbnailImage']));
+  }
+
+  id: number;
+  state: surveyStates;
+  brandName: string;
+  itemName: string;
+  itemDescription: string;
+  listThumbnailImage: string;
 }
