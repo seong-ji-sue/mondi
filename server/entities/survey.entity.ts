@@ -2,9 +2,18 @@ import { Column, Entity, JoinTable, ManyToMany, OneToMany } from "typeorm";
 import CommonEntity from "./common";
 import User from "./user.entity";
 
+export enum surveyStates {
+  ACTIVE = "ACTIVE",
+  FAIL = "FAIL",
+  FINISHED = "FINISHED"
+};
+
 @Entity("survey")
 export default class Survey extends CommonEntity {
   // item
+  @Column("enum", {enum: surveyStates, comment: "투표 상태"})
+  state: surveyStates = surveyStates.ACTIVE;
+
   @Column("varchar", { length: 22, comment: "브랜드명" })
   brandName: string = "";
 
@@ -53,7 +62,7 @@ export default class Survey extends CommonEntity {
   @Column("varchar", { length: 256, comment: "상단 메인 배너 이미지" })
   heroImage: string = "";
 
-  @Column("json", { comment: "상단 메인 배너 이미지" })
+  @Column("json", { comment: "상세 이미지" })
   detailImages: [string, string] | [] = []; 
 
   @ManyToMany(() => User, (user) => user.surveys)
