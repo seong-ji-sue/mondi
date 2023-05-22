@@ -8,6 +8,13 @@ export enum surveyStates {
   FINISHED = "FINISHED"
 };
 
+type SurveyDetail = {
+  detailTitle: string;
+  detailDescription: string;
+  detailMdPlan: string;
+  detailImages: [string, string]; 
+};
+
 @Entity("survey")
 export default class Survey extends CommonEntity {
   // item
@@ -42,17 +49,10 @@ export default class Survey extends CommonEntity {
   pointDescriptions: string[] = [];
 
   // details
-  @Column("varchar", { length: 22, comment: "상세페이지 요약 제목" })
-  detailTitle: string = "";
-
-  @Column("varchar", { length: 50, comment: "상세페이지 요약 설명" })
-  detailDescription: string = "";
-
-  @Column("varchar", { length: 50, comment: "MD 기획 의도" })
-  detailMdPlan: string = "";
-
+  @Column("json", { comment: "상세 내용" })
+  details: SurveyDetail[];
+  
   // images
-
   @Column("varchar", { length: 256, comment: "리스트 썸네일 이미지" })
   listThumbnailImage: string = "";
 
@@ -61,9 +61,6 @@ export default class Survey extends CommonEntity {
 
   @Column("varchar", { length: 256, comment: "상단 메인 배너 이미지" })
   heroImage: string = "";
-
-  @Column("json", { comment: "상세 이미지" })
-  detailImages: [string, string] | [] = []; 
 
   @ManyToMany(() => User, (user) => user.surveys)
   @JoinTable({name: "survey_users"})
