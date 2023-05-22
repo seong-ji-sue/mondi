@@ -1,9 +1,11 @@
 import express, { Request, Response } from "express";
+import { pick } from "lodash";
+import { UserInfoDTO } from "../../dtos/user.dto";
 import User from "../../entities/user.entity";
 import { authCheck } from "../../middlewares/check";
 import { parseUser } from "../../middlewares/user";
 import { getUserSurveys } from "../../services/surveys/survey.service";
-import { getUserInfo } from "../../services/users/user.service";
+import { getUserInfo, updateUserInfo } from "../../services/users/user.service";
 
 const myInfoRouter = express.Router();
 
@@ -12,6 +14,17 @@ myInfoRouter
     try {
       const user: User = req.auth.user;
       const userInfo = await getUserInfo({userId: user.id});
+      res.json(userInfo);
+    } catch (err) {
+      console.error(err);
+      next(err);
+    }
+  })
+  .put("/", authCheck, parseUser, async (req: Request, res: Response, next) => {
+    try {
+      const user: User = req.auth.user;
+      const update = pick(req.body as Partial<UserInfoDTO>, ["name", "email", "phoneNumber"]);
+      const userInfo = await updateUserInfo({userId: user.id, update});
       res.json(userInfo);
     } catch (err) {
       console.error(err);
