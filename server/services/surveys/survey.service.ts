@@ -1,33 +1,34 @@
 import { dataSource } from "../../";
-import Survey from "../../../server/entities/survey.entity";
-import { isEmpty } from "lodash";
-import { SurveyDTO } from "../../../server/dtos/survey.dto";
+import Survey, { surveyStates } from "../../../server/entities/survey.entity";
+import User from "../../../server/entities/user.entity";
+import { isEmpty, omit } from "lodash";
+import { SurveyDTO, SurveyListDTO } from "../../../server/dtos/survey.dto";
 
 export const getSurveys = async ({page = 1, limit = 10, userId = -1}) => {
   const result: {[key: string]: any} = {
     surveys: [],
-    totalCount: 0,
-    totalPage: 0,
     page,
     limit
   };
 
   const surveyRepository = dataSource.getRepository(Survey);
   const surveys = await surveyRepository.find({
+    where: {state: surveyStates.ACTIVE},
     take: limit,
     skip: (page - 1) * limit,
-    select: ["brandName", "itemName", "itemDescription", "price", "targetPrice", "listThumbnailImage"],
+    select: ["id", "brandName", "itemName", "itemDescription", "price", "targetPrice", "listThumbnailImage"],
     relations: ['users'],
     relationLoadStrategy: "query"
   })
-    .then(r => r.map(survey => new SurveyDTO(survey)));
+    .then(r => r.map(survey => new SurveyListDTO(survey)));
 
   if (isEmpty(surveys)) {
     return result;
   } else {
     result.surveys.push([
       ...surveys.map((s) => {
-          s.isDone = s.users.some(user => user.id === userId)
+          s.isEntered = s.users.some(user => user.id === userId)
+          return omit(s, "users");
       })
     ]);
   }
@@ -36,27 +37,46 @@ export const getSurveys = async ({page = 1, limit = 10, userId = -1}) => {
     result.totalCount = await surveyRepository.count();
     result.totalPage = Math.ceil(result.totalCount / limit);
   }
-
+  
   return result;
 };
 
 export const getSurvey = async ({surveyId = -1, userId = -1}) => {
   const surveyRepository = dataSource.getRepository(Survey);
   const data = await surveyRepository.findOne({
-    where: {id: surveyId},
+    where: {
+      id: surveyId,
+      state: surveyStates.ACTIVE
+    },
     relations: ["users"],
-    relationLoadStrategy: "query"
-  })
+    relationLoadStrategy: "query",
+  });
   
   if (!data) {
     return;
   }
 
   const survey = new SurveyDTO(data);
-  survey.isDone = survey.users.some(user => user.id === userId);
+  survey.isEntered = survey.users.some(user => user.id === userId);
   return survey;
 };
 
-export const enterSurvey = async ({surveyId = -1, userId = -1}) => {
+export const checkUserEnteredSurvey = async ({surveyId, userId}: {surveyId: number, userId: number}) => {
+  const surveyRepository = dataSource.getRepository(Survey);
+  const queryBuilder = surveyRepository.createQueryBuilder("survey")
+    .leftJoinAndSelect("survey.users", "user")
+    .where("survey.id = :surveyId", { surveyId })
+    .andWhere('user.id = :userId', { userId });
 
+  return !isEmpty(await queryBuilder.getOne());
+};
+
+export const enterSurvey = async ({survey, user}: {survey: Survey, user: User}) => {
+  const surveyRepository = dataSource.getRepository(Survey);
+  survey.users = [...(survey.users || []), user];
+  
+  const userEnteredSurvey = new SurveyDTO((await surveyRepository.save([survey]))?.[0] || {});
+  userEnteredSurvey.isEntered = userEnteredSurvey.users.some(u => u.id === user.id);
+  
+  return userEnteredSurvey;
 };
